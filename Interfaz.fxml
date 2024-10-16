@@ -7,24 +7,24 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InterfazController">
    <children>
-      <Button fx:id="btn1" layoutX="241.0" layoutY="242.0" mnemonicParsing="false" onAction="#mostrarTexto1" text="Enemigos">
+      <Button fx:id="btn1" layoutX="241.0" layoutY="242.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="119.0" text="Enemigos">
          <font>
-            <Font size="21.0" />
+            <Font name="Berlin Sans FB Demi Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="btn2" layoutX="242.0" layoutY="178.0" mnemonicParsing="false" onAction="#mostrarTexto2" text="Controles">
+      <Button fx:id="btn2" layoutX="241.0" layoutY="181.0" mnemonicParsing="false" onAction="#CambiarAcontroles" prefHeight="38.0" prefWidth="119.0" text="Controles">
          <font>
-            <Font size="21.0" />
+            <Font name="Berlin Sans FB Demi Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="btn3" layoutX="241.0" layoutY="120.0" mnemonicParsing="false" onAction="#mostrarTexto3" prefHeight="36.0" prefWidth="119.0" text="Jugar">
+      <Button fx:id="btn3" layoutX="241.0" layoutY="120.0" mnemonicParsing="false" onAction="#InicioDelJuego" prefHeight="36.0" prefWidth="119.0" text="Jugar">
          <font>
-            <Font size="20.0" />
+            <Font name="Berlin Sans FB Demi Bold" size="20.0" />
          </font>
       </Button>
-      <Label fx:id="labelMensaje" layoutX="212.0" layoutY="50.0" style="-fx-background-color: white;" text="Java Ga Kill">
+      <Label fx:id="labelMensaje" layoutX="205.0" layoutY="50.0" style="-fx-background-color: white;" text="Java Ga Kill">
          <font>
-            <Font size="36.0" />
+            <Font name="Berlin Sans FB Demi Bold" size="36.0" />
          </font>
       </Label>
    </children>
