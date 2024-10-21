@@ -20,7 +20,6 @@ public class InterfazController {
      private Stage stage;  
      private Scene scene;
      private Parent root;
-     private MediaPlayer mediaPlayer;
      public void CambiarAcontroles(ActionEvent event) throws IOException {
     	  Parent root = FXMLLoader.load(getClass().getResource("Controles.fxml"));
     	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -42,12 +41,6 @@ public class InterfazController {
    	  scene = new Scene(root);
    	  stage.setScene(scene);
    	 stage.show();
-   	 
-   	String rutaAudio = getClass().getResource("/Resources/Intro.mp3").toExternalForm();
-    Media media = new Media(rutaAudio);
-    mediaPlayer = new MediaPlayer(media);
-    mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Repetir indefinidamente
-    mediaPlayer.play(); // Reproduce la música
     }
 
      

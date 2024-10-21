@@ -3,52 +3,100 @@ package application;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EntradaController implements Initializable {
-	
+
     @FXML
     private ImageView intro;  // Imagen que contiene el texto dentro
+    private Stage stage;
+    private Scene scene;
+    private MediaPlayer mediaPlayer;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        // Aplicar perspectiva para que el texto parezca cercano desde abajo
+        // Efecto de perspectiva
         PerspectiveTransform perspective = new PerspectiveTransform();
-        perspective.setUlx(200.0);  // Coordenada superior izquierda (x)
-        perspective.setUly(0.0);    // Coordenada superior izquierda (y)
-        perspective.setUrx(400.0);  // Coordenada superior derecha (x)
-        perspective.setUry(0.0);    // Coordenada superior derecha (y)
-        perspective.setLlx(0.0);    // Coordenada inferior izquierda (x)
-        perspective.setLly(800.0);  // Coordenada inferior izquierda (y)
-        perspective.setLrx(600.0);  // Coordenada inferior derecha (x)
-        perspective.setLry(800.0);  // Coordenada inferior derecha (y)
+        perspective.setUlx(200.0);
+        perspective.setUly(0.0);
+        perspective.setUrx(400.0);
+        perspective.setUry(0.0);
+        perspective.setLlx(0.0);
+        perspective.setLly(800.0);
+        perspective.setLrx(600.0);
+        perspective.setLry(800.0);
         intro.setEffect(perspective);
 
-        // Crear una transición de movimiento para la imagen
+        // Transiciones de movimiento y escala
         TranslateTransition translate = new TranslateTransition();
         translate.setNode(intro);
-        translate.setDuration(Duration.seconds(30));  // Duración del desplazamiento
-        translate.setFromY(400);  // Empieza desde abajo
-        translate.setToY(-1100);  // Mover hacia arriba (ajustar a -1000 para que salga de la vista)
+        translate.setDuration(Duration.seconds(30));
+        translate.setFromY(400);
+        translate.setToY(-1100);
 
-        // Crear una transición de escala para que el texto se haga más pequeño
         ScaleTransition scale = new ScaleTransition();
         scale.setNode(intro);
-        scale.setDuration(Duration.seconds(30));  // Duración de la escala
-        scale.setFromX(1.5);  // Comienza con un tamaño grande (150%)
-        scale.setFromY(1.5);  // Comienza con un tamaño grande (150%)
-        scale.setToX(0.5);    // Finaliza en tamaño pequeño (50%)
-        scale.setToY(0.5);    // Finaliza en tamaño pequeño (50%)
+        scale.setDuration(Duration.seconds(30));
+        scale.setFromX(1.5);
+        scale.setFromY(1.5);
+        scale.setToX(0.5);
+        scale.setToY(0.5);
 
-        // Iniciar ambas animaciones
+        // Reproducir las animaciones
         translate.play();
         scale.play();
+
+        // Reproducir la música de intro
+        String rutaIntroAudio = getClass().getResource("/Resources/Intro.mp3").toExternalForm(); // Cambié la ruta a "Intro.mp3"
+        Media introMedia = new Media(rutaIntroAudio);
+        mediaPlayer = new MediaPlayer(introMedia);
+        mediaPlayer.play();  // Reproducir la música
+
+        // Después de que termine la animación, cargar MovimientoController
+        translate.setOnFinished(event -> {
+            try {
+                cambiarAMovimiento();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
-    
+
+    public void cambiarAMovimiento() throws IOException {
+        // Detener y liberar la música antes de cambiar de escena
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();  // Detener la música de intro
+            mediaPlayer.dispose();  // Liberar los recursos
+        }
+
+        // Cargar la nueva escena
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("primeraisla.fxml"));
+        Parent root = loader.load();
+
+        // Configurar la nueva escena
+        stage = (Stage) intro.getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+        // Ahora, reproducir la música de la nueva escena (primeraisla.mp3)
+        String rutaNivel1Audio = getClass().getResource("/Resources/primeraisla.mp3").toExternalForm();
+        Media nivel1Media = new Media(rutaNivel1Audio);
+        mediaPlayer = new MediaPlayer(nivel1Media);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Repetir indefinidamente
+        mediaPlayer.play();
+    }
 }
