@@ -89,6 +89,7 @@ public class EntradaController implements Initializable {
         // Configurar la nueva escena
         stage = (Stage) intro.getScene().getWindow();
         scene = new Scene(root);
+        root.requestFocus();
         stage.setScene(scene);
         stage.show();
 
