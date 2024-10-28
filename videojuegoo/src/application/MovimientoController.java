@@ -3,16 +3,14 @@ package application;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.animation.AnimationTimer;
 
 public class MovimientoController {
-    
+
     @FXML
     private AnchorPane rootPane;
 
-    private Rectangle square;
+    private Personaje personaje;
     private boolean moveUp, moveDown, moveLeft, moveRight;
     private long lastTime = 0;
     private int frames = 0;
@@ -20,34 +18,33 @@ public class MovimientoController {
 
     @FXML
     public void initialize() {
-        // Crear un cuadrado negro en x: 100, y: 100
-        square = new Rectangle(50, 50, Color.BLACK);
-        square.setX(100);
-        square.setY(100);
+        // Inicializa la instancia de Personaje
+        personaje = new Personaje();
         
-        rootPane.getChildren().add(square);
+        // Coloca el ImageView del personaje en la posición inicial (x=50, y=50)
+        personaje.getImageView().setX(50);
+        personaje.getImageView().setY(50);
+        rootPane.getChildren().add(personaje.getImageView());
 
-        // Iniciar AnimationTimer para actualizar la posición del cuadrado
+        // Inicia el AnimationTimer para actualizar la posición y animación del personaje
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                // Calcular el tiempo transcurrido desde el último frame en segundos
                 double elapsedTime = (now - lastTime) / 1_000_000_000.0;
                 lastTime = now;
-                
-                // Limitar la primera vez que se ejecuta para evitar saltos
-                if (elapsedTime > 0.1) {
-                    elapsedTime = 0.016; // Aproximadamente 1/60
-                }
-                
-                updatePosition(elapsedTime);
 
-                // Contador de FPS
+                if (elapsedTime > 0.1) {
+                    elapsedTime = 0.016;
+                }
+
+                updatePosition(elapsedTime);
+                personaje.update();  // Actualiza la animación del personaje
+
                 frames++;
                 if (fpsLastTime == 0) {
                     fpsLastTime = now;
                 }
-                if (now - fpsLastTime >= 1_000_000_000) { // 1 segundo en nanosegundos
+                if (now - fpsLastTime >= 1_000_000_000) {
                     System.out.println("FPS: " + frames);
                     frames = 0;
                     fpsLastTime = now;
@@ -56,21 +53,30 @@ public class MovimientoController {
         };
         timer.start();
 
-        // Agregar EventHandlers para teclas presionadas y soltadas
         rootPane.setOnKeyPressed(this::handleKeyPress);
         rootPane.setOnKeyReleased(this::handleKeyRelease);
-
-        // Solicitar foco para rootPane
         rootPane.setFocusTraversable(true);
         rootPane.requestFocus();
     }
 
     private void handleKeyPress(KeyEvent event) {
         switch (event.getCode()) {
-            case W -> moveUp = true;
-            case S -> moveDown = true;
-            case A -> moveLeft = true;
-            case D -> moveRight = true;
+            case W -> { 
+                moveUp = true;
+                personaje.startMoving("espalda");
+            }
+            case S -> { 
+                moveDown = true;
+                personaje.startMoving("frente");
+            }
+            case A -> { 
+                moveLeft = true;
+                personaje.startMoving("izquierda");
+            }
+            case D -> { 
+                moveRight = true;
+                personaje.startMoving("derecha");
+            }
         }
     }
 
@@ -81,14 +87,20 @@ public class MovimientoController {
             case A -> moveLeft = false;
             case D -> moveRight = false;
         }
+        
+        // Detenemos el movimiento si no hay teclas presionadas
+        if (!moveUp && !moveDown && !moveLeft && !moveRight) {
+            personaje.stopMoving();
+        }
     }
 
     private void updatePosition(double elapsedTime) {
-        double speed = 200; // Velocidad en píxeles por segundo
+        double speed = 200;
 
-        if (moveUp) square.setY(square.getY() - speed * elapsedTime);
-        if (moveDown) square.setY(square.getY() + speed * elapsedTime);
-        if (moveLeft) square.setX(square.getX() - speed * elapsedTime);
-        if (moveRight) square.setX(square.getX() + speed * elapsedTime);
+        // Actualiza la posición de ImageView del personaje
+        if (moveUp) personaje.getImageView().setY(personaje.getImageView().getY() - speed * elapsedTime);
+        if (moveDown) personaje.getImageView().setY(personaje.getImageView().getY() + speed * elapsedTime);
+        if (moveLeft) personaje.getImageView().setX(personaje.getImageView().getX() - speed * elapsedTime);
+        if (moveRight) personaje.getImageView().setX(personaje.getImageView().getX() + speed * elapsedTime);
     }
 }

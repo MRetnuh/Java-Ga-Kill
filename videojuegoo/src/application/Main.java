@@ -12,10 +12,6 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Interfaz.fxml"));
         Scene scene = new Scene(root);
-
-        // Solicitar el foco para el root al cargar la escena
-        root.requestFocus();
-
         stage.setScene(scene);
         stage.show();
     }
