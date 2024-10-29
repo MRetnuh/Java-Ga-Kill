@@ -3,10 +3,13 @@ package application;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.animation.AnimationTimer;
 
+import javafx.scene.media.MediaPlayer;
 public class MovimientoController {
-
+	 private MediaPlayer mediaPlayer;
     @FXML
     private AnchorPane rootPane;
 
@@ -18,6 +21,11 @@ public class MovimientoController {
 
     @FXML
     public void initialize() {
+    	 String rutaNivel1Audio = getClass().getResource("/Resources/primeraisla.mp3").toExternalForm();
+         Media nivel1Media = new Media(rutaNivel1Audio);
+         mediaPlayer = new MediaPlayer(nivel1Media);
+         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Repetir indefinidamente
+         mediaPlayer.play();
         // Inicializa la instancia de Personaje
         personaje = new Personaje();
         

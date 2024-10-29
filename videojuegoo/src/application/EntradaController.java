@@ -60,7 +60,7 @@ public class EntradaController implements Initializable {
         scale.play();
 
         // Reproducir la música de intro
-        String rutaIntroAudio = getClass().getResource("/Resources/pelea.mp3").toExternalForm(); // Cambié la ruta a "Intro.mp3"
+        String rutaIntroAudio = getClass().getResource("/Resources/Intro.mp3").toExternalForm(); // Cambié la ruta a "Intro.mp3"
         Media introMedia = new Media(rutaIntroAudio);
         mediaPlayer = new MediaPlayer(introMedia);
         mediaPlayer.play();  // Reproducir la música
