@@ -92,12 +92,5 @@ public class EntradaController implements Initializable {
         root.requestFocus();
         stage.setScene(scene);
         stage.show();
-
-        // Ahora, reproducir la música de la nueva escena (primeraisla.mp3)
-        String rutaNivel1Audio = getClass().getResource("/Resources/primeraisla.mp3").toExternalForm();
-        Media nivel1Media = new Media(rutaNivel1Audio);
-        mediaPlayer = new MediaPlayer(nivel1Media);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Repetir indefinidamente
-        mediaPlayer.play();
     }
 }

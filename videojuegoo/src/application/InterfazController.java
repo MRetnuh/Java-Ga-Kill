@@ -42,8 +42,20 @@ public class InterfazController {
    	  stage.setScene(scene);
    	 stage.show();
     }
-
-     
+     public void CambiarAPersonajes(ActionEvent event) throws IOException {
+   	  Parent root = FXMLLoader.load(getClass().getResource("characters.fxml"));
+   	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+   	  scene = new Scene(root);
+   	  stage.setScene(scene);
+   	 stage.show();
+    }
+     public void CambiarAEnemigos(ActionEvent event) throws IOException {
+      	  Parent root = FXMLLoader.load(getClass().getResource("enemigos.fxml"));
+      	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+      	  scene = new Scene(root);
+      	  stage.setScene(scene);
+      	 stage.show();
+       }
 }
 
     
