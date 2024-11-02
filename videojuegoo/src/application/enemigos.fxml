@@ -19,12 +19,12 @@
          </image></ImageView>
       <ImageView fitHeight="97.0" fitWidth="96.0" layoutX="14.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Downloads/enemy1.png" />
+            <Image url="@../../../../Desktop/Edu/LATZINA/enemy1.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Downloads/enemy2.png" />
+            <Image url="@../../../../Desktop/Edu/LATZINA/enemy2.png" />
          </image>
       </ImageView>
    </children>

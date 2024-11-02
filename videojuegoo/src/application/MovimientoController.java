@@ -6,13 +6,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.animation.AnimationTimer;
-import javafx.scene.shape.Rectangle;
-import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MovimientoController {
     private MediaPlayer mediaPlayer;
@@ -26,7 +21,17 @@ public class MovimientoController {
     private int frames = 0;
     private long fpsLastTime = 0;
 
-    private List<Rectangle> obstacles = new ArrayList<>(); // Lista de áreas de colisión
+    private int[][] layout = {
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    };
+
+    private final int VIEWPORT_WIDTH = 800;
+    private final int VIEWPORT_HEIGHT = 600;
 
     @FXML
     public void initialize() {
@@ -37,25 +42,12 @@ public class MovimientoController {
         mediaPlayer.play();
 
         personaje = new Personaje();
-        personaje.getImageView().setX(50);
-        personaje.getImageView().setY(50);
+        personaje.getImageView().setX(150);
+        personaje.getImageView().setY(150);
 
-        // Cargar el mapa en el AnchorPane
         cargarMapa();
 
         rootPane.getChildren().add(personaje.getImageView()); // Añadir personaje al final para estar encima
-
-        // Define áreas de colisión (obstáculos) en el mapa
-        Rectangle obstacle1 = new Rectangle(200, 150, 100, 100); // Ejemplo de obstáculo
-        obstacle1.setFill(Color.TRANSPARENT); // Hacerlo invisible
-        obstacles.add(obstacle1);
-
-        Rectangle obstacle2 = new Rectangle(400, 300, 150, 150); // Otro ejemplo
-        obstacle2.setFill(Color.TRANSPARENT); // Hacerlo invisible
-        obstacles.add(obstacle2);
-
-        // Añadir obstáculos al rootPane para visualizarlos (opcional)
-        obstacles.forEach(rootPane.getChildren()::add);
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -68,6 +60,7 @@ public class MovimientoController {
                 }
 
                 updatePosition(elapsedTime);
+                updateCamera();
                 personaje.update();
 
                 frames++;
@@ -75,7 +68,6 @@ public class MovimientoController {
                     fpsLastTime = now;
                 }
                 if (now - fpsLastTime >= 1_000_000_000) {
-                    System.out.println("FPS: " + frames);
                     frames = 0;
                     fpsLastTime = now;
                 }
@@ -92,43 +84,19 @@ public class MovimientoController {
     private void cargarMapa() {
         String basePath = "/Mapa/";
 
-        Image pastoImg = new Image(getClass().getResourceAsStream(basePath + "pasto.png"));
         Image arenaImg = new Image(getClass().getResourceAsStream(basePath + "arena.png"));
         Image casaImg = new Image(getClass().getResourceAsStream(basePath + "casa.png"));
-        Image arbolImg = new Image(getClass().getResourceAsStream(basePath + "arbol1.png"));
+        Image arbolImg = new Image(getClass().getResourceAsStream(basePath + "arbol.png"));
         Image piso1Img = new Image(getClass().getResourceAsStream(basePath + "piso1.png"));
-        Image piso2Img = new Image(getClass().getResourceAsStream(basePath + "piso2.png"));
 
-        int[][] layout = {
-            {1, 1, 2, 2, 1, 1, 4, 4, 1, 1},
-            {1, 1, 2, 2, 1, 1, 4, 4, 1, 1},
-            {1, 1, 0, 0, 0, 0, 4, 4, 1, 1},
-            {1, 1, 0, 3, 3, 0, 0, 0, 1, 1},
-            {1, 1, 0, 3, 3, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 5, 5, 1, 1},
-            {1, 1, 0, 0, 0, 0, 5, 5, 1, 1},
-            {1, 1, 0, 0, 0, 0, 5, 5, 1, 1},
-            {1, 1, 2, 2, 0, 0, 5, 5, 1, 1},
-            {1, 1, 2, 2, 1, 1, 5, 5, 1, 1},
-        };
-
-        // Dibujar primero las capas inferiores (pasto, arena)
         for (int row = 0; row < layout.length; row++) {
             for (int col = 0; col < layout[row].length; col++) {
                 ImageView tile = new ImageView();
                 switch (layout[row][col]) {
-                    case 0:
-                        tile.setImage(pastoImg);
-                        break;
-                    case 1:
-                        tile.setImage(arenaImg);
-                        break;
-                    case 4:
-                        tile.setImage(piso1Img);
-                        break;
-                    case 5:
-                        tile.setImage(piso2Img);
-                        break;
+                    case 1 -> tile.setImage(arenaImg);
+                    case 2 -> tile.setImage(piso1Img);
+                    case 3 -> tile.setImage(arbolImg);
+                    case 4 -> tile.setImage(casaImg);
                 }
 
                 tile.setFitWidth(TILE_SIZE);
@@ -137,28 +105,6 @@ public class MovimientoController {
                 tile.setLayoutY(row * TILE_SIZE);
 
                 rootPane.getChildren().add(tile); // Añadir el tile de fondo al rootPane
-            }
-        }
-
-        // Dibujar después los objetos que deben estar sobre el terreno (árboles, casas)
-        for (int row = 0; row < layout.length; row++) {
-            for (int col = 0; col < layout[row].length; col++) {
-                ImageView tile = new ImageView();
-                switch (layout[row][col]) {
-                    case 2:
-                        tile.setImage(casaImg);
-                        break;
-                    case 3:
-                        tile.setImage(arbolImg);
-                        break;
-                }
-
-                tile.setFitWidth(TILE_SIZE);
-                tile.setFitHeight(TILE_SIZE);
-                tile.setLayoutX(col * TILE_SIZE);
-                tile.setLayoutY(row * TILE_SIZE);
-
-                rootPane.getChildren().add(tile); // Añadir los árboles y casas encima del terreno
             }
         }
     }
@@ -199,33 +145,41 @@ public class MovimientoController {
 
     private void updatePosition(double elapsedTime) {
         double speed = 200;
-        double mapWidth = 1200;
-        double mapHeight = 1200;
-
         double newX = personaje.getImageView().getX();
         double newY = personaje.getImageView().getY();
+        
+        double margenColision = 5;
 
         if (moveUp) newY -= speed * elapsedTime;
         if (moveDown) newY += speed * elapsedTime;
         if (moveLeft) newX -= speed * elapsedTime;
         if (moveRight) newX += speed * elapsedTime;
 
-        newX = Math.max(0, Math.min(newX, mapWidth - personaje.getImageView().getBoundsInParent().getWidth()));
-        newY = Math.max(0, Math.min(newY, mapHeight - personaje.getImageView().getBoundsInParent().getHeight()));
+        int futureRowTop = (int) ((newY + margenColision) / TILE_SIZE);
+        int futureRowBottom = (int) ((newY + TILE_SIZE - margenColision) / TILE_SIZE);
+        int futureColLeft = (int) ((newX + margenColision) / TILE_SIZE);
+        int futureColRight = (int) ((newX + TILE_SIZE - margenColision) / TILE_SIZE);
 
-        Bounds personajeBounds = personaje.getImageView().getBoundsInParent();
-
-        boolean collision = false;
-        for (Rectangle obstacle : obstacles) {
-            if (obstacle.getBoundsInParent().intersects(personajeBounds)) {
-                collision = true;
-                break;
+        if (futureRowTop >= 0 && futureRowBottom < layout.length && futureColLeft >= 0 && futureColRight < layout[0].length) {
+            if (layout[futureRowTop][futureColLeft] == 1 && layout[futureRowTop][futureColRight] == 1 &&
+                layout[futureRowBottom][futureColLeft] == 1 && layout[futureRowBottom][futureColRight] == 1) {
+                personaje.getImageView().setX(newX);
+                personaje.getImageView().setY(newY);
             }
         }
+    }
 
-        if (!collision) {
-            personaje.getImageView().setX(newX);
-            personaje.getImageView().setY(newY);
-        }
+    private void updateCamera() {
+        double characterX = personaje.getImageView().getX();
+        double characterY = personaje.getImageView().getY();
+
+        double offsetX = characterX - VIEWPORT_WIDTH / 2.0;
+        double offsetY = characterY - VIEWPORT_HEIGHT / 2.0;
+
+        offsetX = Math.max(0, Math.min(offsetX, TILE_SIZE * layout[0].length - VIEWPORT_WIDTH));
+        offsetY = Math.max(0, Math.min(offsetY, TILE_SIZE * layout.length - VIEWPORT_HEIGHT));
+
+        rootPane.setLayoutX(-offsetX);
+        rootPane.setLayoutY(-offsetY);
     }
 }
