@@ -10,22 +10,39 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class MovimientoController {
+	public class PersonajeStruct {
+	    public int salud;
+	    public int daño;
+	    public int nivel;
+
+	    public PersonajeStruct(int salud, int daño, int nivel) {
+	        this.salud = salud;
+	        this.daño = daño;
+	        this.nivel = nivel;
+	    }
+	}
+	PersonajeStruct Akame = new PersonajeStruct(80, 25, 1);
+	PersonajeStruct Leone = new PersonajeStruct(160, 5, 1);
+	PersonajeStruct Java = new PersonajeStruct(100, 5, 1);
+	PersonajeStruct Enemigo1 = new PersonajeStruct(100, 5, 1);
+	PersonajeStruct Enemigo2 = new PersonajeStruct(100, 5, 1);
+	PersonajeStruct Esdeath = new PersonajeStruct(100, 5, 1);
+
     private MediaPlayer mediaPlayer;
     @FXML
     private AnchorPane rootPane;
 
-    private final int TILE_SIZE = 40; // Tamaño de cada tile (imagen) en píxeles
-    private Personaje personaje;
+    private final int TILE_SIZE = 60; // Tamaño de cada tile (imagen) en píxeles
+    private Personaje personaje1;
     private boolean moveUp, moveDown, moveLeft, moveRight;
     private long lastTime = 0;
-    private int frames = 0;
     private long fpsLastTime = 0;
 
     private int[][] layout = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     };
@@ -41,13 +58,13 @@ public class MovimientoController {
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
 
-        personaje = new Personaje();
-        personaje.getImageView().setX(150);
-        personaje.getImageView().setY(150);
+        personaje1 = new Personaje();
+        personaje1.getImageView().setX(150);
+        personaje1.getImageView().setY(150);
 
         cargarMapa();
 
-        rootPane.getChildren().add(personaje.getImageView()); // Añadir personaje al final para estar encima
+        rootPane.getChildren().add(personaje1.getImageView()); // Añadir personaje al final para estar encima
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -61,14 +78,12 @@ public class MovimientoController {
 
                 updatePosition(elapsedTime);
                 updateCamera();
-                personaje.update();
+                personaje1.update();
 
-                frames++;
                 if (fpsLastTime == 0) {
                     fpsLastTime = now;
                 }
                 if (now - fpsLastTime >= 1_000_000_000) {
-                    frames = 0;
                     fpsLastTime = now;
                 }
             }
@@ -88,15 +103,33 @@ public class MovimientoController {
         Image casaImg = new Image(getClass().getResourceAsStream(basePath + "casa.png"));
         Image arbolImg = new Image(getClass().getResourceAsStream(basePath + "arbol.png"));
         Image piso1Img = new Image(getClass().getResourceAsStream(basePath + "piso1.png"));
-
+        Image enemy1Img = new Image(getClass().getResourceAsStream(basePath + "enemy11.png"));
+        Image enemy2Img = new Image(getClass().getResourceAsStream(basePath + "enemy2.png"));
         for (int row = 0; row < layout.length; row++) {
             for (int col = 0; col < layout[row].length; col++) {
                 ImageView tile = new ImageView();
                 switch (layout[row][col]) {
-                    case 1 -> tile.setImage(arenaImg);
-                    case 2 -> tile.setImage(piso1Img);
-                    case 3 -> tile.setImage(arbolImg);
-                    case 4 -> tile.setImage(casaImg);
+                    case 1:
+                    	tile.setImage(arenaImg);
+                    	break;
+                    case 2:
+                    tile.setImage(piso1Img);
+                        break;
+                    case 3:
+                    	tile.setImage(arbolImg);
+                    	break;
+                    case 4:
+                    	tile.setImage(casaImg);
+                    	break;
+                    case 5:
+                    	tile.setImage(enemy1Img);
+                    	break;
+                    case 6:
+                    	tile.setImage(enemy2Img);
+                    	break;
+                    case 7:
+                    	tile.setImage(casaImg);
+                    	break;
                 }
 
                 tile.setFitWidth(TILE_SIZE);
@@ -113,19 +146,19 @@ public class MovimientoController {
         switch (event.getCode()) {
             case W -> { 
                 moveUp = true;
-                personaje.startMoving("espalda");
+                personaje1.startMoving("espalda");
             }
             case S -> { 
                 moveDown = true;
-                personaje.startMoving("frente");
+                personaje1.startMoving("frente");
             }
             case A -> { 
                 moveLeft = true;
-                personaje.startMoving("izquierda");
+                personaje1.startMoving("izquierda");
             }
             case D -> { 
                 moveRight = true;
-                personaje.startMoving("derecha");
+                personaje1.startMoving("derecha");
             }
         }
     }
@@ -139,14 +172,14 @@ public class MovimientoController {
         }
 
         if (!moveUp && !moveDown && !moveLeft && !moveRight) {
-            personaje.stopMoving();
+            personaje1.stopMoving();
         }
     }
 
     private void updatePosition(double elapsedTime) {
         double speed = 200;
-        double newX = personaje.getImageView().getX();
-        double newY = personaje.getImageView().getY();
+        double newX = personaje1.getImageView().getX();
+        double newY = personaje1.getImageView().getY();
         
         double margenColision = 5;
 
@@ -155,23 +188,23 @@ public class MovimientoController {
         if (moveLeft) newX -= speed * elapsedTime;
         if (moveRight) newX += speed * elapsedTime;
 
-        int futureRowTop = (int) ((newY + margenColision) / TILE_SIZE);
+        int futureRowTop = (int) ((newY + 30) / TILE_SIZE);
         int futureRowBottom = (int) ((newY + TILE_SIZE - margenColision) / TILE_SIZE);
         int futureColLeft = (int) ((newX + margenColision) / TILE_SIZE);
-        int futureColRight = (int) ((newX + TILE_SIZE - margenColision) / TILE_SIZE);
+        int futureColRight = (int) ((newX + TILE_SIZE - 30) / TILE_SIZE);
 
         if (futureRowTop >= 0 && futureRowBottom < layout.length && futureColLeft >= 0 && futureColRight < layout[0].length) {
             if (layout[futureRowTop][futureColLeft] == 1 && layout[futureRowTop][futureColRight] == 1 &&
                 layout[futureRowBottom][futureColLeft] == 1 && layout[futureRowBottom][futureColRight] == 1) {
-                personaje.getImageView().setX(newX);
-                personaje.getImageView().setY(newY);
+                personaje1.getImageView().setX(newX);
+                personaje1.getImageView().setY(newY);
             }
         }
     }
 
     private void updateCamera() {
-        double characterX = personaje.getImageView().getX();
-        double characterY = personaje.getImageView().getY();
+        double characterX = personaje1.getImageView().getX();
+        double characterY = personaje1.getImageView().getY();
 
         double offsetX = characterX - VIEWPORT_WIDTH / 2.0;
         double offsetY = characterY - VIEWPORT_HEIGHT / 2.0;
