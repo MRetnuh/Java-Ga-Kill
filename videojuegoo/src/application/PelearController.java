@@ -17,17 +17,23 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 public class PelearController {
-	 private MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayer;
 
-	   
-	  
-	 @FXML
-	    public void initialize() {
-	        String rutaNivel1Audio = getClass().getResource("/Resources/pelea.mp3").toExternalForm();
-	        Media nivel1Media = new Media(rutaNivel1Audio);
-	        mediaPlayer = new MediaPlayer(nivel1Media);
-	        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-	        mediaPlayer.play();
-	   
-	 }
+    @FXML
+    public void initialize() {
+        // Verifica si el mediaPlayer ya ha sido creado
+        if (mediaPlayer == null) {
+            String rutaNivel1Audio = getClass().getResource("/Resources/pelea.mp3").toExternalForm();
+            Media nivel1Media = new Media(rutaNivel1Audio);
+            mediaPlayer = new MediaPlayer(nivel1Media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+        } else {
+            // Si el mediaPlayer ya existe, solo reanuda la música si está pausada
+            if (mediaPlayer.getStatus() == MediaPlayer.Status.PAUSED) {
+                mediaPlayer.play();
+            }
+        }
+    }
 }
+

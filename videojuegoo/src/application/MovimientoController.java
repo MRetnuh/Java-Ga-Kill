@@ -180,8 +180,13 @@ public class MovimientoController {
             personaje1.stopMoving();
         }
     }
+    private boolean peleando = false;
     private void cambiarEscena(String primerArchivo, String segundoArchivo) {
-        try {
+    	   if (!peleando) {
+    	        peleando = true; // Evitar múltiples cambios
+    	        mediaPlayer.stop(); 
+    	   }
+    	try {
         	Stage stage = (Stage) rootPane.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource(primerArchivo));
             stage.setScene(new Scene(root));
@@ -246,16 +251,11 @@ public class MovimientoController {
         }
         
         // Verificar colisión con enemigo
-        if (topLeftTile == 5 || topRightTile == 5 || bottomLeftTile == 5 || bottomRightTile == 5 ||
-            topLeftTile == 6 || topRightTile == 6 || bottomLeftTile == 6 || bottomRightTile == 6) {
-        	
-        	  mediaPlayer.stop();
-            // Detenemos la música de movimiento
-       
-            
-            // Cambiar a la escena de pelea, si aún no ha sido cambiada
-            cambiarEscena("introPelea.fxml", "Pelea.fxml");
-        }
+        if (!peleando && (topLeftTile == 5 || topRightTile == 5 || bottomLeftTile == 5 || bottomRightTile == 5 ||
+                topLeftTile == 6 || topRightTile == 6 || bottomLeftTile == 6 || bottomRightTile == 6)) {
+  cambiarEscena("introPelea.fxml", "Pelea.fxml");
+}
+
     }
 
 
