@@ -6,9 +6,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 public class MovimientoController {
 	public class PersonajeStruct {
 	    public int salud;
@@ -104,7 +108,7 @@ public class MovimientoController {
         Image arbolImg = new Image(getClass().getResourceAsStream(basePath + "arbol.png"));
         Image piso1Img = new Image(getClass().getResourceAsStream(basePath + "piso1.png"));
         Image enemy1Img = new Image(getClass().getResourceAsStream(basePath + "enemy11.png"));
-        Image enemy2Img = new Image(getClass().getResourceAsStream(basePath + "enemy2.png"));
+        Image enemy2Img = new Image(getClass().getResourceAsStream(basePath + "enemy22.png"));
         for (int row = 0; row < layout.length; row++) {
             for (int col = 0; col < layout[row].length; col++) {
                 ImageView tile = new ImageView();
@@ -123,6 +127,7 @@ public class MovimientoController {
                     	break;
                     case 5:
                     	tile.setImage(enemy1Img);
+                    	 tile.setUserData("enemigo");
                     	break;
                     case 6:
                     	tile.setImage(enemy2Img);
@@ -175,7 +180,34 @@ public class MovimientoController {
             personaje1.stopMoving();
         }
     }
+    private void cambiarEscena(String primerArchivo, String segundoArchivo) {
+        try {
+        	Stage stage = (Stage) rootPane.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource(primerArchivo));
+            stage.setScene(new Scene(root));
+            stage.show();
 
+            // Cambiar al segundo archivo después de un retraso de 2 segundos
+            new Thread(() -> {
+                try {
+                    Thread.sleep(2000);
+                    Platform.runLater(() -> {
+                        try {
+                            Parent root2 = FXMLLoader.load(getClass().getResource(segundoArchivo));
+                            stage.setScene(new Scene(root2));
+                            stage.show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void updatePosition(double elapsedTime) {
         double speed = 200;
         double newX = personaje1.getImageView().getX();
@@ -200,7 +232,32 @@ public class MovimientoController {
                 personaje1.getImageView().setY(newY);
             }
         }
+        int topLeftTile = layout[futureRowTop][futureColLeft];
+        int topRightTile = layout[futureRowTop][futureColRight];
+        int bottomLeftTile = layout[futureRowBottom][futureColLeft];
+        int bottomRightTile = layout[futureRowBottom][futureColRight];
+
+        // Verificar colisión con paredes
+        boolean isWalkable = topLeftTile == 1 && topRightTile == 1 && bottomLeftTile == 1 && bottomRightTile == 1;
+
+        if (isWalkable) {
+            personaje1.getImageView().setX(newX);
+            personaje1.getImageView().setY(newY);
+        }
+        
+        // Verificar colisión con enemigo
+        if (topLeftTile == 5 || topRightTile == 5 || bottomLeftTile == 5 || bottomRightTile == 5 ||
+            topLeftTile == 6 || topRightTile == 6 || bottomLeftTile == 6 || bottomRightTile == 6) {
+        	
+        	  mediaPlayer.stop();
+            // Detenemos la música de movimiento
+       
+            
+            // Cambiar a la escena de pelea, si aún no ha sido cambiada
+            cambiarEscena("introPelea.fxml", "Pelea.fxml");
+        }
     }
+
 
     private void updateCamera() {
         double characterX = personaje1.getImageView().getX();
