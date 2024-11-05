@@ -14,24 +14,12 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 public class MovimientoController {
-	public class PersonajeStruct {
-	    public int salud;
-	    public int daño;
-	    public int nivel;
-
-	    public PersonajeStruct(int salud, int daño, int nivel) {
-	        this.salud = salud;
-	        this.daño = daño;
-	        this.nivel = nivel;
-	    }
-	}
-	PersonajeStruct Akame = new PersonajeStruct(80, 25, 1);
-	PersonajeStruct Leone = new PersonajeStruct(160, 5, 1);
-	PersonajeStruct Java = new PersonajeStruct(100, 5, 1);
-	PersonajeStruct Enemigo1 = new PersonajeStruct(100, 5, 1);
-	PersonajeStruct Enemigo2 = new PersonajeStruct(100, 5, 1);
-	PersonajeStruct Esdeath = new PersonajeStruct(100, 5, 1);
-
+	  Personaje Akame = new Personaje(100, 30, 1, 1, 20, 100);
+	    Personaje Leone = new Personaje(140, 15, 1, 1, 20, 140);
+	    Personaje Java = new Personaje(110, 20, 1, 1, 20, 110);
+	    Personaje Enemigo1 = new Personaje(90, 20, 1, 1, 20, 90);
+	    Personaje Enemigo2 = new Personaje(180, 30, 1, 1, 20, 180);
+	    Personaje Esdeath = new Personaje(350, 40, 1, 1, 20, 350);
     private MediaPlayer mediaPlayer;
     @FXML
     private AnchorPane rootPane;
@@ -182,23 +170,41 @@ public class MovimientoController {
     }
     private boolean peleando = false;
     private void cambiarEscena(String primerArchivo, String segundoArchivo) {
-    	   if (!peleando) {
-    	        peleando = true; // Evitar múltiples cambios
-    	        mediaPlayer.stop(); 
-    	   }
-    	try {
-        	Stage stage = (Stage) rootPane.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource(primerArchivo));
-            stage.setScene(new Scene(root));
+        if (!peleando) {
+            peleando = true; // Evitar múltiples cambios
+            mediaPlayer.stop();
+        }
+
+        try {
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            
+            // Cargar la primera escena (esto podría ser una escena inicial o de carga)
+            Parent root1 = FXMLLoader.load(getClass().getResource(primerArchivo));
+            stage.setScene(new Scene(root1));
             stage.show();
 
-            // Cambiar al segundo archivo después de un retraso de 2 segundos
+            // Cambiar a la segunda escena (la pelea) después de un retraso
             new Thread(() -> {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(2000); // 2 segundos de espera
+
                     Platform.runLater(() -> {
                         try {
-                            Parent root2 = FXMLLoader.load(getClass().getResource(segundoArchivo));
+                            // Cargar la escena de la pelea
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource(segundoArchivo));
+                            Parent root2 = loader.load();
+
+                            // Obtén el controlador de PelearController
+                            PelearController pelearController = loader.getController();
+
+                            // Asumiendo que Akame y Enemigo1 son objetos de tipo Personaje
+                            Personaje prota = Akame;  
+                            Personaje Enemigo = Enemigo1;  
+
+                            // Envía los personajes al controlador de la pelea
+                            pelearController.setPersonajes(prota, Enemigo);
+
+                            // Cambia la escena a la pelea
                             stage.setScene(new Scene(root2));
                             stage.show();
                         } catch (Exception e) {
@@ -209,10 +215,12 @@ public class MovimientoController {
                     e.printStackTrace();
                 }
             }).start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private void updatePosition(double elapsedTime) {
         double speed = 200;
         double newX = personaje1.getImageView().getX();
