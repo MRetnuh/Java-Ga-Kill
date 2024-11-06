@@ -8,7 +8,22 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Personaje { // Cambiar a mayúscula inicial
+public class Personaje {
+	  public int salud;
+	    public int daño;
+	    public int nivel;
+	    public int experienciaActual;
+	    public int experienciaLimite;
+	    public int vidaMaxima;
+	    public Personaje(int salud, int daño, int nivel, int experienciaActual, int experienciaLimite, int vidaMaxima) {
+	        this.salud = salud;
+	        this.daño = daño;
+	        this.nivel = nivel;
+	        this.experienciaActual = experienciaActual;
+	        this.experienciaLimite = experienciaLimite;
+	        this.vidaMaxima = vidaMaxima;
+	    }
+	// Cambiar a mayúscula inicial
     // Declaración de variables BufferedImage en una sola línea
     public BufferedImage imagen1, imagen2, imagen3, imagen4, imagen5, imagen6, imagen7, imagen8;
     public BufferedImage imagen9, imagen10, imagen11, imagen12, imagen13, imagen14, imagen15, imagen16;
@@ -100,4 +115,5 @@ public class Personaje { // Cambiar a mayúscula inicial
             }
         }
     }
+    
 }
