@@ -23,6 +23,14 @@ public class Personaje {
 	        this.experienciaLimite = experienciaLimite;
 	        this.vidaMaxima = vidaMaxima;
 	    }
+	    public void recibirdaño(int daño) {
+	        salud = Math.max(0, salud - daño); // Evitar que la salud sea menor que 0
+	    }
+
+	    public void curarse(int cantidad) {
+	        salud = Math.min(vidaMaxima, salud + cantidad); // Asegura que no exceda vidaMaxima
+	    }
+	
 	// Cambiar a mayúscula inicial
     // Declaración de variables BufferedImage en una sola línea
     public BufferedImage imagen1, imagen2, imagen3, imagen4, imagen5, imagen6, imagen7, imagen8;

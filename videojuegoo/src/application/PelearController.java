@@ -1,12 +1,16 @@
 package application;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
@@ -22,11 +26,11 @@ public class PelearController {
     private ImageView personaje, enemigo;
     @FXML
     private static MediaPlayer mediaPlayer;
-
+    private Stage stage;
     private boolean playerTurn = true;
     private Personaje prota;
     private Personaje Enemigo;
-
+    private Scene scene;
     private int protaVida;
     private int enemigoVida;
     private int protaAtaque;
@@ -37,18 +41,16 @@ public class PelearController {
         this.prota = prota;
         this.Enemigo = enemigo;
 
-        // Inicializa los valores de vida y ataque
+        // Configura las barras de progreso de vida usando la salud actual y la vida máxima del personaje
         this.protaVida = prota.salud;
         this.protaAtaque = prota.daño;
-        this.enemigoVida = enemigo.salud;  // Corrige de "enemigo.salud" a "enemigoVida"
+        this.enemigoVida = enemigo.salud;
         this.enemigoAtaque = enemigo.daño;
 
-        // Configura las barras de progreso de vida usando vida máxima
         vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
         vidaEnemigo.setProgress((double) enemigoVida / enemigo.vidaMaxima);
         actualizarLabels();
     }
-
 
     @FXML
     public void initialize() {
@@ -72,8 +74,8 @@ public class PelearController {
     // Acción de ataque del jugador
     private void realizarAtaque() {
         if (playerTurn) {
-            enemigoVida -= protaAtaque;
-            vidaEnemigo.setProgress(enemigoVida / 100.0);
+            enemigoVida -= protaAtaque;  // Actualizar la salud actual del enemigo
+            vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
             actualizarLabels();
             checkEnemyLife();
             switchTurn();
@@ -83,8 +85,9 @@ public class PelearController {
     // Acción de recuperación de vida del jugador
     private void recuperarVida() {
         if (playerTurn) {
-            protaVida = Math.min(protaVida + 20, 100);
-            vidaProta.setProgress(protaVida / 100.0);
+            prota.curarse(20);  // Curar al personaje
+            protaVida = prota.salud;  // Actualizar la salud actual del jugador
+            vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
             actualizarLabels();
             switchTurn();
         }
@@ -92,9 +95,9 @@ public class PelearController {
 
     // Acción de habilidad especial del jugador
     private void usarHabilidadEspecial() {
-        if (playerTurn) {
-            enemigoVida -= 25;
-            vidaEnemigo.setProgress(enemigoVida / 100.0);
+        if (playerTurn) {// Usar ataque especial
+            enemigoVida -= protaAtaque * 2; // Actualizar la salud actual del enemigo
+            vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
             actualizarLabels();
             checkEnemyLife();
             switchTurn();
@@ -122,9 +125,9 @@ public class PelearController {
                 case 2 -> enemigoAtaque - 5;
                 default -> enemigoAtaque;
             };
-            protaVida -= damage;
-            protaVida = Math.max(protaVida, 0);
-            vidaProta.setProgress(protaVida / 100.0);
+            prota.recibirdaño(damage);  // El enemigo ataca al jugador
+            protaVida = prota.salud;  // Actualizar la salud actual del jugador
+            vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
             actualizarLabels();
             checkPlayerLife();
         }
@@ -136,6 +139,7 @@ public class PelearController {
             enemigoVida = 0;
             vidaEnemigo.setProgress(0);
             actualizarLabels();
+            finDeLaPelea();
         }
     }
 
@@ -145,6 +149,7 @@ public class PelearController {
             protaVida = 0;
             vidaProta.setProgress(0);
             actualizarLabels();
+            finDeLaPelea();  // Llamar al fin de la pelea si el jugador es derrotado
         }
     }
 
@@ -154,5 +159,27 @@ public class PelearController {
         nivelAtaque.setText("Ataque: " + protaAtaque);
         VidaEnemigo.setText("Vida: " + enemigoVida);
         AtaqueEnemigo.setText("Ataque: " + enemigoAtaque);
+    }
+
+    // Método que se ejecuta al finalizar la pelea
+    private void finDeLaPelea() {
+        try {
+            // Detenemos la música de pelea
+            mediaPlayer.stop();
+            
+            // Cargar la vista de la isla (o cualquier otra vista que quieras mostrar tras la pelea)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("primeraisla.fxml"));
+            Parent root = loader.load();
+            
+            // Configurar la nueva escena
+            stage = (Stage) personaje.getScene().getWindow();
+            scene = new Scene(root);
+            root.requestFocus();
+            stage.setScene(scene);
+            stage.show();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -14,10 +14,10 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 public class MovimientoController {
-	  Personaje Akame = new Personaje(100, 30, 1, 1, 20, 100);
-	    Personaje Leone = new Personaje(140, 15, 1, 1, 20, 140);
-	    Personaje Java = new Personaje(110, 20, 1, 1, 20, 110);
-	    Personaje Enemigo1 = new Personaje(90, 20, 1, 1, 20, 90);
+	  Personaje Akame = new Personaje(110, 30, 1, 1, 20, 100);
+	    Personaje Leone = new Personaje(150, 15, 1, 1, 20, 140);
+	    Personaje Java = new Personaje(120, 20, 1, 1, 20, 110);
+	    Personaje Enemigo1 = new Personaje(95, 20, 1, 1, 20, 90);
 	    Personaje Enemigo2 = new Personaje(180, 30, 1, 1, 20, 180);
 	    Personaje Esdeath = new Personaje(350, 40, 1, 1, 20, 350);
     private MediaPlayer mediaPlayer;
@@ -44,6 +44,11 @@ public class MovimientoController {
 
     @FXML
     public void initialize() {
+    	 if (mediaPlayer != null) {
+             mediaPlayer.stop();  // Detener la música de intro
+             mediaPlayer.dispose();  // Liberar los recursos
+         }
+
         String rutaNivel1Audio = getClass().getResource("/Resources/primeraisla.mp3").toExternalForm();
         Media nivel1Media = new Media(rutaNivel1Audio);
         mediaPlayer = new MediaPlayer(nivel1Media);
@@ -196,7 +201,7 @@ public class MovimientoController {
 
                             // Obtén el controlador de PelearController
                             PelearController pelearController = loader.getController();
-
+                             
                             // Asumiendo que Akame y Enemigo1 son objetos de tipo Personaje
                             Personaje prota = Akame;  
                             Personaje Enemigo = Enemigo1;  
