@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -35,29 +36,13 @@ public class PelearController {
     private int enemigoVida;
     private int protaAtaque;
     private int enemigoAtaque;
+    private double posX;
+    private double posY;
+    private long lastTime = 0;
+    private double elapsedTime;
     private int[][] layout;
-    private double protagonistaRow;
-    private double protagonistaCol;
-    private int enemyRowTop;
-    private int enemyColLeft;
-    private int enemyRowBottom;
-    private int enemyColRight;
-    public void setUbicacion(int[][] layout, double protagonistaRow, double protagonistaCol, int enemyRowTop, int enemyColLeft, int enemyRowBottom, int enemyColRight) {
-        this.layout = layout;
-        this.protagonistaRow = protagonistaRow;
-        this.protagonistaCol = protagonistaCol;
-        this.enemyRowTop = enemyRowTop;
-        this.enemyColLeft = enemyColLeft;
-        this.enemyRowBottom = enemyRowBottom;
-        this.enemyColRight = enemyColRight;
-    }
-    public void iniciarPelea() {
-        // Reemplazar las ubicaciones del enemigo en el layout por 1 (arena)
-        layout[enemyRowTop][enemyColLeft] = 1;
-        layout[enemyRowTop][enemyColRight] = 1;
-        layout[enemyRowBottom][enemyColLeft] = 1;
-        layout[enemyRowBottom][enemyColRight] = 1;
-    }
+    private int enemigoX;
+    private int enemigoY;
     // Método para recibir los personajes y configurar los datos iniciales
     public void setPersonajes(Personaje prota, Personaje enemigo) {
         this.prota = prota;
@@ -68,12 +53,22 @@ public class PelearController {
         this.protaAtaque = prota.daño;
         this.enemigoVida = enemigo.salud;
         this.enemigoAtaque = enemigo.daño;
-
+        this.posX = prota.posX;
+        this.posY = prota.posY;
+        System.out.println("caca " + prota.posX);
+        System.out.println("caca " + prota.posY);
         vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
         vidaEnemigo.setProgress((double) enemigoVida / enemigo.vidaMaxima);
         actualizarLabels();
     }
+    public void handle(long now) {
+        elapsedTime = (now - lastTime) / 1_000_000_000.0;
+        lastTime = now;
 
+        if (elapsedTime > 0.1) {
+            elapsedTime = 0.016;
+        }
+    }
     @FXML
     public void initialize() {
         // Configurar el audio de fondo
@@ -191,15 +186,9 @@ public class PelearController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("primeraisla.fxml"));
             Parent root = loader.load();
             MovimientoController movimientoController = loader.getController();
-
             movimientoController.Akame.salud = prota.salud;
-            movimientoController.layout = this.layout;// Enviar el layout actualizado
-            movimientoController.protagonistaRow =  this.protagonistaRow;
-            movimientoController.protagonistaCol =  this.protagonistaCol;
-            movimientoController.enemyRowTop = this.enemyRowTop;
-            movimientoController.enemyColLeft = this.enemyColLeft;
-            movimientoController.enemyRowBottom = this.enemyRowBottom;
-            movimientoController.enemyColRight = this.enemyColRight;
+            movimientoController.Akame.posX = prota.posX;
+            movimientoController.Akame.posY = prota.posY;
             
             stage = (Stage) personaje.getScene().getWindow();
             scene = new Scene(root);

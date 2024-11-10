@@ -15,13 +15,17 @@ public class Personaje {
 	    public int experienciaActual;
 	    public int experienciaLimite;
 	    public int vidaMaxima;
-	    public Personaje(int salud, int daño, int nivel, int experienciaActual, int experienciaLimite, int vidaMaxima) {
+	    public double posX;
+	    public double posY;
+	    public Personaje(int salud, int daño, int nivel, int experienciaActual, int experienciaLimite, int vidaMaxima, double posX, double posY) {
 	        this.salud = salud;
 	        this.daño = daño;
 	        this.nivel = nivel;
 	        this.experienciaActual = experienciaActual;
 	        this.experienciaLimite = experienciaLimite;
 	        this.vidaMaxima = vidaMaxima;
+	        this.posX = posX;
+	        this.posY = posY;
 	    }
 	    public void recibirdaño(int daño) {
 	        salud = Math.max(0, salud - daño); // Evitar que la salud sea menor que 0
@@ -30,7 +34,10 @@ public class Personaje {
 	    public void curarse(int cantidad) {
 	        salud = Math.min(vidaMaxima, salud + cantidad); // Asegura que no exceda vidaMaxima
 	    }
-	
+	    public void setPosicion(double x, double y) {
+	        this.posX = x;
+	        this.posY = y;
+	    }
 	// Cambiar a mayúscula inicial
     // Declaración de variables BufferedImage en una sola línea
     public BufferedImage imagen1, imagen2, imagen3, imagen4, imagen5, imagen6, imagen7, imagen8;

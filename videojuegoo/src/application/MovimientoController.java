@@ -13,28 +13,22 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-public class MovimientoController {
-	  Personaje Akame = new Personaje(110, 30, 1, 1, 20, 100);
-	    Personaje Leone = new Personaje(150, 15, 1, 1, 20, 140);
-	    Personaje Java = new Personaje(120, 20, 1, 1, 20, 110);
-	    Personaje Enemigo1 = new Personaje(95, 20, 1, 1, 20, 90);
-	    Personaje Enemigo2 = new Personaje(180, 30, 1, 1, 20, 180);
-	    Personaje Esdeath = new Personaje(350, 40, 1, 1, 20, 350);
+public class MovimientoController { 
+	  Personaje Akame = new Personaje(110, 30, 1, 1, 20, 100,150, 150);
+	    Personaje Leone = new Personaje(150, 15, 1, 1, 20, 140,150, 150);
+	    Personaje Java = new Personaje(120, 20, 1, 1, 20, 110,150, 150);
+	    Personaje Enemigo1 = new Personaje(95, 20, 1, 1, 20, 90,150, 150);
+	    Personaje Enemigo2 = new Personaje(180, 30, 1, 1, 20, 180,150, 150);
+	    Personaje Esdeath = new Personaje(350, 40, 1, 1, 20, 350,150, 150);
     private MediaPlayer mediaPlayer;
     @FXML
     private AnchorPane rootPane;
-
+    
     private final int TILE_SIZE = 60; // Tamaño de cada tile (imagen) en píxeles
     private Personaje personaje1;
     private boolean moveUp, moveDown, moveLeft, moveRight;
     private long lastTime = 0;
     private long fpsLastTime = 0;
-    public double protagonistaRow;
-    public double protagonistaCol;
-    public int enemyRowTop;
-    public int enemyColLeft;
-    public int enemyRowBottom;
-    public int enemyColRight;
     public int[][] layout = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -61,9 +55,8 @@ public class MovimientoController {
         mediaPlayer.play();
 
         personaje1 = new Personaje();
-        personaje1.getImageView().setX(150);
-        personaje1.getImageView().setY(150);
-
+        personaje1.getImageView().setX(Akame.posX);
+        personaje1.getImageView().setY(Akame.posY);
         cargarMapa();
 
         rootPane.getChildren().add(personaje1.getImageView()); // Añadir personaje al final para estar encima
@@ -213,7 +206,7 @@ public class MovimientoController {
 
                             // Envía los personajes al controlador de la pelea
                             pelearController.setPersonajes(prota, Enemigo);
-                            pelearController.setUbicacion(layout, protagonistaRow, protagonistaCol, enemyRowTop, enemyColLeft, enemyRowBottom, enemyColRight);
+                         
                             // Cambia la escena a la pelea
                             stage.setScene(new Scene(root2));
                             stage.show();
@@ -231,21 +224,28 @@ public class MovimientoController {
         }
     }
 
-    private void updatePosition(double elapsedTime) {
+    public void updatePosition(double elapsedTime) {
         double speed = 200;
         double newX = personaje1.getImageView().getX();
         double newY = personaje1.getImageView().getY();
         double margenColision = 5;
-
         if (moveUp) newY -= speed * elapsedTime;
         if (moveDown) newY += speed * elapsedTime;
         if (moveLeft) newX -= speed * elapsedTime;
         if (moveRight) newX += speed * elapsedTime;
+        if (!peleando) {
+            if (moveUp) Akame.posY -= speed * elapsedTime;
+            if (moveDown) Akame.posY += speed * elapsedTime;
+            if (moveLeft) Akame.posX -= speed * elapsedTime;
+            if (moveRight) Akame.posX += speed * elapsedTime;
+        }
 
-        int futureRowTop = Math.max(0, Math.min((int) ((newY + 30) / TILE_SIZE), layout.length - 1));
-        int futureRowBottom = Math.max(0, Math.min((int) ((newY + TILE_SIZE - margenColision) / TILE_SIZE), layout.length - 1));
-        int futureColLeft = Math.max(0, Math.min((int) ((newX + margenColision) / TILE_SIZE), layout[0].length - 1));
-        int futureColRight = Math.max(0, Math.min((int) ((newX + TILE_SIZE - 30) / TILE_SIZE), layout[0].length - 1));
+        System.out.println(" " + Akame.posX);
+        System.out.println(" " + Akame.posY);
+        int futureRowTop = Math.max(0, Math.min((int) ((Akame.posY + 30) / TILE_SIZE), layout.length - 1));
+        int futureRowBottom = Math.max(0, Math.min((int) ((Akame.posY + TILE_SIZE - margenColision) / TILE_SIZE), layout.length - 1));
+        int futureColLeft = Math.max(0, Math.min((int) ((Akame.posX + margenColision) / TILE_SIZE), layout[0].length - 1));
+        int futureColRight = Math.max(0, Math.min((int) ((Akame.posX + TILE_SIZE - 30) / TILE_SIZE), layout[0].length - 1));
 
         int topLeftTile = layout[futureRowTop][futureColLeft];
         int topRightTile = layout[futureRowTop][futureColRight];
@@ -255,21 +255,26 @@ public class MovimientoController {
         boolean isWalkable = topLeftTile == 1 && topRightTile == 1 && bottomLeftTile == 1 && bottomRightTile == 1;
 
         if (isWalkable) {
-            personaje1.getImageView().setX(newX);
-            personaje1.getImageView().setY(newY);
-            protagonistaRow = personaje1.getImageView().getX();
-            protagonistaCol =personaje1.getImageView().getY();
+            personaje1.getImageView().setX(Akame.posX);
+            personaje1.getImageView().setY(Akame.posY);
+         
         }
 
         if (!peleando && (topLeftTile == 5 || topRightTile == 5 || bottomLeftTile == 5 || bottomRightTile == 5 ||
-                          topLeftTile == 6 || topRightTile == 6 || bottomLeftTile == 6 || bottomRightTile == 6)) {
-
-            // Actualizar posición del enemigo
-            enemyRowTop = topLeftTile;
-            enemyColLeft = topRightTile;
-            enemyRowBottom = bottomLeftTile;
-            enemyColRight = bottomRightTile;
-
+                topLeftTile == 6 || topRightTile == 6 || bottomLeftTile == 6 || bottomRightTile == 6)) {
+  // Almacena la posición del enemigo en el layout
+  if (topLeftTile == 5 || topLeftTile == 6) {
+      layout[futureRowTop][futureColLeft] = 1;
+  }
+  if (topRightTile == 5 || topRightTile == 6) {
+      layout[futureRowTop][futureColRight] = 1;
+  }
+  if (bottomLeftTile == 5 || bottomLeftTile == 6) {
+      layout[futureRowBottom][futureColLeft] = 1;
+  }
+  if (bottomRightTile == 5 || bottomRightTile == 6) {
+      layout[futureRowBottom][futureColRight] = 1;
+  }
             cambiarEscena("introPelea.fxml", "Pelea.fxml");
         }
     }
