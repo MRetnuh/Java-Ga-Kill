@@ -29,8 +29,13 @@ public class MovimientoController {
     private boolean moveUp, moveDown, moveLeft, moveRight;
     private long lastTime = 0;
     private long fpsLastTime = 0;
-
-    private int[][] layout = {
+    public double protagonistaRow;
+    public double protagonistaCol;
+    public int enemyRowTop;
+    public int enemyColLeft;
+    public int enemyRowBottom;
+    public int enemyColRight;
+    public int[][] layout = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -93,7 +98,7 @@ public class MovimientoController {
         rootPane.requestFocus();
     }
 
-    private void cargarMapa() {
+    public void cargarMapa() {
         String basePath = "/Mapa/";
 
         Image arenaImg = new Image(getClass().getResourceAsStream(basePath + "arena.png"));
@@ -208,7 +213,7 @@ public class MovimientoController {
 
                             // Envía los personajes al controlador de la pelea
                             pelearController.setPersonajes(prota, Enemigo);
-
+                            pelearController.setUbicacion(layout, protagonistaRow, protagonistaCol, enemyRowTop, enemyColLeft, enemyRowBottom, enemyColRight);
                             // Cambia la escena a la pelea
                             stage.setScene(new Scene(root2));
                             stage.show();
@@ -230,7 +235,6 @@ public class MovimientoController {
         double speed = 200;
         double newX = personaje1.getImageView().getX();
         double newY = personaje1.getImageView().getY();
-        
         double margenColision = 5;
 
         if (moveUp) newY -= speed * elapsedTime;
@@ -238,37 +242,36 @@ public class MovimientoController {
         if (moveLeft) newX -= speed * elapsedTime;
         if (moveRight) newX += speed * elapsedTime;
 
-        int futureRowTop = (int) ((newY + 30) / TILE_SIZE);
-        int futureRowBottom = (int) ((newY + TILE_SIZE - margenColision) / TILE_SIZE);
-        int futureColLeft = (int) ((newX + margenColision) / TILE_SIZE);
-        int futureColRight = (int) ((newX + TILE_SIZE - 30) / TILE_SIZE);
+        int futureRowTop = Math.max(0, Math.min((int) ((newY + 30) / TILE_SIZE), layout.length - 1));
+        int futureRowBottom = Math.max(0, Math.min((int) ((newY + TILE_SIZE - margenColision) / TILE_SIZE), layout.length - 1));
+        int futureColLeft = Math.max(0, Math.min((int) ((newX + margenColision) / TILE_SIZE), layout[0].length - 1));
+        int futureColRight = Math.max(0, Math.min((int) ((newX + TILE_SIZE - 30) / TILE_SIZE), layout[0].length - 1));
 
-        if (futureRowTop >= 0 && futureRowBottom < layout.length && futureColLeft >= 0 && futureColRight < layout[0].length) {
-            if (layout[futureRowTop][futureColLeft] == 1 && layout[futureRowTop][futureColRight] == 1 &&
-                layout[futureRowBottom][futureColLeft] == 1 && layout[futureRowBottom][futureColRight] == 1) {
-                personaje1.getImageView().setX(newX);
-                personaje1.getImageView().setY(newY);
-            }
-        }
         int topLeftTile = layout[futureRowTop][futureColLeft];
         int topRightTile = layout[futureRowTop][futureColRight];
         int bottomLeftTile = layout[futureRowBottom][futureColLeft];
         int bottomRightTile = layout[futureRowBottom][futureColRight];
 
-        // Verificar colisión con paredes
         boolean isWalkable = topLeftTile == 1 && topRightTile == 1 && bottomLeftTile == 1 && bottomRightTile == 1;
 
         if (isWalkable) {
             personaje1.getImageView().setX(newX);
             personaje1.getImageView().setY(newY);
+            protagonistaRow = personaje1.getImageView().getX();
+            protagonistaCol =personaje1.getImageView().getY();
         }
-        
-        // Verificar colisión con enemigo
-        if (!peleando && (topLeftTile == 5 || topRightTile == 5 || bottomLeftTile == 5 || bottomRightTile == 5 ||
-                topLeftTile == 6 || topRightTile == 6 || bottomLeftTile == 6 || bottomRightTile == 6)) {
-  cambiarEscena("introPelea.fxml", "Pelea.fxml");
-}
 
+        if (!peleando && (topLeftTile == 5 || topRightTile == 5 || bottomLeftTile == 5 || bottomRightTile == 5 ||
+                          topLeftTile == 6 || topRightTile == 6 || bottomLeftTile == 6 || bottomRightTile == 6)) {
+
+            // Actualizar posición del enemigo
+            enemyRowTop = topLeftTile;
+            enemyColLeft = topRightTile;
+            enemyRowBottom = bottomLeftTile;
+            enemyColRight = bottomRightTile;
+
+            cambiarEscena("introPelea.fxml", "Pelea.fxml");
+        }
     }
 
 

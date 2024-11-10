@@ -35,7 +35,29 @@ public class PelearController {
     private int enemigoVida;
     private int protaAtaque;
     private int enemigoAtaque;
-
+    private int[][] layout;
+    private double protagonistaRow;
+    private double protagonistaCol;
+    private int enemyRowTop;
+    private int enemyColLeft;
+    private int enemyRowBottom;
+    private int enemyColRight;
+    public void setUbicacion(int[][] layout, double protagonistaRow, double protagonistaCol, int enemyRowTop, int enemyColLeft, int enemyRowBottom, int enemyColRight) {
+        this.layout = layout;
+        this.protagonistaRow = protagonistaRow;
+        this.protagonistaCol = protagonistaCol;
+        this.enemyRowTop = enemyRowTop;
+        this.enemyColLeft = enemyColLeft;
+        this.enemyRowBottom = enemyRowBottom;
+        this.enemyColRight = enemyColRight;
+    }
+    public void iniciarPelea() {
+        // Reemplazar las ubicaciones del enemigo en el layout por 1 (arena)
+        layout[enemyRowTop][enemyColLeft] = 1;
+        layout[enemyRowTop][enemyColRight] = 1;
+        layout[enemyRowBottom][enemyColLeft] = 1;
+        layout[enemyRowBottom][enemyColRight] = 1;
+    }
     // Método para recibir los personajes y configurar los datos iniciales
     public void setPersonajes(Personaje prota, Personaje enemigo) {
         this.prota = prota;
@@ -164,20 +186,27 @@ public class PelearController {
     // Método que se ejecuta al finalizar la pelea
     private void finDeLaPelea() {
         try {
-            // Detenemos la música de pelea
             mediaPlayer.stop();
-            
-            // Cargar la vista de la isla (o cualquier otra vista que quieras mostrar tras la pelea)
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("primeraisla.fxml"));
             Parent root = loader.load();
+            MovimientoController movimientoController = loader.getController();
+
+            movimientoController.Akame.salud = prota.salud;
+            movimientoController.layout = this.layout;// Enviar el layout actualizado
+            movimientoController.protagonistaRow =  this.protagonistaRow;
+            movimientoController.protagonistaCol =  this.protagonistaCol;
+            movimientoController.enemyRowTop = this.enemyRowTop;
+            movimientoController.enemyColLeft = this.enemyColLeft;
+            movimientoController.enemyRowBottom = this.enemyRowBottom;
+            movimientoController.enemyColRight = this.enemyColRight;
             
-            // Configurar la nueva escena
             stage = (Stage) personaje.getScene().getWindow();
             scene = new Scene(root);
             root.requestFocus();
             stage.setScene(scene);
             stage.show();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
