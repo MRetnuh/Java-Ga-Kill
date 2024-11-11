@@ -185,8 +185,7 @@ public class PelearController {
             movimientoController.Akame.salud = prota.salud;
             movimientoController.Akame.posX = prota.posX;
             movimientoController.Akame.posY = prota.posY;
-            
-            movimientoController.cargarMapa();
+            movimientoController.initialize();
             stage = (Stage) personaje.getScene().getWindow();
             scene = new Scene(root);
             root.requestFocus();

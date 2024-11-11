@@ -22,7 +22,7 @@ public class MovimientoController {
 	    Personaje Esdeath = new Personaje(350, 40, 1, 1, 20, 350,150, 150);
     private MediaPlayer mediaPlayer;
     @FXML
-    private AnchorPane rootPane;
+    public AnchorPane rootPane;
     
     private final int TILE_SIZE = 60; // Tamaño de cada tile (imagen) en píxeles
     private Personaje personaje1;
@@ -131,8 +131,9 @@ public class MovimientoController {
                 tile.setFitHeight(TILE_SIZE);
                 tile.setLayoutX(col * TILE_SIZE);
                 tile.setLayoutY(row * TILE_SIZE);
-
+       
                 rootPane.getChildren().add(tile); // Añadir el tile de fondo al rootPane
+                
             }
         }
     }
@@ -209,11 +210,7 @@ public class MovimientoController {
                             stage.show();
 
                             // Añadir un listener para actualizar el mapa al terminar la pelea
-                            stage.setOnHidden(event -> {
-                                peleando = false;
-                                pelearController.finDeLaPelea(); // Actualiza el layout en la posición del enemigo
-                                cargarMapa(); // Recarga el mapa para reflejar cambios
-                            });
+                          
 
                         } catch (Exception e) {
                             e.printStackTrace();
