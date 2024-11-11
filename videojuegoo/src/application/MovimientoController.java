@@ -118,7 +118,6 @@ public class MovimientoController {
                     	break;
                     case 5:
                     	tile.setImage(enemy1Img);
-                    	 tile.setUserData("enemigo");
                     	break;
                     case 6:
                     	tile.setImage(enemy2Img);
@@ -172,44 +171,50 @@ public class MovimientoController {
         }
     }
     private boolean peleando = false;
-    private void cambiarEscena(String primerArchivo, String segundoArchivo) {
+    private void cambiarEscena(String primerArchivo, String segundoArchivo, int enemigoRow, int enemigoCol) {
         if (!peleando) {
-            peleando = true; // Evitar múltiples cambios
+            peleando = true;
             mediaPlayer.stop();
         }
 
         try {
             Stage stage = (Stage) rootPane.getScene().getWindow();
-            
-            // Cargar la primera escena (esto podría ser una escena inicial o de carga)
+
+            // Cargar la primera escena (puede ser una escena de introducción)
             Parent root1 = FXMLLoader.load(getClass().getResource(primerArchivo));
             stage.setScene(new Scene(root1));
             stage.show();
 
-            // Cambiar a la segunda escena (la pelea) después de un retraso
             new Thread(() -> {
                 try {
-                    Thread.sleep(2000); // 2 segundos de espera
+                    Thread.sleep(2000); // Espera de 2 segundos
 
                     Platform.runLater(() -> {
                         try {
-                            // Cargar la escena de la pelea
                             FXMLLoader loader = new FXMLLoader(getClass().getResource(segundoArchivo));
                             Parent root2 = loader.load();
 
-                            // Obtén el controlador de PelearController
+                            // Obtener el controlador de PelearController
                             PelearController pelearController = loader.getController();
-                             
-                            // Asumiendo que Akame y Enemigo1 son objetos de tipo Personaje
-                            Personaje prota = Akame;  
-                            Personaje Enemigo = Enemigo1;  
 
-                            // Envía los personajes al controlador de la pelea
-                            pelearController.setPersonajes(prota, Enemigo);
-                         
+                            // Configurar el personaje y enemigo para la pelea
+                            Personaje prota = Akame;  
+                            Personaje enemigo = Enemigo1;  
+
+                            // Pasar los personajes, layout y las coordenadas del enemigo al controlador de pelea
+                            pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol);
+
                             // Cambia la escena a la pelea
                             stage.setScene(new Scene(root2));
                             stage.show();
+
+                            // Añadir un listener para actualizar el mapa al terminar la pelea
+                            stage.setOnHidden(event -> {
+                                peleando = false;
+                                pelearController.finDeLaPelea(); // Actualiza el layout en la posición del enemigo
+                                cargarMapa(); // Recarga el mapa para reflejar cambios
+                            });
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -223,6 +228,7 @@ public class MovimientoController {
             e.printStackTrace();
         }
     }
+
 
     public void updatePosition(double elapsedTime) {
         double speed = 200;
@@ -262,22 +268,23 @@ public class MovimientoController {
 
         if (!peleando && (topLeftTile == 5 || topRightTile == 5 || bottomLeftTile == 5 || bottomRightTile == 5 ||
                 topLeftTile == 6 || topRightTile == 6 || bottomLeftTile == 6 || bottomRightTile == 6)) {
-  // Almacena la posición del enemigo en el layout
+  // Almacena la posición del enemigo en el layout antes de cambiar de escena
   if (topLeftTile == 5 || topLeftTile == 6) {
       layout[futureRowTop][futureColLeft] = 1;
-  }
-  if (topRightTile == 5 || topRightTile == 6) {
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowTop, futureColLeft);
+  } else if (topRightTile == 5 || topRightTile == 6) {
       layout[futureRowTop][futureColRight] = 1;
-  }
-  if (bottomLeftTile == 5 || bottomLeftTile == 6) {
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowTop, futureColRight);
+  } else if (bottomLeftTile == 5 || bottomLeftTile == 6) {
       layout[futureRowBottom][futureColLeft] = 1;
-  }
-  if (bottomRightTile == 5 || bottomRightTile == 6) {
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColLeft);
+  } else if (bottomRightTile == 5 || bottomRightTile == 6) {
       layout[futureRowBottom][futureColRight] = 1;
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColRight);
   }
-            cambiarEscena("introPelea.fxml", "Pelea.fxml");
-        }
+}
     }
+
 
 
     private void updateCamera() {

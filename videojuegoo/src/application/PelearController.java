@@ -38,13 +38,12 @@ public class PelearController {
     private int enemigoAtaque;
     private double posX;
     private double posY;
-    private long lastTime = 0;
-    private double elapsedTime;
     private int[][] layout;
-    private int enemigoX;
-    private int enemigoY;
+    private int enemigoRow;
+    private int enemigoCol;
+
     // Método para recibir los personajes y configurar los datos iniciales
-    public void setPersonajes(Personaje prota, Personaje enemigo) {
+    public void setPersonajes(Personaje prota, Personaje enemigo, int[][] layout, int enemigoRow, int enemigoCol) {
         this.prota = prota;
         this.Enemigo = enemigo;
 
@@ -53,6 +52,9 @@ public class PelearController {
         this.protaAtaque = prota.daño;
         this.enemigoVida = enemigo.salud;
         this.enemigoAtaque = enemigo.daño;
+        this.layout = layout;
+        this.enemigoRow = enemigoRow;
+        this.enemigoCol = enemigoCol;
         this.posX = prota.posX;
         this.posY = prota.posY;
         System.out.println("caca " + prota.posX);
@@ -60,14 +62,7 @@ public class PelearController {
         vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
         vidaEnemigo.setProgress((double) enemigoVida / enemigo.vidaMaxima);
         actualizarLabels();
-    }
-    public void handle(long now) {
-        elapsedTime = (now - lastTime) / 1_000_000_000.0;
-        lastTime = now;
-
-        if (elapsedTime > 0.1) {
-            elapsedTime = 0.016;
-        }
+        
     }
     @FXML
     public void initialize() {
@@ -179,17 +174,19 @@ public class PelearController {
     }
 
     // Método que se ejecuta al finalizar la pelea
-    private void finDeLaPelea() {
+    public void finDeLaPelea() {
         try {
             mediaPlayer.stop();
-
+            layout[enemigoRow][enemigoCol] = 1;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("primeraisla.fxml"));
             Parent root = loader.load();
             MovimientoController movimientoController = loader.getController();
+            movimientoController.layout = this.layout;
             movimientoController.Akame.salud = prota.salud;
             movimientoController.Akame.posX = prota.posX;
             movimientoController.Akame.posY = prota.posY;
             
+            movimientoController.cargarMapa();
             stage = (Stage) personaje.getScene().getWindow();
             scene = new Scene(root);
             root.requestFocus();
