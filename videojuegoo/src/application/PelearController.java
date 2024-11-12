@@ -157,11 +157,25 @@ public class PelearController {
 
     // Verificar si la vida del jugador llega a 0 o menos
     private void checkPlayerLife() {
+    	try {
         if (protaVida <= 0) {
             protaVida = 0;
             vidaProta.setProgress(0);
             actualizarLabels();
-            finDeLaPelea();  // Llamar al fin de la pelea si el jugador es derrotado
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();  // Detener la música de intro
+                mediaPlayer.dispose();  // Liberar los recursos
+            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Derrota.fxml"));
+            Parent root = loader.load();
+            stage = (Stage) personaje.getScene().getWindow();
+            scene = new Scene(root);
+            root.requestFocus();
+            stage.setScene(scene);
+            stage.show();
+        }
+    	}catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

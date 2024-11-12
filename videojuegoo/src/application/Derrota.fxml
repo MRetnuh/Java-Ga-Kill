@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="587.0" prefWidth="771.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PerdisteController">
+   <children>
+      <ImageView fx:id="derrota" fitHeight="304.0" fitWidth="628.0" layoutX="72.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Edu/LATZINA/Moriste.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

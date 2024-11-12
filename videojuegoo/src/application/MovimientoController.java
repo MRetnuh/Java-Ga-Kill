@@ -242,13 +242,10 @@ public class MovimientoController {
             if (moveLeft) Akame.posX -= speed * elapsedTime;
             if (moveRight) Akame.posX += speed * elapsedTime;
         }
-
-        System.out.println(" " + Akame.posX);
-        System.out.println(" " + Akame.posY);
-        int futureRowTop = Math.max(0, Math.min((int) ((Akame.posY + 30) / TILE_SIZE), layout.length - 1));
-        int futureRowBottom = Math.max(0, Math.min((int) ((Akame.posY + TILE_SIZE - margenColision) / TILE_SIZE), layout.length - 1));
-        int futureColLeft = Math.max(0, Math.min((int) ((Akame.posX + margenColision) / TILE_SIZE), layout[0].length - 1));
-        int futureColRight = Math.max(0, Math.min((int) ((Akame.posX + TILE_SIZE - 30) / TILE_SIZE), layout[0].length - 1));
+        int futureRowTop = Math.max(0, Math.min((int) ((newY + 30) / TILE_SIZE), layout.length - 1));
+        int futureRowBottom = Math.max(0, Math.min((int) ((newY + TILE_SIZE - margenColision) / TILE_SIZE), layout.length - 1));
+        int futureColLeft = Math.max(0, Math.min((int) ((newX + margenColision) / TILE_SIZE), layout[0].length - 1));
+        int futureColRight = Math.max(0, Math.min((int) ((newX+ TILE_SIZE - 30) / TILE_SIZE), layout[0].length - 1));
 
         int topLeftTile = layout[futureRowTop][futureColLeft];
         int topRightTile = layout[futureRowTop][futureColRight];
@@ -258,8 +255,8 @@ public class MovimientoController {
         boolean isWalkable = topLeftTile == 1 && topRightTile == 1 && bottomLeftTile == 1 && bottomRightTile == 1;
 
         if (isWalkable) {
-            personaje1.getImageView().setX(Akame.posX);
-            personaje1.getImageView().setY(Akame.posY);
+            personaje1.getImageView().setX(newX);
+            personaje1.getImageView().setY(newY);
          
         }
 
