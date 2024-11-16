@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="655.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MenuController">
+   <children>
+      <Button fx:id="volver" layoutX="510.0" mnemonicParsing="false" onAction="#volveralmapa" text="Volver al campo">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="243.0" fitWidth="216.0" layoutX="32.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Edu/LATZINA/akame_de_frente_(detenida).png" />
+         </image>
+      </ImageView>
+      <Label fx:id="ataque" layoutX="14.0" layoutY="329.0" text="Ataque: ">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="27.0" />
+         </font>
+      </Label>
+      <Label fx:id="vida" layoutX="14.0" layoutY="376.0" text="Vida: ">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="27.0" />
+         </font>
+      </Label>
+      <Label fx:id="experiencia" layoutX="14.0" layoutY="419.0" text="Experiencia:">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="27.0" />
+         </font>
+      </Label>
+      <Label fx:id="nivel" layoutX="14.0" layoutY="472.0" text="Nivel">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="27.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

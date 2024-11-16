@@ -57,8 +57,6 @@ public class PelearController {
         this.enemigoCol = enemigoCol;
         this.posX = prota.posX;
         this.posY = prota.posY;
-        System.out.println("caca " + prota.posX);
-        System.out.println("caca " + prota.posY);
         vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
         vidaEnemigo.setProgress((double) enemigoVida / enemigo.vidaMaxima);
         actualizarLabels();

@@ -18,7 +18,7 @@
             <Image url="@../../../../Desktop/Edu/LATZINA/akame_de_frente_(detenida).png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="331.0" fitWidth="390.0" layoutX="269.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="312.0" fitWidth="312.0" layoutX="282.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../Downloads/Picsart_24-10-29_17-26-29-234.png" />
          </image>
@@ -28,5 +28,25 @@
             <Font name="Berlin Sans FB Demi Bold" size="16.0" />
          </font>
       </Button>
+      <ImageView fitHeight="107.0" fitWidth="91.0" layoutX="23.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Edu/LATZINA/leone_delante_quieta.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="119.0" fitWidth="66.0" layoutX="20.0" layoutY="282.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Edu/LATZINA/java_frente_quieto.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="297.0" fitWidth="304.0" layoutX="290.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/Picsart_24-11-15_21-49-26-688.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="297.0" fitWidth="297.0" layoutX="290.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/Picsart_24-11-15_21-45-26-913.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

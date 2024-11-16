@@ -5,6 +5,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
+import java.io.IOException;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -14,7 +17,7 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 public class MovimientoController { 
-	  Personaje Akame = new Personaje(110, 30, 1, 1, 20, 100,150, 150);
+	  Personaje Akame = new Personaje(110, 30, 1, 1, 20, 110,150, 150);
 	    Personaje Leone = new Personaje(150, 15, 1, 1, 20, 140,150, 150);
 	    Personaje Java = new Personaje(120, 20, 1, 1, 20, 110,150, 150);
 	    Personaje Enemigo1 = new Personaje(95, 20, 1, 1, 20, 90,150, 150);
@@ -85,7 +88,14 @@ public class MovimientoController {
         };
         timer.start();
 
-        rootPane.setOnKeyPressed(this::handleKeyPress);
+        rootPane.setOnKeyPressed(arg0 -> {
+			try {
+				handleKeyPress(arg0);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
         rootPane.setOnKeyReleased(this::handleKeyRelease);
         rootPane.setFocusTraversable(true);
         rootPane.requestFocus();
@@ -138,8 +148,19 @@ public class MovimientoController {
         }
     }
 
-    private void handleKeyPress(KeyEvent event) {
+    private void handleKeyPress(KeyEvent event) throws IOException {
         switch (event.getCode()) {
+        case P -> {
+        	Stage stage = (Stage) rootPane.getScene().getWindow();
+        	  FXMLLoader loader = new FXMLLoader(getClass().getResource("Menu.fxml"));
+              Parent root2 = loader.load();
+              MenuController MenuController = loader.getController();
+              Personaje prota = Akame;  
+              MenuController.setStats(prota);
+              stage.setScene(new Scene(root2));
+              stage.show();
+              
+        }
             case W -> { 
                 moveUp = true;
                 personaje1.startMoving("espalda");
