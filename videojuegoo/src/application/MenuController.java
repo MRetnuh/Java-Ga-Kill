@@ -33,20 +33,21 @@ public class MenuController {
 	 private Stage stage;  
      private Scene scene;
      private Parent root;
+     private int[][] layout;
      @FXML
      private Label ataque, vida, experiencia, nivel;
      @FXML
      private static MediaPlayer mediaPlayer;
-   public void initialize() {
-	   if (mediaPlayer != null) {
-           mediaPlayer.stop();  // Detener la música de intro
-           mediaPlayer.dispose();  // Liberar los recursos
-       }
-   }
 	   public void volveralmapa(ActionEvent event) throws IOException {
 		   FXMLLoader loader = new FXMLLoader(getClass().getResource("primeraisla.fxml"));
            Parent root = loader.load();
            MovimientoController movimientoController = loader.getController();
+           movimientoController.layout = this.layout;
+           movimientoController.Akame.salud = prota.salud;
+           movimientoController.Akame.daño = prota.daño;
+           movimientoController.Akame.experienciaActual = prota.experienciaActual;
+           movimientoController.Akame.experienciaLimite = prota.experienciaLimite;
+           movimientoController.Akame.nivel = prota.nivel;
            movimientoController.Akame.posX = prota.posX;
            movimientoController.Akame.posY = prota.posY;
            movimientoController.initialize();
@@ -57,8 +58,9 @@ public class MenuController {
 	    	 stage.show();
 	    	 
 	     }
-	   public void setStats(Personaje prota) {
+	   public void setStats(Personaje prota, int[][] layout) {
 		   this.prota = prota;
+		   this.layout = layout;
 		   this.protaAtaque = prota.daño;
 		   this.protaVida = prota.salud;
 		   this.protavidamax = prota.vidaMaxima;

@@ -151,12 +151,17 @@ public class MovimientoController {
     private void handleKeyPress(KeyEvent event) throws IOException {
         switch (event.getCode()) {
         case P -> {
+        	 if (peleando == false) {
+                 peleando = true;
+                 mediaPlayer.stop();
+             }
+
         	Stage stage = (Stage) rootPane.getScene().getWindow();
         	  FXMLLoader loader = new FXMLLoader(getClass().getResource("Menu.fxml"));
               Parent root2 = loader.load();
               MenuController MenuController = loader.getController();
               Personaje prota = Akame;  
-              MenuController.setStats(prota);
+              MenuController.setStats(prota, layout);
               stage.setScene(new Scene(root2));
               stage.show();
               
@@ -192,7 +197,7 @@ public class MovimientoController {
             personaje1.stopMoving();
         }
     }
-    private boolean peleando = false;
+    public boolean peleando = false;
     private void cambiarEscena(String primerArchivo, String segundoArchivo, int enemigoRow, int enemigoCol) {
         if (!peleando) {
             peleando = true;
