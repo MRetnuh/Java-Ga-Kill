@@ -11,8 +11,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 public class PelearController {
@@ -26,6 +29,8 @@ public class PelearController {
     @FXML
     private ImageView personaje, enemigo;
     @FXML
+    private Line efecto;
+    @FXML
     private static MediaPlayer mediaPlayer;
     private Stage stage;
     private boolean playerTurn = true;
@@ -33,9 +38,13 @@ public class PelearController {
     private Personaje Enemigo;
     private Scene scene;
     private int protaVida;
+    private int protavidamax;
     private int enemigoVida;
     private int protaAtaque;
+    private int protanivel;
     private int enemigoAtaque;
+    private int protaExperiencia;
+	private int protaExpLimite;
     private double posX;
     private double posY;
     private int[][] layout;
@@ -57,6 +66,10 @@ public class PelearController {
         this.enemigoCol = enemigoCol;
         this.posX = prota.posX;
         this.posY = prota.posY;
+        this.protanivel = prota.nivel;
+        this.protavidamax = prota.vidaMaxima;
+        this.protaExperiencia = prota.experienciaActual;
+        this.protaExpLimite = prota.experienciaLimite;
         vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
         vidaEnemigo.setProgress((double) enemigoVida / enemigo.vidaMaxima);
         actualizarLabels();
@@ -80,11 +93,49 @@ public class PelearController {
         vida.setOnAction(e -> recuperarVida());
         especial.setOnAction(e -> usarHabilidadEspecial());
     }
+    private void mostrarEfecto(boolean esJugador) {
+        double startX;
+        double startY;
+        double endX;
+        double endY;
+
+        // Ajustar las posiciones según quién ataca
+        if (esJugador) {
+            // Coordenadas del jugador atacando al enemigo
+            startX = personaje.getLayoutX() - 80; // Centro del personaje
+            startY = personaje.getLayoutY() - 320; // Parte superior del personaje
+            endX = enemigo.getLayoutX() - 320; // Centro del enemigo
+            endY = enemigo.getLayoutY() + 30; // Centro del enemigo
+        } else {
+            // Coordenadas del enemigo atacando al jugador
+            startX = enemigo.getLayoutX() - 680; // Centro del enemigo
+            startY = enemigo.getLayoutY() + 200; // Parte inferior del enemigo
+            endX = personaje.getLayoutX() - 480;
+            endY = personaje.getLayoutY() +30;
+        }
+
+        // Configurar la línea
+        efecto.setStartX(startX);
+        efecto.setStartY(startY);
+        efecto.setEndX(endX);
+        efecto.setEndY(endY);
+        efecto.setVisible(true);
+
+        // Usar un Timeline para ocultar la línea después de un breve tiempo
+        Timeline timeline = new Timeline(
+            new KeyFrame(Duration.seconds(0.5), e -> efecto.setVisible(false))
+        );
+        timeline.play();
+    }
+
 
     // Acción de ataque del jugador
     private void realizarAtaque() {
         if (playerTurn) {
-            enemigoVida -= protaAtaque;  // Actualizar la salud actual del enemigo
+            // Animar el efecto desde el jugador hacia el enemigo
+            mostrarEfecto(true);
+
+            enemigoVida -= protaAtaque;
             vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
             actualizarLabels();
             checkEnemyLife();
@@ -106,6 +157,7 @@ public class PelearController {
     // Acción de habilidad especial del jugador
     private void usarHabilidadEspecial() {
         if (playerTurn) {// Usar ataque especial
+        	 mostrarEfecto(true);
             enemigoVida -= protaAtaque * 2; // Actualizar la salud actual del enemigo
             vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
             actualizarLabels();
@@ -128,6 +180,9 @@ public class PelearController {
     // Acción del enemigo en su turno
     private void realizarAccionEnemigo() {
         if (enemigoVida > 0) {
+            // Animar el efecto desde el enemigo hacia el jugador
+            mostrarEfecto(false);
+
             int action = (int) (Math.random() * 3);
             int damage = switch (action) {
                 case 0 -> enemigoAtaque;
@@ -135,8 +190,8 @@ public class PelearController {
                 case 2 -> enemigoAtaque - 5;
                 default -> enemigoAtaque;
             };
-            prota.recibirdaño(damage);  // El enemigo ataca al jugador
-            protaVida = prota.salud;  // Actualizar la salud actual del jugador
+            prota.recibirdaño(damage);
+            protaVida = prota.salud;
             vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
             actualizarLabels();
             checkPlayerLife();
@@ -147,6 +202,15 @@ public class PelearController {
     private void checkEnemyLife() {
         if (enemigoVida <= 0) {
             enemigoVida = 0;
+            prota.experienciaActual += 5;
+            if(prota.experienciaActual >= prota.experienciaLimite) {
+            	prota.nivel++;
+            	prota.daño += 10;
+            	prota.salud = prota.vidaMaxima + 20;
+            	prota.experienciaActual = 0;
+            	prota.experienciaLimite += 10;
+            	
+            }
             vidaEnemigo.setProgress(0);
             actualizarLabels();
             finDeLaPelea();
@@ -195,8 +259,13 @@ public class PelearController {
             MovimientoController movimientoController = loader.getController();
             movimientoController.layout = this.layout;
             movimientoController.Akame.salud = prota.salud;
+            movimientoController.Akame.vidaMaxima = prota.vidaMaxima;
             movimientoController.Akame.posX = prota.posX;
             movimientoController.Akame.posY = prota.posY;
+            movimientoController.Akame.experienciaActual = prota.experienciaActual;
+            movimientoController.Akame.daño = prota.daño;
+            movimientoController.Akame.nivel = prota.nivel;
+            movimientoController.Akame.experienciaLimite = prota.experienciaLimite;
             movimientoController.initialize();
             stage = (Stage) personaje.getScene().getWindow();
             scene = new Scene(root);

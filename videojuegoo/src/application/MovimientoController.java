@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 public class MovimientoController { 
-	  Personaje Akame = new Personaje(110, 30, 1, 1, 20, 110,150, 150);
+	  Personaje Akame = new Personaje(110, 30, 1, 1, 4, 110,150, 150);
 	    Personaje Leone = new Personaje(150, 15, 1, 1, 20, 140,150, 150);
 	    Personaje Java = new Personaje(120, 20, 1, 1, 20, 110,150, 150);
 	    Personaje Enemigo1 = new Personaje(95, 20, 1, 1, 20, 90,150, 150);
