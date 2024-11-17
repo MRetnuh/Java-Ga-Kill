@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 public class MovimientoController { 
-	  Personaje Akame = new Personaje(110, 30, 1, 1, 4, 110,150, 150);
+	  Personaje Akame = new Personaje(110, 30, 1, 1, 20, 110,150, 150);
 	    Personaje Leone = new Personaje(150, 15, 1, 1, 20, 140,150, 150);
 	    Personaje Java = new Personaje(120, 20, 1, 1, 20, 110,150, 150);
 	    Personaje Enemigo1 = new Personaje(95, 20, 1, 1, 20, 90,150, 150);
@@ -198,7 +198,8 @@ public class MovimientoController {
         }
     }
     public boolean peleando = false;
-    private void cambiarEscena(String primerArchivo, String segundoArchivo, int enemigoRow, int enemigoCol) {
+    public int enemy = 1;
+    private void cambiarEscena(String primerArchivo, String segundoArchivo, int enemigoRow, int enemigoCol, int enemy) {
         if (!peleando) {
             peleando = true;
             mediaPlayer.stop();
@@ -225,19 +226,19 @@ public class MovimientoController {
                             PelearController pelearController = loader.getController();
 
                             // Configurar el personaje y enemigo para la pelea
-                            Personaje prota = Akame;  
-                            Personaje enemigo = Enemigo1;  
-
+                            Personaje prota = Akame;
+                            Personaje enemigo = (enemy == 2) ? Enemigo2 : Enemigo1; // Selección según el valor de 'enemy'
+                            if(enemy == 2) {
+                             	 String rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/enemy12.png";
+                             	   Image nuevaImagen = new Image(rutaAbsoluta);
+                             	    pelearController.enemigo.setImage(nuevaImagen);
+                             	}
                             // Pasar los personajes, layout y las coordenadas del enemigo al controlador de pelea
-                            pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol);
+                            pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy);
 
                             // Cambia la escena a la pelea
                             stage.setScene(new Scene(root2));
                             stage.show();
-
-                            // Añadir un listener para actualizar el mapa al terminar la pelea
-                          
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -253,6 +254,7 @@ public class MovimientoController {
     }
 
 
+
     public void updatePosition(double elapsedTime) {
         double speed = 200;
         double newX = personaje1.getImageView().getX();
@@ -263,11 +265,10 @@ public class MovimientoController {
         if (moveLeft) newX -= speed * elapsedTime;
         if (moveRight) newX += speed * elapsedTime;
         if (!peleando) {
-            if (moveUp) Akame.posY -= speed * elapsedTime;
-            if (moveDown) Akame.posY += speed * elapsedTime;
-            if (moveLeft) Akame.posX -= speed * elapsedTime;
-            if (moveRight) Akame.posX += speed * elapsedTime;
+           Akame.posX = newX;
+           Akame.posY = newY;
         }
+        
         int futureRowTop = Math.max(0, Math.min((int) ((newY + 30) / TILE_SIZE), layout.length - 1));
         int futureRowBottom = Math.max(0, Math.min((int) ((newY + TILE_SIZE - margenColision) / TILE_SIZE), layout.length - 1));
         int futureColLeft = Math.max(0, Math.min((int) ((newX + margenColision) / TILE_SIZE), layout[0].length - 1));
@@ -289,18 +290,35 @@ public class MovimientoController {
         if (!peleando && (topLeftTile == 5 || topRightTile == 5 || bottomLeftTile == 5 || bottomRightTile == 5 ||
                 topLeftTile == 6 || topRightTile == 6 || bottomLeftTile == 6 || bottomRightTile == 6)) {
   // Almacena la posición del enemigo en el layout antes de cambiar de escena
-  if (topLeftTile == 5 || topLeftTile == 6) {
+  if (topLeftTile == 6 || topLeftTile == 6) {
+	  enemy = 2;
       layout[futureRowTop][futureColLeft] = 1;
-      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowTop, futureColLeft);
-  } else if (topRightTile == 5 || topRightTile == 6) {
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowTop, futureColLeft, enemy);
+  } else if (topRightTile == 6 || topRightTile == 6) {
+	  enemy = 2;
       layout[futureRowTop][futureColRight] = 1;
-      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowTop, futureColRight);
-  } else if (bottomLeftTile == 5 || bottomLeftTile == 6) {
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowTop, futureColRight, enemy);
+  } else if (bottomLeftTile == 6 || bottomLeftTile == 6) {
+	  enemy = 2;
       layout[futureRowBottom][futureColLeft] = 1;
-      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColLeft);
-  } else if (bottomRightTile == 5 || bottomRightTile == 6) {
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColLeft, enemy);
+  } else if (bottomRightTile == 6 || bottomRightTile == 6) {
+	  enemy = 2;
       layout[futureRowBottom][futureColRight] = 1;
-      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColRight);
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColRight, enemy);
+  }
+  if (topLeftTile == 5 || topLeftTile == 5) {
+      layout[futureRowTop][futureColLeft] = 1;
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowTop, futureColLeft, enemy);
+  } else if (topRightTile == 5 || topRightTile == 5) {
+      layout[futureRowTop][futureColRight] = 1;
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowTop, futureColRight, enemy);
+  } else if (bottomLeftTile == 5 || bottomLeftTile == 5) {
+      layout[futureRowBottom][futureColLeft] = 1;
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColLeft, enemy);
+  } else if (bottomRightTile == 5 || bottomRightTile == 5) {
+      layout[futureRowBottom][futureColRight] = 1;
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColRight, enemy);
   }
 }
     }

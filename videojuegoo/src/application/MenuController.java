@@ -43,6 +43,7 @@ public class MenuController {
            Parent root = loader.load();
            MovimientoController movimientoController = loader.getController();
            movimientoController.layout = this.layout;
+           movimientoController.Akame.vidaMaxima = prota.vidaMaxima;
            movimientoController.Akame.salud = prota.salud;
            movimientoController.Akame.daño = prota.daño;
            movimientoController.Akame.experienciaActual = prota.experienciaActual;

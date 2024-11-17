@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
@@ -27,7 +28,7 @@ public class PelearController {
     @FXML
     private Button atacar, vida, especial, personajes;
     @FXML
-    private ImageView personaje, enemigo;
+    public ImageView personaje, enemigo;
     @FXML
     private Line efecto;
     @FXML
@@ -40,6 +41,7 @@ public class PelearController {
     private int protaVida;
     private int protavidamax;
     private int enemigoVida;
+    private int enemigoVidamax;
     private int protaAtaque;
     private int protanivel;
     private int enemigoAtaque;
@@ -50,17 +52,17 @@ public class PelearController {
     private int[][] layout;
     private int enemigoRow;
     private int enemigoCol;
-
+    public int enemy;
     // Método para recibir los personajes y configurar los datos iniciales
-    public void setPersonajes(Personaje prota, Personaje enemigo, int[][] layout, int enemigoRow, int enemigoCol) {
+    public void setPersonajes(Personaje prota, Personaje enemigo, int[][] layout, int enemigoRow, int enemigoCol, int enemy) {
         this.prota = prota;
         this.Enemigo = enemigo;
-
         // Configura las barras de progreso de vida usando la salud actual y la vida máxima del personaje
         this.protaVida = prota.salud;
         this.protaAtaque = prota.daño;
         this.enemigoVida = enemigo.salud;
         this.enemigoAtaque = enemigo.daño;
+        this.enemigoVidamax = enemigo.vidaMaxima;
         this.layout = layout;
         this.enemigoRow = enemigoRow;
         this.enemigoCol = enemigoCol;
@@ -77,8 +79,9 @@ public class PelearController {
     }
     @FXML
     public void initialize() {
-        // Configurar el audio de fondo
+          // Configurar el audio de fondo
         if (mediaPlayer == null) {
+
             String rutaNivel1Audio = getClass().getResource("/Resources/pelea.mp3").toExternalForm();
             Media nivel1Media = new Media(rutaNivel1Audio);
             mediaPlayer = new MediaPlayer(nivel1Media);
@@ -148,7 +151,7 @@ public class PelearController {
         if (playerTurn) {
             prota.curarse(20);  // Curar al personaje
             protaVida = prota.salud;  // Actualizar la salud actual del jugador
-            vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
+            vidaProta.setProgress((double) protaVida / protavidamax);
             actualizarLabels();
             switchTurn();
         }
@@ -178,7 +181,7 @@ public class PelearController {
     }
 
     // Acción del enemigo en su turno
-    private void realizarAccionEnemigo() {
+    public void realizarAccionEnemigo() {
         if (enemigoVida > 0) {
             // Animar el efecto desde el enemigo hacia el jugador
             mostrarEfecto(false);
@@ -207,6 +210,7 @@ public class PelearController {
             	prota.nivel++;
             	prota.daño += 10;
             	prota.salud = prota.vidaMaxima + 20;
+            	prota.vidaMaxima = prota.salud;
             	prota.experienciaActual = 0;
             	prota.experienciaLimite += 10;
             	
