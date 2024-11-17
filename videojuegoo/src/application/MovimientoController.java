@@ -32,7 +32,6 @@ public class MovimientoController {
     private boolean moveUp, moveDown, moveLeft, moveRight;
     private long lastTime = 0;
     private long fpsLastTime = 0;
-    private boolean musicaIniciada = false;
     public int[][] layout = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -233,7 +232,7 @@ public class MovimientoController {
                              	    pelearController.enemigo.setImage(nuevaImagen);
                              	}
                             // Pasar los personajes, layout y las coordenadas del enemigo al controlador de pelea
-                            pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy);
+                            pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones);
 
                             // Cambia la escena a la pelea
                             stage.setScene(new Scene(root2));

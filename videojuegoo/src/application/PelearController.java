@@ -47,6 +47,7 @@ public class PelearController {
     private int enemigoAtaque;
     private int protaExperiencia;
 	private int protaExpLimite;
+	private int curaciones;
     private double posX;
     private double posY;
     private int[][] layout;
@@ -54,7 +55,7 @@ public class PelearController {
     private int enemigoCol;
     public int enemy;
     // Método para recibir los personajes y configurar los datos iniciales
-    public void setPersonajes(Personaje prota, Personaje enemigo, int[][] layout, int enemigoRow, int enemigoCol, int enemy) {
+    public void setPersonajes(Personaje prota, Personaje enemigo, int[][] layout, int enemigoRow, int enemigoCol, int enemy, int curaciones) {
         this.prota = prota;
         this.Enemigo = enemigo;
         // Configura las barras de progreso de vida usando la salud actual y la vida máxima del personaje
@@ -68,6 +69,7 @@ public class PelearController {
         this.enemigoCol = enemigoCol;
         this.posX = prota.posX;
         this.posY = prota.posY;
+        this.curaciones = curaciones;
         this.protanivel = prota.nivel;
         this.protavidamax = prota.vidaMaxima;
         this.protaExperiencia = prota.experienciaActual;
@@ -155,14 +157,20 @@ public class PelearController {
     // Acción de recuperación de vida del jugador
     private void recuperarVida() {
         if (playerTurn) {
+        	 if (curaciones > 0) {
             prota.curarse(20);  // Curar al personaje
             protaVida = prota.salud;  // Actualizar la salud actual del jugador
             vidaProta.setProgress((double) protaVida / protavidamax);
+            curaciones--;
             actualizarLabels();
             switchTurn();
         }
+        	 else if(curaciones <= 0) {
+        		  vida.setDisable(true); // Deshabilitar el botón
+        	        vida.setStyle("-fx-background-color: #ff0000;"); 
+        	 }
     }
-
+    }
     // Acción de habilidad especial del jugador
     private void usarHabilidadEspecial() {
         if (playerTurn) {// Usar ataque especial
