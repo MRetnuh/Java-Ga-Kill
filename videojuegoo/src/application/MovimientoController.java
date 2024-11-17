@@ -26,37 +26,33 @@ public class MovimientoController {
     private MediaPlayer mediaPlayer;
     @FXML
     public AnchorPane rootPane;
-    
+    public int curaciones=0;
     private final int TILE_SIZE = 60; // Tamaño de cada tile (imagen) en píxeles
     private Personaje personaje1;
     private boolean moveUp, moveDown, moveLeft, moveRight;
     private long lastTime = 0;
     private long fpsLastTime = 0;
+    private boolean musicaIniciada = false;
     public int[][] layout = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 5, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     };
 
     private final int VIEWPORT_WIDTH = 800;
     private final int VIEWPORT_HEIGHT = 600;
-
     @FXML
     public void initialize() {
-    	 if (mediaPlayer != null) {
-             mediaPlayer.stop();  // Detener la música de intro
-             mediaPlayer.dispose();  // Liberar los recursos
-         }
-
+    	 if (mediaPlayer == null) {
         String rutaNivel1Audio = getClass().getResource("/Resources/primeraisla.mp3").toExternalForm();
         Media nivel1Media = new Media(rutaNivel1Audio);
         mediaPlayer = new MediaPlayer(nivel1Media);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
-
+    	 }
         personaje1 = new Personaje();
         personaje1.getImageView().setX(Akame.posX);
         personaje1.getImageView().setY(Akame.posY);
@@ -105,6 +101,7 @@ public class MovimientoController {
         String basePath = "/Mapa/";
 
         Image arenaImg = new Image(getClass().getResourceAsStream(basePath + "arena.png"));
+        Image curaImg = new Image(getClass().getResourceAsStream(basePath + "poti1.png"));
         Image casaImg = new Image(getClass().getResourceAsStream(basePath + "casa.png"));
         Image arbolImg = new Image(getClass().getResourceAsStream(basePath + "arbol.png"));
         Image piso1Img = new Image(getClass().getResourceAsStream(basePath + "piso1.png"));
@@ -133,7 +130,7 @@ public class MovimientoController {
                     	tile.setImage(enemy2Img);
                     	break;
                     case 7:
-                    	tile.setImage(casaImg);
+                    	tile.setImage(curaImg);
                     	break;
                 }
 
@@ -153,6 +150,7 @@ public class MovimientoController {
         case P -> {
         	 if (peleando == false) {
                  peleando = true;
+                 caminar = false;
                  mediaPlayer.stop();
              }
 
@@ -198,6 +196,7 @@ public class MovimientoController {
         }
     }
     public boolean peleando = false;
+    public boolean caminar = true;
     public int enemy = 1;
     private void cambiarEscena(String primerArchivo, String segundoArchivo, int enemigoRow, int enemigoCol, int enemy) {
         if (!peleando) {
@@ -278,13 +277,27 @@ public class MovimientoController {
         int topRightTile = layout[futureRowTop][futureColRight];
         int bottomLeftTile = layout[futureRowBottom][futureColLeft];
         int bottomRightTile = layout[futureRowBottom][futureColRight];
-
-        boolean isWalkable = topLeftTile == 1 && topRightTile == 1 && bottomLeftTile == 1 && bottomRightTile == 1;
-
-        if (isWalkable) {
+       boolean isWalkable = (topLeftTile == 1 && topRightTile == 1 && bottomLeftTile == 1 && bottomRightTile == 1) || (topLeftTile == 2 || topRightTile == 2 || bottomLeftTile == 2 || bottomRightTile == 2) || (topLeftTile == 7 || topRightTile == 7 || bottomLeftTile == 7 || bottomRightTile == 7)  || (topLeftTile == 8 || topRightTile == 8 || bottomLeftTile == 8 || bottomRightTile == 8);
+         if (isWalkable && caminar) {
             personaje1.getImageView().setX(newX);
             personaje1.getImageView().setY(newY);
-         
+            if (topLeftTile == 7 || topLeftTile == 7) {
+            	  curaciones++;
+                  layout[futureRowTop][futureColLeft] = 1;
+                  initialize();
+              } else if (topRightTile == 7 || topRightTile == 7) {
+            	  curaciones++;
+                  layout[futureRowTop][futureColRight] = 1;
+                  initialize();
+              } else if (bottomLeftTile == 7 || bottomLeftTile == 7) {
+            	  curaciones++;
+                  layout[futureRowBottom][futureColLeft] = 1;
+                  initialize();
+              } else if (bottomRightTile == 7 || bottomRightTile == 7) {
+            	  curaciones++;
+                  layout[futureRowBottom][futureColRight] = 1;
+                  initialize();
+              }
         }
 
         if (!peleando && (topLeftTile == 5 || topRightTile == 5 || bottomLeftTile == 5 || bottomRightTile == 5 ||
@@ -307,6 +320,8 @@ public class MovimientoController {
       layout[futureRowBottom][futureColRight] = 1;
       cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColRight, enemy);
   }
+  
+  
   if (topLeftTile == 5 || topLeftTile == 5) {
       layout[futureRowTop][futureColLeft] = 1;
       cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowTop, futureColLeft, enemy);

@@ -81,13 +81,19 @@ public class PelearController {
     public void initialize() {
           // Configurar el audio de fondo
         if (mediaPlayer == null) {
-
+            
             String rutaNivel1Audio = getClass().getResource("/Resources/pelea.mp3").toExternalForm();
             Media nivel1Media = new Media(rutaNivel1Audio);
             mediaPlayer = new MediaPlayer(nivel1Media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.play();
-        } else if (mediaPlayer.getStatus() == MediaPlayer.Status.PAUSED) {
+        }
+        else if (mediaPlayer != null) {
+            
+            String rutaNivel1Audio = getClass().getResource("/Resources/pelea.mp3").toExternalForm();
+            Media nivel1Media = new Media(rutaNivel1Audio);
+            mediaPlayer = new MediaPlayer(nivel1Media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.play();
         }
 
