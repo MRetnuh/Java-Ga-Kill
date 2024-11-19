@@ -34,7 +34,7 @@ public class MovimientoController {
     private long fpsLastTime = 0;
     public int[][] layout = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 1, 1, 1},
         {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 5, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -106,6 +106,7 @@ public class MovimientoController {
         Image piso1Img = new Image(getClass().getResourceAsStream(basePath + "piso1.png"));
         Image enemy1Img = new Image(getClass().getResourceAsStream(basePath + "enemy11.png"));
         Image enemy2Img = new Image(getClass().getResourceAsStream(basePath + "enemy22.png"));
+        Image bossImg = new Image(getClass().getResourceAsStream(basePath + "boss1.png"));
         for (int row = 0; row < layout.length; row++) {
             for (int col = 0; col < layout[row].length; col++) {
                 ImageView tile = new ImageView();
@@ -130,6 +131,9 @@ public class MovimientoController {
                     	break;
                     case 7:
                     	tile.setImage(curaImg);
+                    	break;
+                    case 9:
+                    	tile.setImage(bossImg);
                     	break;
                 }
 
@@ -224,16 +228,25 @@ public class MovimientoController {
                             PelearController pelearController = loader.getController();
 
                             // Configurar el personaje y enemigo para la pelea
-                            Personaje prota = Akame;
-                            Personaje enemigo = (enemy == 2) ? Enemigo2 : Enemigo1; // Selección según el valor de 'enemy'
+                            Personaje prota = Akame; // Selección según el valor de 'enemy'
                             if(enemy == 2) {
+                            	Personaje enemigo = Enemigo2;
                              	 String rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/enemy12.png";
                              	   Image nuevaImagen = new Image(rutaAbsoluta);
                              	    pelearController.enemigo.setImage(nuevaImagen);
+                             	   pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones);
                              	}
-                            // Pasar los personajes, layout y las coordenadas del enemigo al controlador de pelea
-                            pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones);
-
+                            if (enemy == 1) {
+                            	Personaje enemigo = Enemigo1;
+                            	  pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones);
+                            }
+                            if(enemy == 3) {
+                            	Personaje enemigo = Esdeath;
+                             	 String rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/esdeath.png";
+                             	   Image nuevaImagen = new Image(rutaAbsoluta);
+                             	    pelearController.enemigo.setImage(nuevaImagen);
+                             	   pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones);
+                             	}
                             // Cambia la escena a la pelea
                             stage.setScene(new Scene(root2));
                             stage.show();
@@ -300,7 +313,8 @@ public class MovimientoController {
         }
 
         if (!peleando && (topLeftTile == 5 || topRightTile == 5 || bottomLeftTile == 5 || bottomRightTile == 5 ||
-                topLeftTile == 6 || topRightTile == 6 || bottomLeftTile == 6 || bottomRightTile == 6)) {
+                topLeftTile == 6 || topRightTile == 6 || bottomLeftTile == 6 || bottomRightTile == 6 ||
+                topLeftTile == 9 || topRightTile == 9 || bottomLeftTile == 9 || bottomRightTile == 9)) {
   // Almacena la posición del enemigo en el layout antes de cambiar de escena
   if (topLeftTile == 6 || topLeftTile == 6) {
 	  enemy = 2;
@@ -331,6 +345,24 @@ public class MovimientoController {
       layout[futureRowBottom][futureColLeft] = 1;
       cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColLeft, enemy);
   } else if (bottomRightTile == 5 || bottomRightTile == 5) {
+      layout[futureRowBottom][futureColRight] = 1;
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColRight, enemy);
+  }
+  
+  if (topLeftTile == 9 || topLeftTile == 9) {
+	  enemy = 3;
+      layout[futureRowTop][futureColLeft] = 1;
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowTop, futureColLeft, enemy);
+  } else if (topRightTile == 9 || topRightTile == 9) {
+	  enemy = 3;
+      layout[futureRowTop][futureColRight] = 1;
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowTop, futureColRight, enemy);
+  } else if (bottomLeftTile == 9 || bottomLeftTile == 9) {
+	  enemy = 3;
+      layout[futureRowBottom][futureColLeft] = 1;
+      cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColLeft, enemy);
+  } else if (bottomRightTile == 9 || bottomRightTile == 9) {
+	  enemy = 3;
       layout[futureRowBottom][futureColRight] = 1;
       cambiarEscena("introPelea.fxml", "Pelea.fxml", futureRowBottom, futureColRight, enemy);
   }
