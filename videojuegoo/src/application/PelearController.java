@@ -22,7 +22,7 @@ import javafx.util.Duration;
 public class PelearController {
 
     @FXML
-    private ProgressBar vidaProta, vidaEnemigo;
+    private ProgressBar vidaProta, vidaEnemigo, Habilidad;
     @FXML
     private Label nivelAtaque, VidaCantidad, AtaqueEnemigo, VidaEnemigo;
     @FXML
@@ -54,6 +54,7 @@ public class PelearController {
     private int enemigoRow;
     private int enemigoCol;
     public int enemy;
+    public int habilidad =0;
     // Método para recibir los personajes y configurar los datos iniciales
     public void setPersonajes(Personaje prota, Personaje enemigo, int[][] layout, int enemigoRow, int enemigoCol, int enemy, int curaciones) {
         this.prota = prota;
@@ -76,6 +77,7 @@ public class PelearController {
         this.protaExpLimite = prota.experienciaLimite;
         vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
         vidaEnemigo.setProgress((double) enemigoVida / enemigo.vidaMaxima);
+        Habilidad.setProgress((double) habilidad / 2);
         actualizarLabels();
         
     }
@@ -142,6 +144,8 @@ public class PelearController {
 
     // Acción de ataque del jugador
     private void realizarAtaque() {
+         habilidad++;
+         Habilidad.setProgress((double) habilidad / 2);
         if (playerTurn) {
             // Animar el efecto desde el jugador hacia el enemigo
             mostrarEfecto(true);
@@ -158,12 +162,11 @@ public class PelearController {
     private void recuperarVida() {
         if (playerTurn) {
         	 if (curaciones > 0) {
-            prota.curarse(20);  // Curar al personaje
+            prota.curarse(30);  // Curar al personaje
             protaVida = prota.salud;  // Actualizar la salud actual del jugador
             vidaProta.setProgress((double) protaVida / protavidamax);
             curaciones--;
             actualizarLabels();
-            switchTurn();
         }
         	 else if(curaciones <= 0) {
         		  vida.setDisable(true); // Deshabilitar el botón
@@ -173,16 +176,19 @@ public class PelearController {
     }
     // Acción de habilidad especial del jugador
     private void usarHabilidadEspecial() {
-        if (playerTurn) {// Usar ataque especial
+        if (playerTurn) {
+        	if(habilidad == 2){ // Usar ataque especial
         	 mostrarEfecto(true);
             enemigoVida -= protaAtaque * 2; // Actualizar la salud actual del enemigo
             vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
             actualizarLabels();
             checkEnemyLife();
             switchTurn();
+            habilidad = 0;
+            Habilidad.setProgress((double) habilidad / 2);
         }
     }
-
+    }
     // Cambiar de turno y realizar la acción del enemigo
     private void switchTurn() {
         playerTurn = false;
