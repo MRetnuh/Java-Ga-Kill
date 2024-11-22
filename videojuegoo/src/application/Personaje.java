@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Personaje {
+	private MenuController menu;
 	  public int salud;
 	    public int daño;
 	    public int nivel;
@@ -17,6 +18,8 @@ public class Personaje {
 	    public int vidaMaxima;
 	    public double posX;
 	    public double posY;
+	    public int akame = 1;
+	    public int leone = 0;
 	    public Personaje(int salud, int daño, int nivel, int experienciaActual, int experienciaLimite, int vidaMaxima, double posX, double posY) {
 	        this.salud = salud;
 	        this.daño = daño;
@@ -55,8 +58,12 @@ public class Personaje {
     private String direction = "frente";
     private long lastFrameTime = 0;
 
-    public Personaje() { // Constructor
+    public Personaje() {
+    	menu = new MenuController();
+    	akame = menu.akame;
+    	leone = menu.leone;
         try {
+        	if(akame == 1) {
             // Cargar imágenes de movimiento
             imagen1 = cargarImagen(new File("src/Personajes/akame_derecha_moviendose_1.png"));
             imagen2 = cargarImagen(new File("src/Personajes/akame_derecha_moviendose_2.png"));
@@ -82,7 +89,35 @@ public class Personaje {
             frameEspaldaIdle = new Image(new File("src/Personajes/akame_de_espaldas_(detenida).png").toURI().toString());
 
             // Crear el ImageView con la imagen inicial
-            imageView = new ImageView(frameFrenteIdle); // Empezar quieto mirando al frente
+            imageView = new ImageView(frameFrenteIdle);
+        	}
+        	if (leone == 1){
+        		   imagen1 = cargarImagen(new File("src/Personajes2/leone_derecha_moviendose1.png"));
+                   imagen2 = cargarImagen(new File("src/Personajes2/leone_derecha_moviendose2.png"));
+                   imagen3 = cargarImagen(new File("src/Personajes2/leone_derecha_moviendose3.png"));
+                   imagen4 = cargarImagen(new File("src/Personajes2/leone_derecha_moviendose4.png"));
+                   imagen5 = cargarImagen(new File("src/Personajes2/leone_izquierda_moviendose1.png"));
+                   imagen6 = cargarImagen(new File("src/Personajes2/leone_izquierda_moviendose2.png"));
+                   imagen7 = cargarImagen(new File("src/Personajes2/leone_izquierda_moviendose3.png"));
+                   imagen8 = cargarImagen(new File("src/Personajes2/leone_izquierda_moviendose4.png"));
+                   imagen9 = cargarImagen(new File("src/Personajes2/leone_de_frente_moviendose1.png"));
+                   imagen10 = cargarImagen(new File("src/Personajes2/leone_de_frente_moviendose2.png"));
+                   imagen11 = cargarImagen(new File("src/Personajes2/leone_de_frente_moviendose3.png"));
+                   imagen12 = cargarImagen(new File("src/Personajes2/leone_de_frente_moviendose4.png"));
+                   imagen13 = cargarImagen(new File("src/Personajes2/leone_de_espalda_moviendose1.png"));
+                   imagen14 = cargarImagen(new File("src/Personajes2/leone_de_espalda_moviendose2.png"));
+                   imagen15 = cargarImagen(new File("src/Personajes2/leone_de_espalda_moviendose3.png"));
+                   imagen16 = cargarImagen(new File("src/Personajes2/leone_de_espalda_moviendose4.png"));
+
+                   // Inicializar imágenes idle
+                   frameDerechaIdle = new Image(new File("src/Personajes2/leone_derecha(detenida).png").toURI().toString());
+                   frameIzquierdaIdle = new Image(new File("src/Personajes2/leone_izquierda(detenida).png").toURI().toString());
+                   frameFrenteIdle = new Image(new File("src/Personajes2/leone_de_frente(detenida).png").toURI().toString());
+                   frameEspaldaIdle = new Image(new File("src/Personajes2/leone_de_espalda(detenida).png").toURI().toString());
+
+                   // Crear el ImageView con la imagen inicial
+                   imageView = new ImageView(frameFrenteIdle); 
+        	}
         } catch (IOException e) {
             System.err.println("Error al cargar las imágenes: " + e.getMessage());
             e.printStackTrace();
@@ -113,6 +148,7 @@ public class Personaje {
         long now = System.currentTimeMillis();
         if (moving && now - lastFrameTime >= 150) { // Cambiar frame cada 150 ms
             currentFrame = (currentFrame + 1) % 4; // 4 frames por dirección
+           if(akame == 1) {
             switch (direction) {
                 case "derecha" -> imageView.setImage(new Image(new File("src/Personajes/akame_derecha_moviendose_" + (currentFrame + 1) + ".png").toURI().toString()));
                 case "izquierda" -> imageView.setImage(new Image(new File("src/Personajes/akame_izquierda_moviendose_" + (currentFrame + 1) + ".png").toURI().toString()));
@@ -120,7 +156,17 @@ public class Personaje {
                 case "espalda" -> imageView.setImage(new Image(new File("src/Personajes/akame_de_espalda_moviendose_" + (currentFrame + 1) + ".png").toURI().toString()));
             }
             lastFrameTime = now;
-        } else if (!moving) {
+           }
+           if(leone == 1) {
+        	   switch (direction) {
+               case "derecha" -> imageView.setImage(new Image(new File("src/Personajes2/leone_derecha_moviendose" + (currentFrame + 1) + ".png").toURI().toString()));
+               case "izquierda" -> imageView.setImage(new Image(new File("src/Personajes2/leone_izquierda_moviendose" + (currentFrame + 1) + ".png").toURI().toString()));
+               case "frente" -> imageView.setImage(new Image(new File("src/Personajes2/leone_de_frente_moviendose" + (currentFrame + 1) + ".png").toURI().toString()));
+               case "espalda" -> imageView.setImage(new Image(new File("src/Personajes2/leone_de_espalda_moviendose" + (currentFrame + 1) + ".png").toURI().toString()));
+           }
+           lastFrameTime = now;
+           }
+        }  else if (!moving) {
             // Mostrar la imagen idle según la dirección
             switch (direction) {
                 case "derecha" -> imageView.setImage(frameDerechaIdle);

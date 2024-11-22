@@ -28,9 +28,9 @@
             <Font name="Berlin Sans FB Demi Bold" size="16.0" />
          </font>
       </Button>
-      <ImageView fitHeight="107.0" fitWidth="91.0" layoutX="23.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="111.0" fitWidth="60.0" layoutX="23.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Edu/LATZINA/leone_delante_quieta.png" />
+            <Image url="@../../../../Desktop/Edu/LATZINA/leone_de_frente(detenida).png" />
          </image>
       </ImageView>
       <ImageView fitHeight="119.0" fitWidth="66.0" layoutX="20.0" layoutY="282.0" pickOnBounds="true" preserveRatio="true">

@@ -8,11 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class MenuController {
+	  private Personaje personaje1;
 	  @FXML
 	 private Personaje prota;
 	  @FXML
@@ -26,6 +28,7 @@ public class MenuController {
 	  @FXML
 	    private int protavidamax;
 	  @FXML
+	    private Button seleccionar1, seleccionar2;
 	    private int protanivel;
 	  @FXML
 	    private double posX;
@@ -34,6 +37,8 @@ public class MenuController {
      private Scene scene;
      private Parent root;
      private int[][] layout;
+     public int akame = 1;
+     public int leone = 0;
      @FXML
      private Label ataque, vida, experiencia, nivel;
      @FXML
@@ -79,4 +84,12 @@ public class MenuController {
 		   experiencia.setText("Experiencia: " + protaExperiencia + "/" + protaExpLimite);
 		   nivel.setText("Nivel: " + protanivel);
 	   }
+	   public void CambiarPersonajeLeone(ActionEvent event) throws IOException {
+	    	akame = 0;  
+		     leone = 1;
+		   personaje1 = new Personaje();
+	    	  personaje1.akame = 0;
+	    	  personaje1.leone = 1;
+	    	   
+}
 }
