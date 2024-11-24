@@ -95,7 +95,7 @@ public class MenuController {
            movimientoController.layout = this.layout;
            movimientoController.akame = 1;
            movimientoController.leone = 0;
-           movimientoController.Akame.vidaMaxima = prota.vidaMaxima;
+           movimientoController.Akame.vidaMaxima = prota.vidaMaxima; //asigna los atributos del personaje
            movimientoController.Akame.salud = prota.salud;
            movimientoController.Akame.daño = prota.daño;
            movimientoController.Akame.experienciaActual = prota.experienciaActual;
