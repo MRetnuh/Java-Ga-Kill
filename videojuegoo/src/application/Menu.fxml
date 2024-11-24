@@ -12,29 +12,36 @@
        <!-- Botón de seleccionar, su acción se maneja mediante el controlador (onAction="#volveralmapa") -->
       <Button fx:id="seleccionar2" layoutX="258.0" layoutY="484.0" mnemonicParsing="false" onAction="#volveralmapa" prefHeight="44.0" prefWidth="160.0" text="Seleccionar">
          <font>
+             <!-- Se establece la fuente del texto del botón -->
             <Font name="Berlin Sans FB Demi Bold" size="23.0" />
          </font>
       </Button>
+       <!-- Imagen de un personaje (Akame), ubicada en las coordenadas 31 y 47 -->
       <ImageView fitHeight="228.0" fitWidth="136.0" layoutX="31.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../Desktop/Edu/LATZINA/akame_de_frente_(detenida).png" />
          </image>
       </ImageView>
+      <!-- Etiqueta para mostrar la información sobre el ataque -->
       <Label fx:id="ataque" layoutX="14.0" layoutY="345.0" text="Ataque: ">
          <font>
+             <!-- Sirve para el texto -->
             <Font name="Berlin Sans FB Demi Bold" size="27.0" />
          </font>
       </Label>
+        <!-- Etiqueta para mostrar la información sobre la vida -->
       <Label fx:id="vida" layoutX="14.0" layoutY="298.0" text="Vida: ">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="27.0" />
          </font>
       </Label>
+       <!-- Etiqueta para mostrar la experiencia -->
       <Label fx:id="experiencia" layoutX="12.0" layoutY="390.0" text="Experiencia:">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="27.0" />
          </font>
       </Label>
+       <!-- Etiqueta para mostrar el nivel -->
       <Label fx:id="nivel" layoutX="12.0" layoutY="436.0" text="Nivel">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="27.0" />
