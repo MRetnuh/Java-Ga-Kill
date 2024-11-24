@@ -277,10 +277,10 @@ public class PelearController {
     public void finDeLaPelea() {
         try {
             mediaPlayer.stop();
-            if(enemigoVidamax == 180) {
-            	 layout[enemigoRow][enemigoCol] = 2;
-            }
             layout[enemigoRow][enemigoCol] = 1;
+            if(enemigoVidamax == 180) {
+           	 layout[enemigoRow][enemigoCol] = 2;
+           }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("primeraisla.fxml"));
             Parent root = loader.load();
             MovimientoController movimientoController = loader.getController();

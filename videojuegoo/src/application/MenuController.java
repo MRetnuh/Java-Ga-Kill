@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +15,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class MenuController {
-	  private Personaje personaje1;
 	  @FXML
 	 private Personaje prota;
 	  @FXML
@@ -28,7 +28,7 @@ public class MenuController {
 	  @FXML
 	    private int protavidamax;
 	  @FXML
-	    private Button seleccionar1, seleccionar2;
+	    public Button seleccionar1, seleccionar2;
 	    private int protanivel;
 	  @FXML
 	    private double posX;
@@ -48,6 +48,8 @@ public class MenuController {
            Parent root = loader.load();
            MovimientoController movimientoController = loader.getController();
            movimientoController.layout = this.layout;
+           movimientoController.akame = 0;
+           movimientoController.leone = 1;
            movimientoController.Akame.vidaMaxima = prota.vidaMaxima;
            movimientoController.Akame.salud = prota.salud;
            movimientoController.Akame.daño = prota.daño;
@@ -75,6 +77,8 @@ public class MenuController {
 		   this.protanivel = prota.nivel;
 		   this.posX = prota.posX;
 	        this.posY = prota.posY;
+	        this.akame = prota.akame;
+	        this.leone = prota.leone;
 	        actualizarLabels();
 	        
 	   }
@@ -84,12 +88,27 @@ public class MenuController {
 		   experiencia.setText("Experiencia: " + protaExperiencia + "/" + protaExpLimite);
 		   nivel.setText("Nivel: " + protanivel);
 	   }
-	   public void CambiarPersonajeLeone(ActionEvent event) throws IOException {
-	    	akame = 0;  
-		     leone = 1;
-		   personaje1 = new Personaje();
-	    	  personaje1.akame = 0;
-	    	  personaje1.leone = 1;
-	    	   
-}
+	   public void volveralmapa1(ActionEvent event) throws IOException {
+		   FXMLLoader loader = new FXMLLoader(getClass().getResource("primeraisla.fxml"));
+           Parent root = loader.load();
+           MovimientoController movimientoController = loader.getController();
+           movimientoController.layout = this.layout;
+           movimientoController.akame = 1;
+           movimientoController.leone = 0;
+           movimientoController.Akame.vidaMaxima = prota.vidaMaxima;
+           movimientoController.Akame.salud = prota.salud;
+           movimientoController.Akame.daño = prota.daño;
+           movimientoController.Akame.experienciaActual = prota.experienciaActual;
+           movimientoController.Akame.experienciaLimite = prota.experienciaLimite;
+           movimientoController.Akame.nivel = prota.nivel;
+           movimientoController.Akame.posX = prota.posX;
+           movimientoController.Akame.posY = prota.posY;
+           movimientoController.initialize();
+	    	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    	  scene = new Scene(root);
+	    	  root.requestFocus();
+	    	  stage.setScene(scene);
+	    	 stage.show();
+	    	 
+	     }
 }

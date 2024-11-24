@@ -1,7 +1,14 @@
 package application;
 
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -9,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Personaje {
+	private AnchorPane fondo;
 	private MenuController menu;
 	  public int salud;
 	    public int daño;
@@ -58,10 +66,7 @@ public class Personaje {
     private String direction = "frente";
     private long lastFrameTime = 0;
 
-    public Personaje() {
-    	menu = new MenuController();
-    	akame = menu.akame;
-    	leone = menu.leone;
+    public Personaje(int akame, int leone) {
         try {
         	if(akame == 1) {
             // Cargar imágenes de movimiento
@@ -144,7 +149,7 @@ public class Personaje {
         moving = false;
     }
 
-    public void update() {
+    public void update(int akame, int leone) {
         long now = System.currentTimeMillis();
         if (moving && now - lastFrameTime >= 150) { // Cambiar frame cada 150 ms
             currentFrame = (currentFrame + 1) % 4; // 4 frames por dirección
@@ -176,5 +181,5 @@ public class Personaje {
             }
         }
     }
-    
+   
 }

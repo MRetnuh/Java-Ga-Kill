@@ -9,9 +9,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="655.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MenuController">
    <children>
-      <Button fx:id="volver" layoutX="510.0" mnemonicParsing="false" onAction="#volveralmapa" text="Volver al campo">
+      <Button fx:id="seleccionar2" layoutX="258.0" layoutY="484.0" mnemonicParsing="false" onAction="#volveralmapa" prefHeight="44.0" prefWidth="160.0" text="Seleccionar">
          <font>
-            <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+            <Font name="Berlin Sans FB Demi Bold" size="23.0" />
          </font>
       </Button>
       <ImageView fitHeight="228.0" fitWidth="136.0" layoutX="31.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
@@ -39,7 +39,7 @@
             <Font name="Berlin Sans FB Demi Bold" size="27.0" />
          </font>
       </Label>
-      <Button fx:id="seleccionar1" layoutX="15.0" layoutY="484.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="160.0" text="Seleccionado">
+      <Button fx:id="seleccionar1" layoutX="15.0" layoutY="484.0" mnemonicParsing="false" onAction="#volveralmapa1" prefHeight="44.0" prefWidth="160.0" text="Seleccionado">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="23.0" />
          </font>
@@ -49,10 +49,5 @@
             <Image url="@../../../../Desktop/Edu/LATZINA/leone_de_frente(detenida).png" />
          </image>
       </ImageView>
-      <Button fx:id="seleccionar2" layoutX="253.0" layoutY="484.0" mnemonicParsing="false" onAction="#CambiarPersonajeLeone" prefHeight="44.0" prefWidth="160.0" text="Seleccionar">
-         <font>
-            <Font name="Berlin Sans FB Demi Bold" size="23.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>
