@@ -9,6 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="655.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MenuController">
    <children>
+       <!-- Botón de seleccionar, su acción se maneja mediante el controlador (onAction="#volveralmapa") -->
       <Button fx:id="seleccionar2" layoutX="258.0" layoutY="484.0" mnemonicParsing="false" onAction="#volveralmapa" prefHeight="44.0" prefWidth="160.0" text="Seleccionar">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="23.0" />
