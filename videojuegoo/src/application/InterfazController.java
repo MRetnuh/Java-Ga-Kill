@@ -17,28 +17,28 @@ import javafx.stage.Stage;
 import java.net.URL;
 
 public class InterfazController {
-     private Stage stage;  
-     private Scene scene;
-     private Parent root;
-     private static MediaPlayer mediaPlayer;
+     private Stage stage;  //manejar la ventana de la aplicacion
+     private Scene scene;  //manejar las escenas
+     private Parent root;  //el contenedor raíz de la escena
+     private static MediaPlayer mediaPlayer; //reproduce la música
  @FXML
     
      public void initialize() {
          if (mediaPlayer == null) {
-             String rutaNivel1Audio = getClass().getResource("/Resources/menu.mp3").toExternalForm();
+             String rutaNivel1Audio = getClass().getResource("/Resources/menu.mp3").toExternalForm(); //carga el archivo de audio desde el recurso del proyecto
              Media nivel1Media = new Media(rutaNivel1Audio);
              mediaPlayer = new MediaPlayer(nivel1Media);
-             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); //configura la musica para que se repita de forma indefinida
              mediaPlayer.play();
          }
      }
-
+     //metodo para cambiar a la pantalla de controles
      public void CambiarAcontroles(ActionEvent event) throws IOException {
     	  Parent root = FXMLLoader.load(getClass().getResource("Controles.fxml"));
-    	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    	  scene = new Scene(root);
+    	  stage = (Stage)((Node)event.getSource()).getScene().getWindow(); //tiene el escenario actual desde el evento
+    	  scene = new Scene(root); //crea una nueva escena y la asigna al escenario
     	  stage.setScene(scene);
-    	 stage.show();
+    	 stage.show(); //la nueva escena
      }
      
      public void CambiarAMenu(ActionEvent event) throws IOException {
@@ -59,10 +59,10 @@ public class InterfazController {
    	  stage.setScene(scene);
    	 stage.show();
     }
-     public void CambiarAPersonajes(ActionEvent event) throws IOException {
+     public void CambiarAPersonajes(ActionEvent event) throws IOException { //metodo para cambiar a la pantalla de personajes
    	  Parent root = FXMLLoader.load(getClass().getResource("characters.fxml"));
-   	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-   	  scene = new Scene(root);
+   	  stage = (Stage)((Node)event.getSource()).getScene().getWindow(); //tener el escenario actual desde el evento
+   	  scene = new Scene(root); //una nueva escena y la asigna al escenario
    	  stage.setScene(scene);
    	 stage.show();
     }
