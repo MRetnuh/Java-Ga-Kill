@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InterfazController">
+   <children>
+      <ImageView fitHeight="275.0" fitWidth="387.0" layoutX="163.0" layoutY="-96.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Edu/LATZINA/Picsart_24-10-29_17-15-19-315.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="90.0" fitWidth="50.0" layoutX="28.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Edu/LATZINA/akame_de_frente_(detenida).png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="312.0" fitWidth="312.0" layoutX="282.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/Picsart_24-10-29_17-26-29-234.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="459.0" mnemonicParsing="false" onAction="#CambiarAMenu" prefHeight="34.0" prefWidth="141.0" text="Volver al menu">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="16.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="111.0" fitWidth="60.0" layoutX="23.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Edu/LATZINA/leone_de_frente(detenida).png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="119.0" fitWidth="66.0" layoutX="20.0" layoutY="282.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Edu/LATZINA/java_frente_quieto.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="297.0" fitWidth="304.0" layoutX="290.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/Picsart_24-11-15_21-49-26-688.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="297.0" fitWidth="297.0" layoutX="290.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/Picsart_24-11-15_21-45-26-913.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
