@@ -15,7 +15,7 @@
             <Font name="Berlin Sans FB Demi Bold" size="16.0" />
          </font>
       </Button>
-      <ImageView fitHeight="273.0" fitWidth="280.0" layoutX="166.0" layoutY="-95.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="273.0" fitWidth="280.0" layoutX="166.0" layoutY="-95.0" pickOnBounds="true" preserveRatio="true"> //muestra una imagen con dimensiones ajustadas de altura: 273 y ancho: 280
          <image>
             <Image url="@../../../../Downloads/Picsart_24-10-29_18-29-10-471.png" />
          </image>
@@ -45,7 +45,7 @@
             <Font name="Berlin Sans FB Demi Bold" size="42.0" />
          </font>
       </Label>
-      <Label layoutX="301.0" layoutY="71.0" prefHeight="29.0" prefWidth="289.0" style="-fx-background-color: white;" text="W: moverse hacia arriba">
+      <Label layoutX="301.0" layoutY="71.0" prefHeight="29.0" prefWidth="289.0" style="-fx-background-color: white;" text="W: moverse hacia arriba"> //enseña las instrucciones asociadas con cada tecla W,A,S,D y P
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="21.0" />
          </font>
