@@ -18,8 +18,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 public class MovimientoController { 
 	  Personaje Akame = new Personaje(110, 30, 1, 1, 20, 110,400, 400);
-	    Personaje Leone = new Personaje(150, 15, 1, 1, 20, 140,150, 150);
-	    Personaje Java = new Personaje(120, 20, 1, 1, 20, 110,150, 150);
+	    Personaje Leone = new Personaje(150, 15, 1, 1, 20, 150,150, 150);
+	    Personaje Java = new Personaje(120, 20, 1, 1, 20, 120,150, 150);
 	    Personaje Enemigo1 = new Personaje(95, 20, 1, 1, 20, 90,150, 150);
 	    Personaje Enemigo2 = new Personaje(180, 30, 1, 1, 20, 180,150, 150);
 	    Personaje Esdeath = new Personaje(400, 70, 1, 1, 20, 400,150, 150);
@@ -29,6 +29,7 @@ public class MovimientoController {
     public int curaciones=0;
     public int akame = 1;
     public int leone = 0;
+    public int java = 0;
     private final int TILE_SIZE = 60; // Tamaño de cada tile (imagen) en píxeles
     private Personaje personaje1;
     private boolean moveUp, moveDown, moveLeft, moveRight;
@@ -129,7 +130,7 @@ public class MovimientoController {
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
     	 }
-        personaje1 = new Personaje(akame, leone);
+        personaje1 = new Personaje(akame, leone, java);
         personaje1.getImageView().setX(Akame.posX);
         personaje1.getImageView().setY(Akame.posY);
         cargarMapa();
@@ -148,7 +149,7 @@ public class MovimientoController {
 
                 updatePosition(elapsedTime);
                 updateCamera();
-                personaje1.update(akame, leone);
+                personaje1.update(akame, leone, java);
 
                 if (fpsLastTime == 0) {
                     fpsLastTime = now;
@@ -241,13 +242,22 @@ public class MovimientoController {
               if(leone == 1) {
             	 MenuController.seleccionar2.setText("Seleccionado");
             	 MenuController.seleccionar1.setText("Seleccionar");
+            	 MenuController.seleccionar3.setText("Seleccionar");
               }
               if(akame == 1) {
              	 MenuController.seleccionar1.setText("Seleccionado");
              	 MenuController.seleccionar2.setText("Seleccionar");
+             	 MenuController.seleccionar3.setText("Seleccionar");
                }
+              if(java == 1) {
+            	  MenuController.seleccionar1.setText("Seleccionar");
+              	 MenuController.seleccionar2.setText("Seleccionar");
+              	 MenuController.seleccionar3.setText("Seleccionado"); 
+              }
               Personaje prota = Akame;  
-              MenuController.setStats(prota, layout);
+              Personaje prota2 = Leone;
+              Personaje prota3 = Java;
+              MenuController.setStats(prota, layout, prota2, prota3);
               stage.setScene(new Scene(root2));
               stage.show();
               
