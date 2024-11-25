@@ -221,13 +221,13 @@ public class PelearController {
             curaciones--;
             actualizarLabels();
         }
-        		 if(personajesimg == 2 && prota2.salud < prota2.vidaMaxima) {
+        		 else if(personajesimg == 2 && prota2.salud < prota2.vidaMaxima) {
         	            prota2.curarse(30);  // Actualizar la salud actual del jugador
         	            vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
         	            curaciones--;
         	            actualizarLabels();
         	        }
-        		 if(personajesimg == 3 && prota3.salud < prota3.vidaMaxima) {
+        		 else if(personajesimg == 3 && prota3.salud < prota3.vidaMaxima) {
         	            prota3.curarse(30); // Actualizar la salud actual del jugador
         	            vidaProta.setProgress((double) prota3.salud / prota3.vidaMaxima);
         	            curaciones--;
@@ -375,6 +375,7 @@ public class PelearController {
         		
         	}
             else {
+            	if(personajesimg == 1) {
             prota.experienciaActual += 5;
             if(prota.experienciaActual >= prota.experienciaLimite) {
             	prota.nivel++;
@@ -385,6 +386,31 @@ public class PelearController {
             	prota.experienciaLimite += 10;
             	
             }
+            	}
+            	if(personajesimg == 2) {
+                    prota2.experienciaActual += 5;
+                    if(prota2.experienciaActual >= prota2.experienciaLimite) {
+                    	prota2.nivel++;
+                    	prota2.daño += 10;
+                    	prota2.salud = prota2.vidaMaxima + 20;
+                    	prota2.vidaMaxima = prota2.salud;
+                    	prota2.experienciaActual = 0;
+                    	prota2.experienciaLimite += 10;
+                    	
+                    }
+                    	}
+            	if(personajesimg == 3) {
+                    prota3.experienciaActual += 5;
+                    if(prota3.experienciaActual >= prota3.experienciaLimite) {
+                    	prota3.nivel++;
+                    	prota3.daño += 10;
+                    	prota3.salud = prota3.vidaMaxima + 20;
+                    	prota3.vidaMaxima = prota3.salud;
+                    	prota3.experienciaActual = 0;
+                    	prota3.experienciaLimite += 10;
+                    	
+                    }
+                    	}
             vidaEnemigo.setProgress(0);
             actualizarLabels();
             finDeLaPelea();
@@ -469,15 +495,15 @@ public class PelearController {
             movimientoController.Akame.experienciaLimite = prota.experienciaLimite;
             movimientoController.Leone.salud = prota2.salud;
             movimientoController.Leone.vidaMaxima = prota2.vidaMaxima;
-            movimientoController.Leone.experienciaActual = prota.experienciaActual;
+            movimientoController.Leone.experienciaActual = prota2.experienciaActual;
             movimientoController.Leone.daño = prota2.daño;
-            movimientoController.Leone.experienciaLimite = prota.experienciaLimite;
+            movimientoController.Leone.experienciaLimite = prota2.experienciaLimite;
             movimientoController.Leone.nivel = prota2.nivel;
             movimientoController.Java.salud = prota3.salud;
             movimientoController.Java.vidaMaxima = prota3.vidaMaxima;
-            movimientoController.Java.experienciaActual = prota.experienciaActual;
+            movimientoController.Java.experienciaActual = prota3.experienciaActual;
             movimientoController.Java.daño = prota3.daño;
-            movimientoController.Java.experienciaLimite = prota.experienciaLimite;
+            movimientoController.Java.experienciaLimite = prota3.experienciaLimite;
             movimientoController.Java.nivel = prota3.nivel;
             movimientoController.initialize();
             stage = (Stage) personaje.getScene().getWindow();
