@@ -58,6 +58,7 @@ public class PelearController {
     private int protaAtaque;
     private int protanivel;
     private int enemigoAtaque;
+    private int enemyattack;
     private int protaExperiencia;
 	private int protaExpLimite;
 	private int curaciones;
@@ -68,6 +69,8 @@ public class PelearController {
     private int enemigoCol;
     public int enemy;
     public int habilidad =0;
+    public int habilidad1 = 0;
+    public int habilidad2 = 0;
     // Método para recibir los personajes y configurar los datos iniciales
     public void setPersonajes(Personaje prota, Personaje enemigo, int[][] layout, int enemigoRow, int enemigoCol, int enemy, int curaciones, Personaje prota2, Personaje prota3) {
         this.prota = prota;
@@ -94,7 +97,7 @@ public class PelearController {
         vidaEnemigo.setProgress((double) enemigoVida / enemigo.vidaMaxima);
         Habilidad.setProgress((double) habilidad / 2);
         actualizarLabels();
-        
+        enemyattack = enemigoAtaque;
     }
     @FXML
     public void initialize() {
@@ -174,34 +177,67 @@ public class PelearController {
 
     // Acción de ataque del jugador
     private void realizarAtaque() throws IOException {
-         habilidad++;
-         Habilidad.setProgress((double) habilidad / 2);
         if (playerTurn) {
             // Animar el efecto desde el jugador hacia el enemigo
             mostrarEfecto(true);
-
+            if(personajesimg == 1) {
+            	 habilidad++;
+            	   Habilidad.setProgress((double) habilidad / 2);
             enemigoVida -= protaAtaque;
             vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
             actualizarLabels();
             checkEnemyLife();
             switchTurn();
+            }
+            if(personajesimg == 2) {
+            	habilidad1++;
+            	   Habilidad.setProgress((double) habilidad1 / 2);
+                enemigoVida -= prota2.daño;
+                vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
+                actualizarLabels();
+                checkEnemyLife();
+                switchTurn();
+                }
+            if(personajesimg == 3) {
+            	habilidad2++;
+            	   Habilidad.setProgress((double) habilidad2 / 2);
+                enemigoVida -= prota3.daño;
+                vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
+                actualizarLabels();
+                checkEnemyLife();
+                switchTurn();
+                }
         }
     }
 
     // Acción de recuperación de vida del jugador
     private void recuperarVida() {
         if (playerTurn) {
-        	 if (curaciones > 0 && protaVida < protavidamax) {
+        	 if (curaciones > 0) {
+        		 if(personajesimg == 1 && protaVida < protavidamax) {
             prota.curarse(30);  // Curar al personaje
             protaVida = prota.salud;  // Actualizar la salud actual del jugador
             vidaProta.setProgress((double) protaVida / protavidamax);
             curaciones--;
             actualizarLabels();
         }
+        		 if(personajesimg == 2 && prota2.salud < prota2.vidaMaxima) {
+        	            prota2.curarse(30);  // Actualizar la salud actual del jugador
+        	            vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
+        	            curaciones--;
+        	            actualizarLabels();
+        	        }
+        		 if(personajesimg == 3 && prota3.salud < prota3.vidaMaxima) {
+        	            prota3.curarse(30); // Actualizar la salud actual del jugador
+        	            vidaProta.setProgress((double) prota3.salud / prota3.vidaMaxima);
+        	            curaciones--;
+        	            actualizarLabels();
+        	        }
         	 else if(curaciones <= 0) {
         		  vida.setDisable(true); // Deshabilitar el botón
         	        vida.setStyle("-fx-background-color: #ff0000;"); 
         	 }
+    }
     }
     }
     // Acción de habilidad especial del jugador
@@ -216,8 +252,28 @@ public class PelearController {
             switchTurn();
             habilidad = 0;
             Habilidad.setProgress((double) habilidad / 2);
+            
         }
+        	if(habilidad1 >= 2){ // Usar ataque especial
+           	 mostrarEfecto(true);
+               prota2.salud = prota2.vidaMaxima;
+               actualizarLabels();
+               switchTurn();
+               habilidad1 = 0;
+               Habilidad.setProgress((double) habilidad1 / 2);
+               
     }
+        	if(habilidad2 >= 2){ // Usar ataque especial
+           	 mostrarEfecto(true);
+           	 enemyattack = enemigoAtaque - 10;
+           	 enemigoAtaque = enemyattack;
+               actualizarLabels();
+               checkEnemyLife();
+               switchTurn();
+               habilidad2 = 0;
+               Habilidad.setProgress((double) habilidad2 / 2);
+    }
+        }
     }
     private void CambiarPersonaje() {
         // Incrementar el contador y reiniciarlo si supera el número de imágenes disponibles
@@ -232,12 +288,24 @@ public class PelearController {
         switch (personajesimg) {
             case 1:
                 rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/akame_derecha_(detenida).png";
+                actualizarLabels();
+                vidaProta.setProgress((double) protaVida / protavidamax);
+                Habilidad.setStyle("-fx-accent: red;"); 
+                Habilidad.setProgress((double) habilidad / 2);
                 break;
             case 2:
                 rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/leone_derecha(detenida).png";
+                actualizarLabels();
+                vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
+                Habilidad.setStyle("-fx-accent: yellow;"); 
+                Habilidad.setProgress((double) habilidad1 / 2);
                 break;
             case 3:
                 rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/java_derecha(detenido).png";
+                actualizarLabels();
+                vidaProta.setProgress((double) prota3.salud / prota3.vidaMaxima);
+                Habilidad.setStyle("-fx-accent: blue;"); 
+                Habilidad.setProgress((double) habilidad2 / 2);
                 break;
         }
 
@@ -272,11 +340,25 @@ public class PelearController {
                 case 2 -> enemigoAtaque - 5;
                 default -> enemigoAtaque;
             };
+            if(personajesimg == 1) {
             prota.recibirdaño(damage);
             protaVida = prota.salud;
             vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
             actualizarLabels();
             checkPlayerLife();
+            }
+            if(personajesimg == 2) {
+                prota2.recibirdaño(damage);
+                vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
+                actualizarLabels();
+                checkPlayerLife();
+                }
+            if(personajesimg == 3) {
+                prota3.recibirdaño(damage);
+                vidaProta.setProgress((double) prota3.salud / prota3.vidaMaxima);
+                actualizarLabels();
+                checkPlayerLife();
+                }
         }
     }
 
@@ -336,10 +418,24 @@ public class PelearController {
 
     // Actualizar los valores de los labels con la información actual
     private void actualizarLabels() {
+    	if(personajesimg == 1) {
         VidaCantidad.setText("Vida: " + protaVida);
         nivelAtaque.setText("Ataque: " + protaAtaque);
         VidaEnemigo.setText("Vida: " + enemigoVida);
         AtaqueEnemigo.setText("Ataque: " + enemigoAtaque);
+    	}
+    	if(personajesimg == 2) {
+            VidaCantidad.setText("Vida: " + prota2.salud);
+            nivelAtaque.setText("Ataque: " + prota2.daño);
+            VidaEnemigo.setText("Vida: " + enemigoVida);
+            AtaqueEnemigo.setText("Ataque: " + enemigoAtaque);
+        	}
+    	if(personajesimg == 3) {
+            VidaCantidad.setText("Vida: " + prota3.salud);
+            nivelAtaque.setText("Ataque: " + prota3.daño);
+            VidaEnemigo.setText("Vida: " + enemigoVida);
+            AtaqueEnemigo.setText("Ataque: " + enemigoAtaque);
+        	}
     }
     
     public void findeljuego() throws IOException {
@@ -371,6 +467,18 @@ public class PelearController {
             movimientoController.Akame.daño = prota.daño;
             movimientoController.Akame.nivel = prota.nivel;
             movimientoController.Akame.experienciaLimite = prota.experienciaLimite;
+            movimientoController.Leone.salud = prota2.salud;
+            movimientoController.Leone.vidaMaxima = prota2.vidaMaxima;
+            movimientoController.Leone.experienciaActual = prota.experienciaActual;
+            movimientoController.Leone.daño = prota2.daño;
+            movimientoController.Leone.experienciaLimite = prota.experienciaLimite;
+            movimientoController.Leone.nivel = prota2.nivel;
+            movimientoController.Java.salud = prota3.salud;
+            movimientoController.Java.vidaMaxima = prota3.vidaMaxima;
+            movimientoController.Java.experienciaActual = prota.experienciaActual;
+            movimientoController.Java.daño = prota3.daño;
+            movimientoController.Java.experienciaLimite = prota.experienciaLimite;
+            movimientoController.Java.nivel = prota3.nivel;
             movimientoController.initialize();
             stage = (Stage) personaje.getScene().getWindow();
             scene = new Scene(root);
