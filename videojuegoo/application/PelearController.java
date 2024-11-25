@@ -39,7 +39,17 @@ public class PelearController {
     private Stage stage;
     private boolean playerTurn = true;
     private Personaje prota;
+    private Personaje prota2;
+	private Personaje prota3;
     private Personaje Enemigo;
+    public int personajesimg = 1;
+    public int akame = 1;
+    public int leone = 0;
+    public int java = 0;
+    public int akameMuerta = 0;
+    public int leoneMuerta = 0;
+    public int javaMuerto = 0;
+    public int muertos = 0;
     private Scene scene;
     private int protaVida;
     private int protavidamax;
@@ -59,7 +69,7 @@ public class PelearController {
     public int enemy;
     public int habilidad =0;
     // Método para recibir los personajes y configurar los datos iniciales
-    public void setPersonajes(Personaje prota, Personaje enemigo, int[][] layout, int enemigoRow, int enemigoCol, int enemy, int curaciones) {
+    public void setPersonajes(Personaje prota, Personaje enemigo, int[][] layout, int enemigoRow, int enemigoCol, int enemy, int curaciones, Personaje prota2, Personaje prota3) {
         this.prota = prota;
         this.Enemigo = enemigo;
         // Configura las barras de progreso de vida usando la salud actual y la vida máxima del personaje
@@ -78,6 +88,8 @@ public class PelearController {
         this.protavidamax = prota.vidaMaxima;
         this.protaExperiencia = prota.experienciaActual;
         this.protaExpLimite = prota.experienciaLimite;
+        this.prota2 = prota2;
+        this.prota3 = prota3;
         vidaProta.setProgress((double) protaVida / prota.vidaMaxima);
         vidaEnemigo.setProgress((double) enemigoVida / enemigo.vidaMaxima);
         Habilidad.setProgress((double) habilidad / 2);
@@ -114,6 +126,7 @@ public class PelearController {
 			}
 		});
         vida.setOnAction(e -> recuperarVida());
+        personajes.setOnAction(e -> CambiarPersonaje());
         especial.setOnAction(e -> {
 			try {
 				usarHabilidadEspecial();
@@ -205,6 +218,32 @@ public class PelearController {
             Habilidad.setProgress((double) habilidad / 2);
         }
     }
+    }
+    private void CambiarPersonaje() {
+    	if(personajesimg == 1) {
+    		 personajesimg++;
+    		/*akame = 0;
+       	   leone = 1;*/
+    		String rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/leone_derecha(detenida).png";
+      	   Image nuevaImagen = new Image(rutaAbsoluta);
+      	   personaje.setImage(nuevaImagen);
+    	}
+    	if(personajesimg == 2) {
+    		   personajesimg++;
+    		/*leone = 0;
+       	   java = 1;*/
+    		String rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/java_derecha(detenido).png";
+      	   Image nuevaImagen = new Image(rutaAbsoluta);
+      	   personaje.setImage(nuevaImagen);
+    	}
+    	if(personajesimg == 3) {
+    		   personajesimg++;
+    		/* akame = 1;
+        	   java = 0; */
+    		String rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/akame_derecha_(detenida).png";
+      	   Image nuevaImagen = new Image(rutaAbsoluta);
+      	   personaje.setImage(nuevaImagen);
+    	}
     }
     // Cambiar de turno y realizar la acción del enemigo
     private void switchTurn() {

@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 public class MovimientoController { 
-	  Personaje Akame = new Personaje(110, 200, 1, 1, 20, 110,400, 400);
+	  Personaje Akame = new Personaje(110, 30, 1, 1, 20, 110,400, 400);
 	    Personaje Leone = new Personaje(160, 15, 1, 1, 20, 160,150, 150);
 	    Personaje Java = new Personaje(120, 20, 1, 1, 20, 120,150, 150);
 	    Personaje Enemigo1 = new Personaje(95, 20, 1, 1, 20, 95,150, 150);
@@ -323,17 +323,19 @@ public class MovimientoController {
                             PelearController pelearController = loader.getController();
 
                             // Configurar el personaje y enemigo para la pelea
-                            Personaje prota = Akame; // Selección según el valor de 'enemy'
+                            Personaje prota = Akame; 
+                            Personaje prota2 = Leone;
+                            Personaje prota3 = Java;// Selección según el valor de 'enemy'
                             if(enemy == 2) {
                             	Personaje enemigo = Enemigo2;
                              	 String rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/enemy12.png";
                              	   Image nuevaImagen = new Image(rutaAbsoluta);
                              	    pelearController.enemigo.setImage(nuevaImagen);
-                             	   pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones);
+                             	   pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones, prota2, prota3);
                              	}
                             if (enemy == 1) {
                             	Personaje enemigo = Enemigo1;
-                            	  pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones);
+                            	  pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones, prota2, prota3);
                             }
                             if(enemy == 3) {
                             	Personaje enemigo = Esdeath;
@@ -342,7 +344,7 @@ public class MovimientoController {
                              	    pelearController.enemigo.setImage(nuevaImagen);
                              	    pelearController.enemigo.setLayoutX(480.0);
                              	    pelearController.enemigo.setFitHeight(120.0);
-                             	   pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones);
+                             	   pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones, prota2, prota3);
                              	}
                             // Cambia la escena a la pelea
                             stage.setScene(new Scene(root2));
