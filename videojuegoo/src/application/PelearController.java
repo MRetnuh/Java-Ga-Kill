@@ -44,12 +44,8 @@ public class PelearController {
     private Personaje Enemigo;
     public int personajesimg = 1;
     public int akame = 1;
-    public int leone = 0;
-    public int java = 0;
-    public int akameMuerta = 0;
-    public int leoneMuerta = 0;
-    public int javaMuerto = 0;
-    public int muertos = 0;
+    public int leone = 1;
+    public int java = 1;
     private Scene scene;
     private int protaVida;
     private int protavidamax;
@@ -233,11 +229,11 @@ public class PelearController {
         	            curaciones--;
         	            actualizarLabels();
         	        }
-        	 else if(curaciones <= 0) {
-        		  vida.setDisable(true); // Deshabilitar el botón
-        	        vida.setStyle("-fx-background-color: #ff0000;"); 
-        	 }
     }
+        	 else if(curaciones <= 0) {
+       		  vida.setDisable(true); // Deshabilitar el botón
+       	        vida.setStyle("-fx-background-color: #ff0000;"); 
+       	 }
     }
     }
     // Acción de habilidad especial del jugador
@@ -254,9 +250,9 @@ public class PelearController {
             Habilidad.setProgress((double) habilidad / 2);
             
         }
-        	if(habilidad1 >= 2){ // Usar ataque especial
-           	 mostrarEfecto(true);
+        	if(habilidad1 >= 2){ 
                prota2.salud = prota2.vidaMaxima;
+               vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
                actualizarLabels();
                switchTurn();
                habilidad1 = 0;
@@ -366,7 +362,7 @@ public class PelearController {
     private void checkEnemyLife() throws IOException {
         if (enemigoVida <= 0) {
             enemigoVida = 0;
-            if(enemigoVidamax == 190) {
+            if(enemigoVidamax == 700) {
             	  if (mediaPlayer != null) {
                       mediaPlayer.stop();  // Detener la música de intro
                       mediaPlayer.dispose();  // Liberar los recursos
@@ -422,9 +418,21 @@ public class PelearController {
     private void checkPlayerLife() {
     	try {
         if (protaVida <= 0) {
+        	akame = 0;
             protaVida = 0;
-            vidaProta.setProgress(0);
             actualizarLabels();
+        }
+        if (prota2.salud <= 0) {
+        	leone = 0;
+            prota2.salud = 0;
+            actualizarLabels();
+        }
+        if (prota3.salud <= 0) {
+        	java = 0;
+            prota3.salud = 0;
+            actualizarLabels();
+        }
+            if(akame == 0 && leone == 0 && java == 0) {
             if (mediaPlayer != null) {
                 mediaPlayer.stop();  // Detener la música de intro
                 mediaPlayer.dispose();  // Liberar los recursos
@@ -437,6 +445,7 @@ public class PelearController {
             stage.setScene(scene);
             stage.show();
         }
+        
     	}catch (Exception e) {
             e.printStackTrace();
         }
