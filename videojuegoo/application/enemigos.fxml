@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InterfazController">
+   <children>
+      <ImageView fitHeight="260.0" fitWidth="259.0" layoutX="167.0" layoutY="-89.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/Picsart_24-10-29_18-28-08-315.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="114.0" fitWidth="137.0" layoutX="19.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Edu/LATZINA/enemy1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="129.0" fitWidth="123.0" layoutX="15.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Edu/LATZINA/enemy12.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="138.0" fitWidth="80.0" layoutX="36.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Edu/LATZINA/esdeath.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="333.0" fitWidth="327.0" layoutX="263.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/Picsart_24-11-15_21-46-35-308.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="354.0" fitWidth="333.0" layoutX="255.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/Picsart_24-11-15_21-42-01-203.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="346.0" fitWidth="353.0" layoutX="249.0" layoutY="-84.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/Picsart_24-11-15_22-02-42-066.png" />
+         </image>
+      </ImageView>
+      <!-- El botón se mueve al final para asegurarse de que esté visible -->
+      <Button fx:id="btn5" layoutX="470.0" mnemonicParsing="false" onAction="#CambiarAMenu" text="Volver al menu">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
