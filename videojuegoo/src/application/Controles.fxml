@@ -5,6 +5,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Ellipse?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InterfazController">
@@ -69,5 +70,19 @@
             <Font name="Berlin Sans FB Demi Bold" size="21.0" />
          </font>
       </Label>
+      <AnchorPane layoutX="25.0" layoutY="43.0" prefHeight="5.0" prefWidth="148.0" style="-fx-background-color: black;" />
+      <AnchorPane layoutX="424.0" layoutY="45.0" prefHeight="5.0" prefWidth="157.0" style="-fx-background-color: black;" />
+      <Ellipse layoutX="14.0" layoutY="45.0" radiusX="13.0" radiusY="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse layoutX="586.0" layoutY="48.0" radiusX="13.0" radiusY="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <AnchorPane layoutX="25.0" layoutY="386.0" prefHeight="5.0" prefWidth="148.0" style="-fx-background-color: black;" />
+      <Ellipse layoutX="14.0" layoutY="388.0" radiusX="13.0" radiusY="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <AnchorPane layoutX="173.0" layoutY="386.0" prefHeight="5.0" prefWidth="148.0" style="-fx-background-color: black;" />
+      <AnchorPane layoutX="270.0" layoutY="386.0" prefHeight="5.0" prefWidth="148.0" style="-fx-background-color: black;" />
+      <AnchorPane layoutX="418.0" layoutY="386.0" prefHeight="5.0" prefWidth="148.0" style="-fx-background-color: black;">
+         <children>
+            <AnchorPane layoutX="18.0" prefHeight="5.0" prefWidth="148.0" style="-fx-background-color: black;" />
+         </children>
+      </AnchorPane>
+      <Ellipse layoutX="586.0" layoutY="388.0" radiusX="13.0" radiusY="9.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </AnchorPane>

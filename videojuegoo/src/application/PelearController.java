@@ -399,7 +399,7 @@ public class PelearController {
     private void checkEnemyLife() throws IOException {
         if (enemigoVida <= 0) {
             enemigoVida = 0;
-            if(enemigoVidamax == 190) {
+            if(enemigoVidamax == 500) {
             	  if (mediaPlayer != null) {
                       mediaPlayer.stop();  // Detener la música de intro
                       mediaPlayer.dispose();  // Liberar los recursos

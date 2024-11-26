@@ -17,12 +17,12 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 public class MovimientoController { 
-	  Personaje Akame = new Personaje(110, 30, 1, 1, 20, 110,400, 400);
+	  Personaje Akame = new Personaje(110, 400, 1, 1, 20, 110,400, 400);
 	    Personaje Leone = new Personaje(160, 15, 1, 1, 20, 160,150, 150);
 	    Personaje Java = new Personaje(120, 20, 1, 1, 20, 120,150, 150);
 	    Personaje Enemigo1 = new Personaje(95, 20, 1, 1, 20, 95,150, 150);
 	    Personaje Enemigo2 = new Personaje(180, 30, 1, 1, 20, 180,150, 150);
-	    Personaje Esdeath = new Personaje(190, 70, 1, 1, 20, 190,150, 150);
+	    Personaje Esdeath = new Personaje(500, 70, 1, 1, 20, 500,150, 150);
     private MediaPlayer mediaPlayer;
     @FXML
     public AnchorPane rootPane;
