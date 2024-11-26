@@ -29,7 +29,7 @@ public class PelearController {
     @FXML
     private Label nivelAtaque, VidaCantidad, AtaqueEnemigo, VidaEnemigo;
     @FXML
-    private Button atacar, vida, especial, personajes;
+    private Button atacar, vida, especial, personajes, Revivir;
     @FXML
     public ImageView personaje, enemigo;
     @FXML
@@ -127,6 +127,7 @@ public class PelearController {
 			}
 		});
         vida.setOnAction(e -> recuperarVida());
+        Revivir.setOnAction(e -> RevivirPersonaje());
         personajes.setOnAction(e -> CambiarPersonaje());
         especial.setOnAction(e -> {
 			try {
@@ -177,8 +178,9 @@ public class PelearController {
     private void realizarAtaque() throws IOException {
         if (playerTurn) {
             // Animar el efecto desde el jugador hacia el enemigo
-            mostrarEfecto(true);
-            if(personajesimg == 1) {
+           
+            if(personajesimg == 1 && akame == 1) {
+            	 mostrarEfecto(true);
             	 habilidad++;
             	   Habilidad.setProgress((double) habilidad / 2);
             enemigoVida -= protaAtaque;
@@ -187,7 +189,8 @@ public class PelearController {
             checkEnemyLife();
             switchTurn();
             }
-            if(personajesimg == 2) {
+            if(personajesimg == 2 && leone == 1) {
+            	 mostrarEfecto(true);
             	habilidad1++;
             	   Habilidad.setProgress((double) habilidad1 / 2);
                 enemigoVida -= prota2.daño;
@@ -196,7 +199,8 @@ public class PelearController {
                 checkEnemyLife();
                 switchTurn();
                 }
-            if(personajesimg == 3) {
+            if(personajesimg == 3 && java == 1) {
+            	 mostrarEfecto(true);
             	habilidad2++;
             	   Habilidad.setProgress((double) habilidad2 / 2);
                 enemigoVida -= prota3.daño;
@@ -212,20 +216,20 @@ public class PelearController {
     private void recuperarVida() {
         if (playerTurn) {
         	 if (curaciones > 0) {
-        		 if(personajesimg == 1 && protaVida < protavidamax) {
+        		 if(personajesimg == 1 && protaVida < protavidamax && akame == 1) {
             prota.curarse(30);  // Curar al personaje
             protaVida = prota.salud;  // Actualizar la salud actual del jugador
             vidaProta.setProgress((double) protaVida / protavidamax);
             curaciones--;
             actualizarLabels();
         }
-        		 else if(personajesimg == 2 && prota2.salud < prota2.vidaMaxima) {
+        		 else if(personajesimg == 2 && prota2.salud < prota2.vidaMaxima && leone == 1) {
         	            prota2.curarse(30);  // Actualizar la salud actual del jugador
         	            vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
         	            curaciones--;
         	            actualizarLabels();
         	        }
-        		 else if(personajesimg == 3 && prota3.salud < prota3.vidaMaxima) {
+        		 else if(personajesimg == 3 && prota3.salud < prota3.vidaMaxima && java == 1) {
         	            prota3.curarse(30); // Actualizar la salud actual del jugador
         	            vidaProta.setProgress((double) prota3.salud / prota3.vidaMaxima);
         	            curaciones--;
@@ -241,7 +245,7 @@ public class PelearController {
     // Acción de habilidad especial del jugador
     private void usarHabilidadEspecial() throws IOException {
         if (playerTurn) {
-        	if(habilidad >= 2){ // Usar ataque especial
+        	if(habilidad >= 2 && akame == 1){ // Usar ataque especial
         	 mostrarEfecto(true);
             enemigoVida -= protaAtaque * 2; // Actualizar la salud actual del enemigo
             vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
@@ -252,7 +256,7 @@ public class PelearController {
             Habilidad.setProgress((double) habilidad / 2);
             
         }
-        	if(habilidad1 >= 2){ 
+        	if(habilidad1 >= 2 && leone == 1){ 
                prota2.salud = prota2.vidaMaxima;
                vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
                actualizarLabels();
@@ -261,7 +265,7 @@ public class PelearController {
                Habilidad.setProgress((double) habilidad1 / 2);
                
     }
-        	if(habilidad2 >= 2){ // Usar ataque especial
+        	if(habilidad2 >= 2 && java == 1){ // Usar ataque especial
            	 mostrarEfecto(true);
            	 enemyattack = enemigoAtaque - 10;
            	 enemigoAtaque = enemyattack;
@@ -274,7 +278,7 @@ public class PelearController {
         }
     }
     private void CambiarPersonaje() {
-        // Incrementar el contador y reiniciarlo si supera el número de imágenes disponibles
+        if (playerTurn) {
         personajesimg++;
         if (personajesimg > 3) {
             personajesimg = 1; // Reiniciar a la imagen inicial
@@ -313,7 +317,38 @@ public class PelearController {
             personaje.setImage(nuevaImagen);
         }
     }
-
+    }
+    
+    private void RevivirPersonaje() {
+    	if(totems > 0) {
+    	if(personajesimg == 1 && akame == 0) {
+    		prota.salud = prota.vidaMaxima;
+    		 actualizarLabels();
+             vidaProta.setProgress((double) protaVida / protavidamax);
+    		akame = 1;
+    		totems--;
+    	}
+    	if(personajesimg == 2 && leone == 0) {
+    		leone = 1;
+    		  actualizarLabels();
+              vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
+    		prota2.salud = prota2.vidaMaxima;
+    		totems--;
+    	}
+    	if(personajesimg == 3 && java == 0) {
+    		prota3.salud = prota3.vidaMaxima;
+    		  actualizarLabels();
+              vidaProta.setProgress((double) prota3.salud / prota3.vidaMaxima);
+    		java = 1;
+    		totems--;
+    	}
+    	}
+    	else if (totems <= 0){
+    		 Revivir.setDisable(true); // Deshabilitar el botón
+    	        Revivir.setStyle("-fx-background-color: #ff0000;"); 
+    	
+    }
+    }
     // Cambiar de turno y realizar la acción del enemigo
     private void switchTurn() {
         playerTurn = false;

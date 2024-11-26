@@ -67,7 +67,7 @@
                </font>
             </Button>
             <ProgressBar fx:id="Habilidad" layoutX="512.0" layoutY="54.0" prefHeight="18.0" prefWidth="103.0" progress="0.0" style="-fx-accent: red" />
-            <Button layoutX="243.0" layoutY="135.0" mnemonicParsing="false" text="Revivir Personaje" textFill="#ff2b2b">
+            <Button fx:id="Revivir" layoutX="243.0" layoutY="135.0" mnemonicParsing="false" text="Revivir Personaje" textFill="#ff2b2b">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="18.0" />
                </font>
