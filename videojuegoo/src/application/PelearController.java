@@ -58,6 +58,7 @@ public class PelearController {
     private int protaExperiencia;
 	private int protaExpLimite;
 	private int curaciones;
+	private int totems;
     private double posX;
     private double posY;
     private int[][] layout;
@@ -68,7 +69,7 @@ public class PelearController {
     public int habilidad1 = 0;
     public int habilidad2 = 0;
     // Método para recibir los personajes y configurar los datos iniciales
-    public void setPersonajes(Personaje prota, Personaje enemigo, int[][] layout, int enemigoRow, int enemigoCol, int enemy, int curaciones, Personaje prota2, Personaje prota3) {
+    public void setPersonajes(Personaje prota, Personaje enemigo, int[][] layout, int enemigoRow, int enemigoCol, int enemy, int curaciones, Personaje prota2, Personaje prota3, int totems) {
         this.prota = prota;
         this.Enemigo = enemigo;
         // Configura las barras de progreso de vida usando la salud actual y la vida máxima del personaje
@@ -83,6 +84,7 @@ public class PelearController {
         this.posX = prota.posX;
         this.posY = prota.posY;
         this.curaciones = curaciones;
+        this.totems = totems;
         this.protanivel = prota.nivel;
         this.protavidamax = prota.vidaMaxima;
         this.protaExperiencia = prota.experienciaActual;
@@ -362,7 +364,7 @@ public class PelearController {
     private void checkEnemyLife() throws IOException {
         if (enemigoVida <= 0) {
             enemigoVida = 0;
-            if(enemigoVidamax == 700) {
+            if(enemigoVidamax == 190) {
             	  if (mediaPlayer != null) {
                       mediaPlayer.stop();  // Detener la música de intro
                       mediaPlayer.dispose();  // Liberar los recursos
@@ -372,7 +374,12 @@ public class PelearController {
         	}
             else {
             	if(personajesimg == 1) {
+            		if(enemigoVidamax == 180) {
+            			prota.experienciaActual += 10;
+            		}
+            		else {
             prota.experienciaActual += 5;
+            		}
             if(prota.experienciaActual >= prota.experienciaLimite) {
             	prota.nivel++;
             	prota.daño += 10;
@@ -381,10 +388,17 @@ public class PelearController {
             	prota.experienciaActual = 0;
             	prota.experienciaLimite += 10;
             	
-            }
+            
             	}
+            	}
+            	
             	if(personajesimg == 2) {
+            		if(enemigoVidamax == 180) {
+            			prota2.experienciaActual += 10;
+            		}
+            		else {
                     prota2.experienciaActual += 5;
+            		}
                     if(prota2.experienciaActual >= prota2.experienciaLimite) {
                     	prota2.nivel++;
                     	prota2.daño += 10;
@@ -394,9 +408,15 @@ public class PelearController {
                     	prota2.experienciaLimite += 10;
                     	
                     }
+            		
                     	}
             	if(personajesimg == 3) {
+            		if(enemigoVidamax == 180) {
+            			prota3.experienciaActual += 10;
+            		}
+            		else {
                     prota3.experienciaActual += 5;
+            		}
                     if(prota3.experienciaActual >= prota3.experienciaLimite) {
                     	prota3.nivel++;
                     	prota3.daño += 10;
@@ -406,7 +426,8 @@ public class PelearController {
                     	prota3.experienciaLimite += 10;
                     	
                     }
-                    	}
+                    	
+            	}
             vidaEnemigo.setProgress(0);
             actualizarLabels();
             finDeLaPelea();
@@ -514,6 +535,8 @@ public class PelearController {
             movimientoController.Java.daño = prota3.daño;
             movimientoController.Java.experienciaLimite = prota3.experienciaLimite;
             movimientoController.Java.nivel = prota3.nivel;
+            movimientoController.curaciones = curaciones;
+            movimientoController.totems = totems;
             movimientoController.initialize();
             stage = (Stage) personaje.getScene().getWindow();
             scene = new Scene(root);

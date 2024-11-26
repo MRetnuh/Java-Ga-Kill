@@ -99,5 +99,10 @@
             <Font name="Berlin Sans FB Demi Bold" size="27.0" />
          </font>
       </Label>
+      <Button mnemonicParsing="false" onAction="#VerMochila" text="Ver mochila">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="19.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

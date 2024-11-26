@@ -22,11 +22,12 @@ public class MovimientoController {
 	    Personaje Java = new Personaje(120, 20, 1, 1, 20, 120,150, 150);
 	    Personaje Enemigo1 = new Personaje(95, 20, 1, 1, 20, 95,150, 150);
 	    Personaje Enemigo2 = new Personaje(180, 30, 1, 1, 20, 180,150, 150);
-	    Personaje Esdeath = new Personaje(700, 70, 1, 1, 20, 190,150, 150);
+	    Personaje Esdeath = new Personaje(190, 70, 1, 1, 20, 190,150, 150);
     private MediaPlayer mediaPlayer;
     @FXML
     public AnchorPane rootPane;
     public int curaciones=0;
+    public int totems = 0;
     public int akame = 1;
     public int leone = 0;
     public int java = 0;
@@ -108,7 +109,7 @@ public class MovimientoController {
     			{3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
     	        {3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4},
     	        {3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4},
-    			{3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+    			{3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
     			{3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4},
     			{3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4},
                 {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4},
@@ -179,6 +180,7 @@ public class MovimientoController {
 
         Image arenaImg = new Image(getClass().getResourceAsStream(basePath + "arena.png"));
         Image curaImg = new Image(getClass().getResourceAsStream(basePath + "poti1.png"));
+        Image totemImg = new Image(getClass().getResourceAsStream(basePath + "revivi.png"));
         Image casaImg = new Image(getClass().getResourceAsStream(basePath + "casa.png"));
         Image arbolImg = new Image(getClass().getResourceAsStream(basePath + "arbol.png"));
         Image piso1Img = new Image(getClass().getResourceAsStream(basePath + "piso1.png"));
@@ -209,6 +211,9 @@ public class MovimientoController {
                     	break;
                     case 7:
                     	tile.setImage(curaImg);
+                    	break;
+                    case 8:
+                    	tile.setImage(totemImg);
                     	break;
                     case 9:
                     	tile.setImage(bossImg);
@@ -257,7 +262,7 @@ public class MovimientoController {
               Personaje prota = Akame;  
               Personaje prota2 = Leone;
               Personaje prota3 = Java;
-              MenuController.setStats(prota, layout, prota2, prota3);
+              MenuController.setStats(prota, layout, prota2, prota3, curaciones, totems);
               stage.setScene(new Scene(root2));
               stage.show();
               
@@ -331,11 +336,11 @@ public class MovimientoController {
                              	 String rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/enemy12.png";
                              	   Image nuevaImagen = new Image(rutaAbsoluta);
                              	    pelearController.enemigo.setImage(nuevaImagen);
-                             	   pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones, prota2, prota3);
+                             	   pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones, prota2, prota3, totems);
                              	}
                             if (enemy == 1) {
                             	Personaje enemigo = Enemigo1;
-                            	  pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones, prota2, prota3);
+                            	  pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones, prota2, prota3, totems);
                             }
                             if(enemy == 3) {
                             	Personaje enemigo = Esdeath;
@@ -344,7 +349,7 @@ public class MovimientoController {
                              	    pelearController.enemigo.setImage(nuevaImagen);
                              	    pelearController.enemigo.setLayoutX(480.0);
                              	    pelearController.enemigo.setFitHeight(120.0);
-                             	   pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones, prota2, prota3);
+                             	   pelearController.setPersonajes(prota, enemigo, layout, enemigoRow, enemigoCol, enemy, curaciones, prota2, prota3, totems);
                              	}
                             // Cambia la escena a la pelea
                             stage.setScene(new Scene(root2));
@@ -409,6 +414,24 @@ public class MovimientoController {
                   layout[futureRowBottom][futureColRight] = 1;
                   initialize();
               }
+            
+            if (topLeftTile == 8 || topLeftTile == 8) {
+          	  totems++;
+                layout[futureRowTop][futureColLeft] = 1;
+                initialize();
+            } else if (topRightTile == 8 || topRightTile == 8) {
+            	  totems++;
+                layout[futureRowTop][futureColRight] = 1;
+                initialize();
+            } else if (bottomLeftTile == 8 || bottomLeftTile == 8) {
+            	  totems++;
+                layout[futureRowBottom][futureColLeft] = 1;
+                initialize();
+            } else if (bottomRightTile == 8 || bottomRightTile == 8) {
+            	  totems++;
+                layout[futureRowBottom][futureColRight] = 1;
+                initialize();
+            }
         }
 
         if (!peleando && (topLeftTile == 5 || topRightTile == 5 || bottomLeftTile == 5 || bottomRightTile == 5 ||

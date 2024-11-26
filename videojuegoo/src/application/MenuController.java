@@ -41,6 +41,8 @@ public class MenuController {
      private int[][] layout;
      public int akame = 1;
      public int leone = 0;
+     public int curaciones = 0;
+     public int totems = 0;
      @FXML
      private Label ataque, vida, experiencia, nivel, ataque1, vida1, experiencia1, nivel1, ataque2, vida2, experiencia2, nivel2;
      @FXML
@@ -73,6 +75,8 @@ public class MenuController {
            movimientoController.Java.daño = prota3.daño;
            movimientoController.Java.experienciaLimite = prota3.experienciaLimite;
            movimientoController.Java.nivel = prota3.nivel;
+           movimientoController.curaciones = curaciones;
+           movimientoController.totems = totems;
            movimientoController.initialize();
 	    	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	    	  scene = new Scene(root);
@@ -81,7 +85,7 @@ public class MenuController {
 	    	 stage.show();
 	    	 
 	     }
-	   public void setStats(Personaje prota, int[][] layout, Personaje prota2, Personaje prota3) {
+	   public void setStats(Personaje prota, int[][] layout, Personaje prota2, Personaje prota3, int curaciones, int totems) {
 		   this.prota = prota;
 		   this.layout = layout;
 		   this.protaAtaque = prota.daño;
@@ -96,6 +100,8 @@ public class MenuController {
 	        this.leone = prota.leone;
 	        this.prota2 = prota2;
 	        this.prota3 = prota3;
+	        this.curaciones = curaciones;
+	        this.totems = totems;
 	        actualizarLabels();
 	        
 	   }
@@ -141,6 +147,8 @@ public class MenuController {
            movimientoController.Java.daño = prota3.daño;
            movimientoController.Java.experienciaLimite = prota3.experienciaLimite;
            movimientoController.Java.nivel = prota3.nivel;
+           movimientoController.curaciones = curaciones;
+           movimientoController.totems = totems;
            movimientoController.initialize();
 	    	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	    	  scene = new Scene(root);
@@ -177,6 +185,8 @@ public class MenuController {
            movimientoController.Java.daño = prota3.daño;
            movimientoController.Java.experienciaLimite = prota3.experienciaLimite;
            movimientoController.Java.nivel = prota3.nivel;
+           movimientoController.curaciones = curaciones;
+           movimientoController.totems = totems;
            movimientoController.initialize();
 	    	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	    	  scene = new Scene(root);
@@ -185,4 +195,15 @@ public class MenuController {
 	    	 stage.show();
 	    	 
 	     }
+	   public void VerMochila(ActionEvent event) throws IOException {
+		   FXMLLoader loader = new FXMLLoader(getClass().getResource("Mochila.fxml"));
+           Parent root = loader.load();
+           Mochila Mochila = loader.getController();
+           Mochila.initialize(prota, layout, prota2, prota3, curaciones, totems);
+           stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    	  scene = new Scene(root);
+	    	  root.requestFocus();
+	    	  stage.setScene(scene);
+	    	 stage.show();
+}
 }
