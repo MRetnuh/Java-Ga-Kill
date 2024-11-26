@@ -177,12 +177,12 @@ public class PelearController {
     // Acción de ataque del jugador
     private void realizarAtaque() throws IOException {
         if (playerTurn) {
-            // Animar el efecto desde el jugador hacia el enemigo
+          
            
             if(personajesimg == 1 && akame == 1) {
-            	 mostrarEfecto(true);
+            	 mostrarEfecto(true);   // Animar el efecto desde el jugador hacia el enemigo
             	 habilidad++;
-            	   Habilidad.setProgress((double) habilidad / 2);
+            	   Habilidad.setProgress((double) habilidad / 2); //Actualizar la barra de habilidad
             enemigoVida -= protaAtaque;
             vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
             actualizarLabels();
@@ -190,7 +190,7 @@ public class PelearController {
             switchTurn();
             }
             if(personajesimg == 2 && leone == 1) {
-            	 mostrarEfecto(true);
+            	 mostrarEfecto(true);	  
             	habilidad1++;
             	   Habilidad.setProgress((double) habilidad1 / 2);
                 enemigoVida -= prota2.daño;
@@ -245,7 +245,7 @@ public class PelearController {
     // Acción de habilidad especial del jugador
     private void usarHabilidadEspecial() throws IOException {
         if (playerTurn) {
-        	if(habilidad >= 2 && akame == 1){ // Usar ataque especial
+        	if(habilidad >= 2 && akame == 1){ // Usar ataque especial con Akame
         	 mostrarEfecto(true);
             enemigoVida -= protaAtaque * 2; // Actualizar la salud actual del enemigo
             vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
@@ -256,7 +256,15 @@ public class PelearController {
             Habilidad.setProgress((double) habilidad / 2);
             
         }
-        	if(habilidad1 >= 2 && leone == 1){ 
+        	if(habilidad1 >= 2 && leone == 1){   // Usar ataque especial con Leone
+        		protaVida += 20;
+        		prota3.salud += 20;
+        		if(protaVida > protavidamax) {
+        			protaVida = protavidamax;
+        		}
+        		if(prota3.salud > prota3.vidaMaxima) {
+        			prota3.salud = prota3.vidaMaxima;
+        		}
                prota2.salud = prota2.vidaMaxima;
                vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
                actualizarLabels();
@@ -265,7 +273,7 @@ public class PelearController {
                Habilidad.setProgress((double) habilidad1 / 2);
                
     }
-        	if(habilidad2 >= 2 && java == 1){ // Usar ataque especial
+        	if(habilidad2 >= 2 && java == 1){ // Usar ataque especial con Java
            	 mostrarEfecto(true);
            	 enemyattack = enemigoAtaque - 10;
            	 enemigoAtaque = enemyattack;
@@ -417,8 +425,8 @@ public class PelearController {
             		}
             if(prota.experienciaActual >= prota.experienciaLimite) {
             	prota.nivel++;
-            	prota.daño += 10;
-            	prota.salud = prota.vidaMaxima + 20;
+            	prota.daño += 15;
+            	prota.salud = prota.vidaMaxima + 30;
             	prota.vidaMaxima = prota.salud;
             	prota.experienciaActual = 0;
             	prota.experienciaLimite += 10;
@@ -436,8 +444,8 @@ public class PelearController {
             		}
                     if(prota2.experienciaActual >= prota2.experienciaLimite) {
                     	prota2.nivel++;
-                    	prota2.daño += 10;
-                    	prota2.salud = prota2.vidaMaxima + 20;
+                    	prota2.daño += 15;
+                    	prota2.salud = prota2.vidaMaxima + 30;
                     	prota2.vidaMaxima = prota2.salud;
                     	prota2.experienciaActual = 0;
                     	prota2.experienciaLimite += 10;
@@ -454,8 +462,8 @@ public class PelearController {
             		}
                     if(prota3.experienciaActual >= prota3.experienciaLimite) {
                     	prota3.nivel++;
-                    	prota3.daño += 10;
-                    	prota3.salud = prota3.vidaMaxima + 20;
+                    	prota3.daño += 15;
+                    	prota3.salud = prota3.vidaMaxima + 30;
                     	prota3.vidaMaxima = prota3.salud;
                     	prota3.experienciaActual = 0;
                     	prota3.experienciaLimite += 10;

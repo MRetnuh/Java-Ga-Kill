@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="726.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="741.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MenuController">
    <children>
       <Button fx:id="seleccionar2" layoutX="250.0" layoutY="484.0" mnemonicParsing="false" onAction="#volveralmapa" prefHeight="44.0" prefWidth="160.0" text="Seleccionar">
          <font>
@@ -49,7 +49,7 @@
             <Image url="@../../../../Desktop/Edu/LATZINA/leone_de_frente(detenida).png" />
          </image>
       </ImageView>
-      <Label fx:id="vida1" layoutX="267.0" layoutY="298.0" text="Vida: ">
+      <Label fx:id="vida1" layoutX="267.0" layoutY="298.0" style="-fx-font-style: red;" text="Vida: ">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="27.0" />
          </font>

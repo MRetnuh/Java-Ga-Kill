@@ -30,7 +30,7 @@ public class MenuController {
 	  @FXML
 	    private int protavidamax;
 	  @FXML
-	    public Button seleccionar1, seleccionar2, seleccionar3;
+	    public Button seleccionar1, seleccionar2, seleccionar3, curar, revivir, curar1, revivir1, curar2, revivir2;
 	    private int protanivel;
 	  @FXML
 	    private double posX;
@@ -206,4 +206,6 @@ public class MenuController {
 	    	  stage.setScene(scene);
 	    	 stage.show();
 }
+	  
+
 }
