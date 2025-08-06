@@ -370,7 +370,7 @@ public class PelearController implements Initializable{
 
         // Asegurarse de que la ruta no sea nula antes de cambiar la imagen
         if (rutaAbsoluta != null) {
-            Image nuevaImagen = new Image(rutaAbsoluta);
+            Image nuevaImagen =  new Image(getClass().getResource(rutaAbsoluta).toExternalForm());
             personaje.setImage(nuevaImagen);
         }
     }
