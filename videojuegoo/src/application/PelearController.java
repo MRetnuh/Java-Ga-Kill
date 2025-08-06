@@ -222,7 +222,7 @@ public class PelearController implements Initializable{
         if (playerTurn) {
           
            
-            if(personajesimg == 1 && akame == 1) {
+            if(personajesimg == 1 && prota.salud > 0) {
             	 mostrarEfecto(true);   // Animar el efecto desde el jugador hacia el enemigo
             	 habilidad++;
             	   Habilidad.setProgress((double) habilidad / 2); //Actualizar la barra de habilidad
@@ -232,7 +232,7 @@ public class PelearController implements Initializable{
             checkEnemyLife();
             switchTurn();
             }
-            if(personajesimg == 2 && leone == 1) {
+            if(personajesimg == 2 && prota2.salud > 0) {
             	 mostrarEfecto(true);	  
             	habilidad1++;
             	   Habilidad.setProgress((double) habilidad1 / 2);
@@ -242,7 +242,7 @@ public class PelearController implements Initializable{
                 checkEnemyLife();
                 switchTurn();
                 }
-            if(personajesimg == 3 && java == 1) {
+            if(personajesimg == 3 && prota3.salud > 0) {
             	 mostrarEfecto(true);
             	habilidad2++;
             	   Habilidad.setProgress((double) habilidad2 / 2);
@@ -259,20 +259,20 @@ public class PelearController implements Initializable{
     private void recuperarVida() {
         if (playerTurn) {
         	 if (curaciones > 0) {
-        		 if(personajesimg == 1 && protaVida < protavidamax && akame == 1) {
+        		 if(personajesimg == 1 && protaVida < protavidamax && prota.salud > 0) {
             prota.curarse(30);  // Curar al personaje
             protaVida = prota.salud;  // Actualizar la salud actual del jugador
             vidaProta.setProgress((double) protaVida / protavidamax);
             curaciones--;
             actualizarLabels();
         }
-        		 else if(personajesimg == 2 && prota2.salud < prota2.vidaMaxima && leone == 1) {
+        		 else if(personajesimg == 2 && prota2.salud < prota2.vidaMaxima && prota2.salud > 0) {
         	            prota2.curarse(30);  // Actualizar la salud actual del jugador
         	            vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
         	            curaciones--;
         	            actualizarLabels();
         	        }
-        		 else if(personajesimg == 3 && prota3.salud < prota3.vidaMaxima && java == 1) {
+        		 else if(personajesimg == 3 && prota3.salud < prota3.vidaMaxima && prota3.salud > 0) {
         	            prota3.curarse(30); // Actualizar la salud actual del jugador
         	            vidaProta.setProgress((double) prota3.salud / prota3.vidaMaxima);
         	            curaciones--;
@@ -346,21 +346,21 @@ public class PelearController implements Initializable{
 
         switch (personajesimg) {
             case 1:
-                rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/akame_derecha_(detenida).png";
+                rutaAbsoluta = "/akame_derecha_(detenida).png";
                 actualizarLabels();
                 vidaProta.setProgress((double) protaVida / protavidamax);
                 Habilidad.setStyle("-fx-accent: red;"); 
                 Habilidad.setProgress((double) habilidad / 2);
                 break;
             case 2:
-                rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/leone_derecha(detenida).png";
+                rutaAbsoluta = "/leone_derecha(detenida).png";
                 actualizarLabels();
                 vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
                 Habilidad.setStyle("-fx-accent: yellow;"); 
                 Habilidad.setProgress((double) habilidad1 / 2);
                 break;
             case 3:
-                rutaAbsoluta = "file:///C:/Users/Acer/Desktop/Edu/LATZINA/java_derecha(detenido).png";
+                rutaAbsoluta = "/java_derecha(detenido).png";
                 actualizarLabels();
                 vidaProta.setProgress((double) prota3.salud / prota3.vidaMaxima);
                 Habilidad.setStyle("-fx-accent: blue;"); 
