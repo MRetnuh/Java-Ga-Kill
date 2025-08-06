@@ -10,13 +10,13 @@
    <children>
       <ImageView fitHeight="409.0" fitWidth="719.0" layoutX="-7.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Downloads/605779.jpg" />
+            <Image url="@/605779.jpg" />
          </image>
       </ImageView>
       <!-- Mover el ImageView al principio -->
       <ImageView fitHeight="319.0" fitWidth="580.0" layoutX="193.0" layoutY="-117.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Picsart_24-10-16_16-53-13-299.png" />
+            <Image url="@/Picsart_24-10-16_16-53-13-299.png" />
          </image>
       </ImageView>
 

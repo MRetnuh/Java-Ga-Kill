@@ -15,7 +15,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class EntradaController implements Initializable {
@@ -27,7 +31,7 @@ public class EntradaController implements Initializable {
     private MediaPlayer mediaPlayer;
 
     @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
+    public void initialize(URL location, ResourceBundle resources) {
         // Efecto de perspectiva
         PerspectiveTransform perspective = new PerspectiveTransform();
         perspective.setUlx(200.0);
@@ -59,11 +63,33 @@ public class EntradaController implements Initializable {
         translate.play();
         scale.play();
 
-        // Reproducir la música de intro
-        String rutaIntroAudio = getClass().getResource("/Resources/Intro.mp3").toExternalForm(); // Cambié la ruta a "Intro.mp3"
-        Media introMedia = new Media(rutaIntroAudio);
-        mediaPlayer = new MediaPlayer(introMedia);
-        mediaPlayer.play();  // Reproducir la música
+        // Reproducir la música de intro desde archivo temporal
+        if (mediaPlayer == null) {
+            try {
+                String resourcePath = "/Resources/Intro.mp3"; // Asegurate de que este nombre coincida exactamente
+                InputStream audioStream = getClass().getResourceAsStream(resourcePath);
+
+                if (audioStream == null) {
+                    throw new java.io.FileNotFoundException("ERROR: No se pudo encontrar el recurso como stream: " + resourcePath);
+                }
+
+                // Crear archivo temporal con extensión .mp3
+                Path tempFile = Files.createTempFile("intro_temp", ".mp3");
+                tempFile.toFile().deleteOnExit(); // Eliminar al salir
+
+                try (OutputStream out = Files.newOutputStream(tempFile)) {
+                    audioStream.transferTo(out);
+                }
+
+                Media introMedia = new Media(tempFile.toUri().toString());
+                mediaPlayer = new MediaPlayer(introMedia);
+                mediaPlayer.play();
+
+            } catch (Exception e) {
+                System.err.println("Error al cargar la música desde archivo temporal:");
+                e.printStackTrace();
+            }
+        }
 
         // Después de que termine la animación, cargar MovimientoController
         translate.setOnFinished(event -> {

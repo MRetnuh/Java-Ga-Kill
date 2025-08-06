@@ -16,7 +16,7 @@
       </Button>
       <ImageView fitHeight="228.0" fitWidth="136.0" layoutX="31.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Edu/LATZINA/akame_de_frente_(detenida).png" />
+            <Image url="@/akame_de_frente_(detenida).png" />
          </image>
       </ImageView>
       <Label fx:id="ataque" layoutX="14.0" layoutY="345.0" text="Ataque: ">
@@ -46,7 +46,7 @@
       </Button>
       <ImageView fitHeight="236.0" fitWidth="135.0" layoutX="267.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Edu/LATZINA/leone_de_frente(detenida).png" />
+            <Image url="@/leone_de_frente(detenida).png" />
          </image>
       </ImageView>
       <Label fx:id="vida1" layoutX="267.0" layoutY="298.0" style="-fx-font-style: red;" text="Vida: ">
@@ -76,7 +76,7 @@
       </Button>
       <ImageView fitHeight="236.0" fitWidth="160.0" layoutX="516.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Edu/LATZINA/java_de_frente(detenido).png" />
+            <Image url="@/java_de_frente(detenido).png" />
          </image>
       </ImageView>
       <Label fx:id="vida2" layoutX="526.0" layoutY="298.0" text="Vida: ">

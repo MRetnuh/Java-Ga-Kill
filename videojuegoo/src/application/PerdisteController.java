@@ -8,7 +8,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class PerdisteController implements Initializable {
@@ -17,36 +23,60 @@ public class PerdisteController implements Initializable {
     private static MediaPlayer mediaPlayer;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Configura el efecto de transición y escala
         iniciarAnimacionDerrota();
     }
 
     private void iniciarAnimacionDerrota() {
-        // Comienza con la imagen invisible y en tamaño reducido
+        // Estado inicial de la imagen
         derrota.setOpacity(0);
         derrota.setScaleX(0.5);
         derrota.setScaleY(0.5);
 
-        // Animación de aumento de escala
+        // Transición de escala
         ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(2), derrota);
         scaleTransition.setFromX(0.5);
         scaleTransition.setFromY(0.5);
         scaleTransition.setToX(1.0);
         scaleTransition.setToY(1.0);
 
-        // Animación de aparición (fade in)
+        // Transición de aparición
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(2), derrota);
         fadeTransition.setFromValue(0);
         fadeTransition.setToValue(1);
 
-        // Inicia ambas transiciones juntas
+        // Ejecutar ambas transiciones
         scaleTransition.play();
         fadeTransition.play();
-        String rutaIntroAudio = getClass().getResource("/Resources/derrota.mp3").toExternalForm(); // Cambié la ruta a "Intro.mp3"
-        Media introMedia = new Media(rutaIntroAudio);
-        mediaPlayer = new MediaPlayer(introMedia);
-        mediaPlayer.play();  // Reproducir la música
 
+        // Reproducir música desde archivo temporal
+        if (mediaPlayer == null) {
+            try {
+                String resourcePath = "/Resources/derrota.mp3";
+                InputStream audioStream = getClass().getResourceAsStream(resourcePath);
+
+                if (audioStream == null) {
+                	  throw new java.io.FileNotFoundException("ERROR: No se encontró el recurso como stream: " + resourcePath);
+                }
+
+                // Crear archivo temporal con extensión .mp3
+                Path tempFile = Files.createTempFile("derrota_temp", ".mp3");
+                tempFile.toFile().deleteOnExit(); // Se elimina al cerrar la app
+
+                // Copiar el audio al archivo temporal
+                try (OutputStream out = Files.newOutputStream(tempFile)) {
+                    audioStream.transferTo(out);
+                }
+
+                // Crear y reproducir el MediaPlayer desde el archivo temporal
+                Media media = new Media(tempFile.toUri().toString());
+                mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.play();
+
+            } catch (Exception e) {
+                System.err.println("Error al reproducir audio de derrota:");
+                e.printStackTrace();
+            }
+        }
     }
-    
+
 }

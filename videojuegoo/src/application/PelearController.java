@@ -2,6 +2,7 @@ package application;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,14 +16,21 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-public class PelearController {
+public class PelearController implements Initializable{
 
     @FXML
     private ProgressBar vidaProta, vidaEnemigo, Habilidad;
@@ -97,46 +105,81 @@ public class PelearController {
         actualizarLabels();
         enemyattack = enemigoAtaque;
     }
-    @FXML
-    public void initialize() {
-          // Configurar el audio de fondo
-        if (mediaPlayer == null) {
-            
-            String rutaNivel1Audio = getClass().getResource("/Resources/pelea.mp3").toExternalForm();
-            Media nivel1Media = new Media(rutaNivel1Audio);
-            mediaPlayer = new MediaPlayer(nivel1Media);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            String resourcePath = "/Resources/pelea.mp3"; // Cambia según la escena
+            InputStream audioStream = getClass().getResourceAsStream(resourcePath);
+
+            if (audioStream == null) {
+                throw new java.io.FileNotFoundException("ERROR: No se encontró el recurso: " + resourcePath);
+            }
+
+            // Crear archivo temporal
+            Path tempFile = Files.createTempFile("pelea_temp", ".mp3");
+            tempFile.toFile().deleteOnExit();
+
+            try (OutputStream out = Files.newOutputStream(tempFile)) {
+                audioStream.transferTo(out);
+            }
+
+            // Si hay música anterior, detenerla
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+            }
+
+            // Crear nueva música
+            Media media = new Media(tempFile.toUri().toString());
+            mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.play();
-        }
-        else if (mediaPlayer != null) {
-            
-            String rutaNivel1Audio = getClass().getResource("/Resources/pelea.mp3").toExternalForm();
-            Media nivel1Media = new Media(rutaNivel1Audio);
-            mediaPlayer = new MediaPlayer(nivel1Media);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.play();
+
+        } catch (Exception e) {
+            System.err.println("Error al reproducir pelea.mp3:");
+            e.printStackTrace();
         }
 
-        // Configurar los eventos de los botones
+        // Configurar eventos de los botones, si aplica
         atacar.setOnAction(e -> {
-			try {
-				realizarAtaque();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
+            try {
+                realizarAtaque();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
         vida.setOnAction(e -> recuperarVida());
         Revivir.setOnAction(e -> RevivirPersonaje());
         personajes.setOnAction(e -> CambiarPersonaje());
         especial.setOnAction(e -> {
-			try {
-				usarHabilidadEspecial();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
+            try {
+                usarHabilidadEspecial();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
+   
+    
+
+
+        // Configurar eventos de botones
+        atacar.setOnAction(e -> {
+            try {
+                realizarAtaque();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+        vida.setOnAction(e -> recuperarVida());
+        Revivir.setOnAction(e -> RevivirPersonaje());
+        personajes.setOnAction(e -> CambiarPersonaje());
+        especial.setOnAction(e -> {
+            try {
+                usarHabilidadEspecial();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
     }
     private void mostrarEfecto(boolean esJugador) {
         double startX;
@@ -245,7 +288,7 @@ public class PelearController {
     // Acción de habilidad especial del jugador
     private void usarHabilidadEspecial() throws IOException {
         if (playerTurn) {
-        	if(habilidad >= 2 && akame == 1){ // Usar ataque especial con Akame
+        	if(habilidad >= 2 && akame == 1 && personajesimg == 1){ // Usar ataque especial con Akame
         	 mostrarEfecto(true);
             enemigoVida -= protaAtaque * 2; // Actualizar la salud actual del enemigo
             vidaEnemigo.setProgress((double) enemigoVida / Enemigo.vidaMaxima);
@@ -256,11 +299,17 @@ public class PelearController {
             Habilidad.setProgress((double) habilidad / 2);
             
         }
-        	if(habilidad1 >= 2 && leone == 1){   // Usar ataque especial con Leone
+        		if(habilidad1 >= 2 && leone == 1 && personajesimg == 2){   // Usar ataque especial con Leone
+        		if (protaVida > 0){
         		protaVida += 20;
+        		}
+        		prota.salud = protaVida;
+        		if(prota3.salud > 0) {
         		prota3.salud += 20;
+        		}
         		if(protaVida > protavidamax) {
         			protaVida = protavidamax;
+        			prota.salud = protaVida;
         		}
         		if(prota3.salud > prota3.vidaMaxima) {
         			prota3.salud = prota3.vidaMaxima;
@@ -273,7 +322,7 @@ public class PelearController {
                Habilidad.setProgress((double) habilidad1 / 2);
                
     }
-        	if(habilidad2 >= 2 && java == 1){ // Usar ataque especial con Java
+        	 	if(habilidad2 >= 2 && java == 1 && personajesimg == 3){ // Usar ataque especial con Java
            	 mostrarEfecto(true);
            	 enemyattack = enemigoAtaque - 10;
            	 enemigoAtaque = enemyattack;
@@ -330,24 +379,25 @@ public class PelearController {
     private void RevivirPersonaje() {
     	if(totems > 0) {
     	if(personajesimg == 1 && akame == 0) {
-    		prota.salud = prota.vidaMaxima;
-    		 actualizarLabels();
-             vidaProta.setProgress((double) protaVida / protavidamax);
     		akame = 1;
+    		protaVida = prota.vidaMaxima;
+    		prota.salud = protaVida;
+    		 actualizarLabels();
+    		vidaProta.setProgress((double) protaVida / protavidamax);
     		totems--;
     	}
     	if(personajesimg == 2 && leone == 0) {
     		leone = 1;
-    		  actualizarLabels();
-              vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
-    		prota2.salud = prota2.vidaMaxima;
+    		  prota2.salud = prota2.vidaMaxima;
+              actualizarLabels();
+    		  vidaProta.setProgress((double) prota2.salud / prota2.vidaMaxima);
     		totems--;
     	}
     	if(personajesimg == 3 && java == 0) {
+    		java = 1;
     		prota3.salud = prota3.vidaMaxima;
     		  actualizarLabels();
               vidaProta.setProgress((double) prota3.salud / prota3.vidaMaxima);
-    		java = 1;
     		totems--;
     	}
     	}
@@ -407,7 +457,7 @@ public class PelearController {
     private void checkEnemyLife() throws IOException {
         if (enemigoVida <= 0) {
             enemigoVida = 0;
-            if(enemigoVidamax == 500) {
+            if(enemigoVidamax == 1100) {
             	  if (mediaPlayer != null) {
                       mediaPlayer.stop();  // Detener la música de intro
                       mediaPlayer.dispose();  // Liberar los recursos
@@ -580,7 +630,10 @@ public class PelearController {
             movimientoController.Java.nivel = prota3.nivel;
             movimientoController.curaciones = curaciones;
             movimientoController.totems = totems;
-            movimientoController.initialize();
+            movimientoController.akamemuerta = akame;
+            movimientoController.leonemuerta = leone;
+            movimientoController.javamuerto = java;
+            movimientoController.initialize(null, null);
             stage = (Stage) personaje.getScene().getWindow();
             scene = new Scene(root);
             root.requestFocus();

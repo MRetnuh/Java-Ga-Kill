@@ -30,7 +30,7 @@
             </Label>
             <ProgressBar fx:id="vidaProta" layoutX="124.0" layoutY="45.0" prefHeight="26.0" prefWidth="161.0" progress="1.0" style="-fx-accent: #00FF00;" />
          </children></AnchorPane>
-      <AnchorPane layoutX="20.0" layoutY="14.0" prefHeight="82.0" prefWidth="283.0" style="-fx-background-color: orange; -fx-border-color: red; -fx-border-width: 5;">
+      <AnchorPane layoutX="20.0" layoutY="14.0" prefHeight="93.0" prefWidth="302.0" style="-fx-background-color: orange; -fx-border-color: red; -fx-border-width: 5;">
          <children>
             <Label fx:id="AtaqueEnemigo" layoutX="10.0" layoutY="-1.0" prefHeight="30.0" prefWidth="132.0" text="Ataque: ">
                <font>
@@ -42,7 +42,7 @@
                   <Font name="Britannic Bold" size="25.0" />
                </font>
             </Label>
-            <ProgressBar fx:id="vidaEnemigo" layoutX="124.0" layoutY="55.0" prefHeight="26.0" prefWidth="161.0" progress="1.0" style="-fx-accent: #00FF00;" />
+            <ProgressBar fx:id="vidaEnemigo" layoutX="133.0" layoutY="55.0" prefHeight="26.0" prefWidth="161.0" progress="1.0" style="-fx-accent: #00FF00;" />
          </children></AnchorPane>
       <AnchorPane layoutY="370.0" prefHeight="119.0" prefWidth="650.0" style="-fx-background-color: orange; -fx-border-color: green; -fx-border-width: 10;">
          <children>
@@ -76,12 +76,12 @@
       </AnchorPane>
       <ImageView fx:id="personaje" fitHeight="107.0" fitWidth="146.0" layoutX="102.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Edu/LATZINA/akame_derecha_(detenida).png" />
+            <Image url="@/akame_derecha_(detenida).png" />
          </image>
       </ImageView>
       <ImageView fx:id="enemigo" fitHeight="125.0" fitWidth="139.0" layoutX="455.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Edu/LATZINA/enemy1.png" />
+            <Image url="@/enemy1.png" />
          </image>
       </ImageView>
      <Line fx:id="efecto" endX="143.0" endY="-67.0" layoutX="438.0" layoutY="77.0" startX="9.0" startY="11.0" stroke="RED" strokeLineCap="BUTT" strokeLineJoin="BEVEL" strokeWidth="5.0" visible="false" />   </children>

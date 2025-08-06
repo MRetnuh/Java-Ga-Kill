@@ -11,17 +11,17 @@
    <children>
       <ImageView fitHeight="275.0" fitWidth="387.0" layoutX="163.0" layoutY="-96.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Edu/LATZINA/Picsart_24-10-29_17-15-19-315.png" />
+            <Image url="@/Picsart_24-10-29_17-15-19-315.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="90.0" fitWidth="50.0" layoutX="28.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Edu/LATZINA/akame_de_frente_(detenida).png" />
+            <Image url="@/akame_de_frente_(detenida).png" />
          </image>
       </ImageView>
       <ImageView fitHeight="312.0" fitWidth="312.0" layoutX="282.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Downloads/Picsart_24-10-29_17-26-29-234.png" />
+            <Image url="@/Picsart_24-10-29_17-26-29-234.png" />
          </image>
       </ImageView>
       <Button layoutX="459.0" mnemonicParsing="false" onAction="#CambiarAMenu" prefHeight="34.0" prefWidth="141.0" text="Volver al menu">
@@ -31,22 +31,22 @@
       </Button>
       <ImageView fitHeight="111.0" fitWidth="60.0" layoutX="23.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Edu/LATZINA/leone_de_frente(detenida).png" />
+            <Image url="@/leone_de_frente(detenida).png" />
          </image>
       </ImageView>
       <ImageView fitHeight="119.0" fitWidth="66.0" layoutX="20.0" layoutY="282.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Edu/LATZINA/java_de_frente(detenido).png" />
+            <Image url="@/java_de_frente(detenido).png" />
          </image>
       </ImageView>
       <ImageView fitHeight="285.0" fitWidth="284.0" layoutX="298.0" layoutY="195.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Downloads/Picsart_24-11-15_21-49-26-688.png" />
+            <Image url="@/Picsart_24-11-15_21-49-26-688.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="297.0" fitWidth="297.0" layoutX="291.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Downloads/Picsart_24-11-15_21-45-26-913.png" />
+            <Image url="@/Picsart_24-11-15_21-45-26-913.png" />
          </image>
       </ImageView>
       <AnchorPane layoutX="26.0" layoutY="57.0" prefHeight="5.0" prefWidth="135.0" style="-fx-background-color: black;" />

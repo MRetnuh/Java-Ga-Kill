@@ -77,7 +77,7 @@ public class MenuController {
            movimientoController.Java.nivel = prota3.nivel;
            movimientoController.curaciones = curaciones;
            movimientoController.totems = totems;
-           movimientoController.initialize();
+           movimientoController.initialize(null, null);
 	    	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	    	  scene = new Scene(root);
 	    	  root.requestFocus();
@@ -112,11 +112,11 @@ public class MenuController {
 		   nivel.setText("Nivel: " + protanivel);
 		   vida1.setText("Vida: " + prota2.salud + "/" + prota2.vidaMaxima);
 		   ataque1.setText("Ataque: " + prota2.daño);
-		   experiencia1.setText("Experiencia: " + prota2.experienciaActual + "/" + prota.experienciaLimite);
+		   experiencia1.setText("Experiencia: " + prota2.experienciaActual + "/" + prota2.experienciaLimite);
 		   nivel1.setText("Nivel: " + prota2.nivel);
 		   vida2.setText("Vida: " + prota3.salud + "/" + prota3.vidaMaxima);
 		   ataque2.setText("Ataque: " + prota3.daño);
-		   experiencia2.setText("Experiencia: " + prota3.experienciaActual + "/" + prota.experienciaLimite);
+		   experiencia2.setText("Experiencia: " + prota3.experienciaActual + "/" + prota3.experienciaLimite);
 		   nivel2.setText("Nivel: " + prota3.nivel);
 	   }
 	   public void volveralmapa1(ActionEvent event) throws IOException {
@@ -149,7 +149,7 @@ public class MenuController {
            movimientoController.Java.nivel = prota3.nivel;
            movimientoController.curaciones = curaciones;
            movimientoController.totems = totems;
-           movimientoController.initialize();
+           movimientoController.initialize(null, null);
 	    	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	    	  scene = new Scene(root);
 	    	  root.requestFocus();
@@ -187,7 +187,7 @@ public class MenuController {
            movimientoController.Java.nivel = prota3.nivel;
            movimientoController.curaciones = curaciones;
            movimientoController.totems = totems;
-           movimientoController.initialize();
+           movimientoController.initialize(null, null);
 	    	  stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	    	  scene = new Scene(root);
 	    	  root.requestFocus();

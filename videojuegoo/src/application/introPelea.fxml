@@ -8,7 +8,7 @@
    <children>
       <ImageView fitHeight="615.0" fitWidth="676.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Edu/LATZINA/Picsart_24-11-03_19-08-06-942.jpg" />
+            <Image url="@/Picsart_24-11-03_19-08-06-942.jpg" />
          </image>
       </ImageView>
    </children>

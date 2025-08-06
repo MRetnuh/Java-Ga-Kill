@@ -8,12 +8,12 @@
    <children>
       <ImageView fx:id="finalimg1" fitHeight="725.0" fitWidth="718.0" layoutX="-161.0" layoutY="494.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Downloads/Picsart_24-11-24_19-29-50-363.png" />
+            <Image url="@/Picsart_24-11-24_19-29-50-363.png" />
          </image>
       </ImageView>
       <ImageView fx:id="finalimg2" fitHeight="419.0" fitWidth="434.0" layoutX="410.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Downloads/Screenshot_20240926-121816~2.jpg" />
+            <Image url="@/Screenshot_20240926-121816~2.jpg" />
          </image>
       </ImageView>
    </children>
